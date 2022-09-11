@@ -57,7 +57,7 @@ ${NAME}: compil_libs compile ${OBJS} ${OBJS_UTILS} c_done
 	@printf "$(GR)#***********************************#\n"
 	@printf "#                                   #\n"
 	@printf "#  $(UNDL)Usage:$(RC)$(GR)                           #\n"
-	@printf "#  $(REVR)./$(NAME) *.cub$(RC)$(GR)                    #\n"
+	@printf "#  $(REVR)./$(NAME) ./maps/<map_name>.cub$(RC)$(GR)    #\n"
 	@printf "#                                   #\n"
 	@printf "#***********************************#$(RC)\n"
 
