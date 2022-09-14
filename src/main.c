@@ -1,7 +1,5 @@
 #include "../includes/cub3d.h"
 
-//? testing
-
 int	esc_win(t_cub3d *cub)
 {
 	(void) cub;
@@ -17,8 +15,8 @@ int	key_event(int key, t_cub3d *cub)
 
 int	key_hook(t_cub3d *cub)
 {
-	mlx_hook(cub->win_ptr, 17, 0L << 0, esc_win, cub);
-	mlx_hook(cub->win_ptr, 2, 1L << 0, key_event, cub);
+	mlx_hook(cub->win.ptr, 17, 0L << 0, &esc_win, cub);
+	mlx_hook(cub->win.ptr, 2, 1L << 0, &key_event, cub);
 	return (0);
 }
 
@@ -26,12 +24,29 @@ int	main(void)
 {
 	t_cub3d	cub;
 
-	cub.mlx_ptr = mlx_init();
-	cub.win_ptr = mlx_new_window(cub.mlx_ptr, 1920, 1080, "cub3d");
-	cub.img = mlx_new_image(cub.mlx_ptr, 1920, 1080);
-	cub.img_data = mlx_get_data_addr(cub.img, &cub.bpp, &cub.size_line, &cub.endian);
-	mlx_put_image_to_window(cub.mlx_ptr, cub.win_ptr, cub.img, 0, 0);
-	mlx_loop_hook(cub.mlx_ptr, key_hook, &cub);
-	mlx_loop(cub.mlx_ptr);
+	//! temporary
+	int	map[5][6] =
+	{
+		{1,1,1,1,1,1},
+		{1,0,0,1,0,1},
+		{1,0,1,0,0,1},
+		{1,1,0,0,0,1},
+		{1,1,1,1,1,1},
+	};
+	(void) map;
+	cub.pos.x = 3.0;
+	cub.pos.y = 4.0;
+	cub.dir.x = -1.0;
+	cub.dir.y = 0.0;
+	cub.plane.x = 0;
+	cub.plane.y = 0.66;
+	cub.reset_buffer = 0;
+	cub.mlx.ptr = mlx_init();
+	cub.win.ptr = mlx_new_window(cub.mlx.ptr, SCREEN_W, SCREEN_H, "cub3d");
+	cub.img.ptr = mlx_new_image(cub.mlx.ptr, SCREEN_W, SCREEN_H);
+	cub.img.addr = mlx_get_data_addr(cub.img.ptr, &cub.img.bpp, &cub.img.line_len, &cub.img.endian);
+	mlx_put_image_to_window(cub.mlx.ptr, cub.win.ptr, cub.img.ptr, 0, 0);
+	mlx_loop_hook(cub.mlx.ptr, &key_hook, &cub);
+	mlx_loop(cub.mlx.ptr);
 	return (0);
 }
