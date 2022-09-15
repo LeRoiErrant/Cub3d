@@ -91,10 +91,23 @@ typedef struct s_raycast
 	t_line	line_info;
 }	t_raycast;
 
+typedef struct s_rgb
+{
+	int	red;
+	int	green;
+	int	blue;
+}	t_rgb;
+
 typedef struct s_config
 {
 	double	movespeed;
 	double	rotspeed;
+	char	*path_n;
+	char	*path_s;
+	char	*path_w;
+	char	*path_e;
+	t_rgb	floor;
+	t_rgb	ceiling;
 }	t_config;
 
 typedef struct s_cub3d
@@ -109,6 +122,7 @@ typedef struct s_cub3d
 	t_config	config;
 	int			buffer[SCREEN_H][SCREEN_W];
 	int			reset_buffer;
+	char		**map;
 }	t_cub3d;
 
 
