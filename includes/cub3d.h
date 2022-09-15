@@ -13,10 +13,11 @@
 # include <limits.h>
 # include <stdint.h>
 
-#define SCREEN_W	640
-#define SCREEN_H	480
-#define TEXTURE_W	64
-#define TEXTURE_H	64
+#define SCREEN_W 640
+#define SCREEN_H 480
+
+#define TEXTURE_W 64
+#define TEXTURE_H 64
 
 typedef struct s_mlx
 {
@@ -30,13 +31,13 @@ typedef struct s_win
 
 typedef struct s_img
 {
-	//mlx_init
+	//mlx_new_image
 	void	*ptr;
 
 	//mlx_get_data_addr
 	char	*addr;		
 	int		bpp;
-	int		line_len;
+	int		ll;
 	int		endian;
 
 	//mlx_xpm_file_to_image
@@ -44,24 +45,17 @@ typedef struct s_img
 	int		height;
 }	t_img;
 
-typedef struct s_pos
+typedef struct s_dpos
 {
 	double	x;
 	double	y;
-}	t_pos;
+}	t_dpos;
 
-typedef struct s_dir
+typedef struct s_ipos
 {
-	double	x;
-	double	y;
-	double	angle;
-}	t_dir;
-
-typedef struct s_plane
-{
-	double	x;
-	double	y;
-}	t_plane;
+	int	x;
+	int	y;
+}	t_ipos;
 
 typedef struct s_texture
 {
@@ -70,25 +64,50 @@ typedef struct s_texture
 	int		y;
 	int		num;
 	double	pos;
+	double	step;
+	t_dpos	wall;
 }	t_texture;
 
-typedef struct s_ray
+typedef struct s_line
 {
-	t_dir	dir;
-}	t_ray;
+	int			height;
+	int			drawstart;
+	int			drawend;
+	double		perpWalldist;
+	t_texture	tex_info;
+}	t_line;
+
+typedef struct s_raycast
+{
+	t_dpos	sidedist;
+	t_dpos	raydir;
+	t_dpos	deltadist;
+	t_dpos	camera;
+	t_ipos	map;
+	t_ipos	step;
+	int		hit;
+	int		side;
+	int		line;
+	t_line	line_info;
+}	t_raycast;
+
+typedef struct s_config
+{
+	double	movespeed;
+	double	rotspeed;
+}	t_config;
 
 typedef struct s_cub3d
 {
 	t_mlx		mlx;
 	t_win		win;
 	t_img		img;
-	t_pos		pos;
-	t_dir		dir;
-	t_plane		plane;
-	t_texture	texture;
+	t_dpos		pos;
+	t_dpos		dir;
+	t_dpos		plane;
+	t_texture	tex;
+	t_config	config;
 	int			buffer[SCREEN_H][SCREEN_W];
-	double		move_speed;
-	double		rot_speed;
 	int			reset_buffer;
 }	t_cub3d;
 

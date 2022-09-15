@@ -24,17 +24,17 @@ int	main(void)
 {
 	t_cub3d	cub;
 
-	//! temporary
-	int	map[5][6] =
+	int	tmp_map[6][6] =
 	{
 		{1,1,1,1,1,1},
 		{1,0,0,1,0,1},
 		{1,0,1,0,0,1},
 		{1,1,0,0,0,1},
+		{1,0,0,0,0,1},
 		{1,1,1,1,1,1},
 	};
-	(void) map;
-	cub.pos.x = 3.0;
+	(void) tmp_map;
+	cub.pos.x = 4.0;
 	cub.pos.y = 4.0;
 	cub.dir.x = -1.0;
 	cub.dir.y = 0.0;
@@ -44,7 +44,7 @@ int	main(void)
 	cub.mlx.ptr = mlx_init();
 	cub.win.ptr = mlx_new_window(cub.mlx.ptr, SCREEN_W, SCREEN_H, "cub3d");
 	cub.img.ptr = mlx_new_image(cub.mlx.ptr, SCREEN_W, SCREEN_H);
-	cub.img.addr = mlx_get_data_addr(cub.img.ptr, &cub.img.bpp, &cub.img.line_len, &cub.img.endian);
+	cub.img.addr = mlx_get_data_addr(cub.img.ptr, &cub.img.bpp, &cub.img.ll, &cub.img.endian);
 	mlx_put_image_to_window(cub.mlx.ptr, cub.win.ptr, cub.img.ptr, 0, 0);
 	mlx_loop_hook(cub.mlx.ptr, &key_hook, &cub);
 	mlx_loop(cub.mlx.ptr);
