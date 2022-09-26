@@ -7,6 +7,7 @@ INCL_DIR	= ./includes
 SRC_DIR		= ./src
 PARS_DI		= parser
 UTILS_DIR	= utils
+LIB_DIR		= libft
 MLX_DIR		= mlx
 
 # **************************************************************************** #
@@ -14,9 +15,9 @@ MLX_DIR		= mlx
 # **************************************************************************** #
 
 CC			= cc
-CFLAGS		= -O3 -Wall -Wextra -Werror
-LIB_FLAGS	= -L ${INCL_DIR}/libft -lft
-MLX_FLAGS	= -L ${INCL_DIR}/mlx -lmlx -framework OpenGL -framework Appkit
+CFLAGS		= -O3 -Wall -Wextra -Werror -g -fsanitize=address
+LIB_FLAGS	= -L ${INCL_DIR}/$(LIB_DIR) -lft
+MLX_FLAGS	= -L ${INCL_DIR}/$(MLX_DIR) -lmlx -framework OpenGL -framework Appkit
 
 # **************************************************************************** #
 #								SOURCE FILES								   #
@@ -57,7 +58,7 @@ ${NAME}: compil_libs compile ${OBJS} ${OBJS_UTILS} c_done
 	@printf "$(GR)#***********************************#\n"
 	@printf "#                                   #\n"
 	@printf "#  $(UNDL)Usage:$(RC)$(GR)                           #\n"
-	@printf "#  $(REVR)./$(NAME) ./maps/<map_name>.cub$(RC)$(GR)    #\n"
+	@printf "#  $(REVR)./$(NAME) ./config/<filename>.cub$(RC)$(GR)  #\n"
 	@printf "#                                   #\n"
 	@printf "#***********************************#$(RC)\n"
 
@@ -112,6 +113,9 @@ launch: all
 re: fclean all
 
 vg: all
-	@valgrind --leak-check=full --track-origins=yes ./${NAME}
+	@valgrind --leak-check=full --track-origins=yes ./${NAME} ./config/test.cub
+
+test: all
+	./${NAME} ./config/test.cub
 
 .PHONY: all bonus clean fclean launch re

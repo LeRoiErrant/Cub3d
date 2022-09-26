@@ -55,7 +55,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	strcount = ft_substrcount(s, c);
-	arr = (char **) malloc(sizeof(*arr) * (ft_substrcount(s, c) + 1));
+	arr = (char **) ft_calloc(ft_substrcount(s, c) + 1, sizeof(*arr));
 	if (!arr)
 		return (NULL);
 	index = 0;

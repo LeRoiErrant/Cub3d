@@ -70,6 +70,7 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	*ft_strjoin_variadic(unsigned int arg_count, ...);
 char	*ft_strjoin_variadic2(unsigned int arg_count, ...);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin_free(char *s1, char *s2);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int		ft_strrchr_pos(const char *s, int c);
 char	*ft_strtrim(char const *s1, char const *set);
