@@ -8,7 +8,7 @@ int	main(int argc, char **argv)
 		return (cub_error(E_ARGC, STDERR_FILENO));
 	init_cub(&cub);
 	init_config(&cub);
-	if (parse_file(argv, &cub) != SUCCESS)
+	if (parsing(argv, &cub) != SUCCESS)
 		return (cub_error(E_FAILURE, -1));
 	cub.mlx.ptr = mlx_init();
 	cub.win.ptr = mlx_new_window(cub.mlx.ptr, SCREEN_W, SCREEN_H, "cub3d");
@@ -17,5 +17,5 @@ int	main(int argc, char **argv)
 	mlx_put_image_to_window(cub.mlx.ptr, cub.win.ptr, cub.img.ptr, 0, 0);
 	mlx_loop_hook(cub.mlx.ptr, &key_hook, &cub);
 	mlx_loop(cub.mlx.ptr);
-	return (0);
+	return (SUCCESS);
 }

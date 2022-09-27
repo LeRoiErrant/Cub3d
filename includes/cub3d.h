@@ -127,6 +127,8 @@ typedef struct s_config
 	char	*path_e;
 	t_rgb	floor;
 	t_rgb	ceiling;
+	int		map_w;
+	int		map_h;
 }	t_config;
 
 typedef struct s_cub3d
@@ -152,14 +154,21 @@ typedef enum s_error
 	E_OPEN,
 	E_ARGC,
 	E_CONFIG,
+	E_MAP,
+	E_CEILING,
+	E_FLOOR,
 }	t_error;
+
+// check.c
+int		check_config(t_cub3d *cub);
+int		check_map(t_cub3d *cub);
 
 // init.c
 void	init_config(t_cub3d *cub);
 void	init_cub(t_cub3d *cub);
 
 // parsing.c
-int		parse_file(char **argv, t_cub3d *cub);
+int		parsing(char **argv, t_cub3d *cub);
 
 // mlx.c
 int		esc_win(t_cub3d *cub);
@@ -169,5 +178,7 @@ int		key_hook(t_cub3d *cub);
 // utils.c
 int		cub_error(int errnum, int fd);
 void	cub_print(t_cub3d *cub);
+int		count_space(char *str);
+void	get_map_size(char **config, t_cub3d *cub);
 
 #endif

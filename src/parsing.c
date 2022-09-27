@@ -1,15 +1,5 @@
 #include "../includes/cub3d.h"
 
-static int	count_space(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] == ' ')
-		i++;
-	return (i);
-}
-
 static void	fill_path(char *config, t_cub3d *cub)
 {
 	if (!ft_strncmp(config, "NO", 2))
@@ -50,7 +40,7 @@ static void	fill_color(char *config, t_cub3d *cub)
 	}
 }
 
-int	fill_config(char **config, t_cub3d *cub)
+static int	fill_config(char **config, t_cub3d *cub)
 {
 	int	i;
 
@@ -61,25 +51,40 @@ int	fill_config(char **config, t_cub3d *cub)
 		fill_path(config[i], cub);
 		fill_color(config[i], cub);
 	}
-	if (i < 6)
-		return (FAILURE);
-	else
-		return (SUCCESS);
+	return (check_config(cub));
 }
 
-int	fill_map(char **config, t_cub3d *cub)
+static int	fill_map(char **config, t_cub3d *cub)
 {
 	int	i;
+	int	j;
 
+	get_map_size(config, cub);
+	cub->map = (char **) ft_calloc(cub->config.map_h + 1, sizeof(char *));
+	if (!cub->map)
+		return (E_MALLOC);
 	i = -1;
-	cub->map = (char **) ft_calloc(ft_matrixlen(config) - 5, sizeof(char *));
-	while (config[++i + 6])
-		cub->map[i] = ft_strdup(config[i + 6]);
-	return (SUCCESS);
+	while (++i < cub->config.map_h)
+	{
+		cub->map[i] = ft_calloc(cub->config.map_w + 1, sizeof(char));
+		if (!cub->map[i])
+			return (E_MALLOC);
+		ft_memset(cub->map[i], '.', cub->config.map_w);
+		ft_memcpy(cub->map[i], config[i + 6], ft_strlen(config[i + 6]));
+	}
+	i = -1;
+	while (cub->map[++i])
+	{
+		j = -1;
+		while (cub->map[i][++j])
+			if (cub->map[i][j] == ' ')
+				cub->map[i][j] = '.';
+	}
+	return (check_map(cub));
 }
 
-//TODO error handling
-int	parse_file(char **argv, t_cub3d *cub)
+//TODO error handling / check leaks after error return
+int	parsing(char **argv, t_cub3d *cub)
 {
 	int		fd;
 	char	*str;
@@ -99,11 +104,14 @@ int	parse_file(char **argv, t_cub3d *cub)
 			str = ft_strjoin_free(str, tmp);
 	}
 	if (!str)
-		return (FAILURE);
+		return (cub_error(E_MALLOC, STDERR_FILENO));
 	config = ft_split(str, '\n');
+	free(str);
 	if (fill_config(config, cub))
-		return (cub_error(E_CONFIG, STDERR_FILENO));
-	fill_map(config, cub);
+		return (cub_error(E_CONFIG, -1));
+	if(fill_map(config, cub))
+		return (cub_error(E_FAILURE, -1));
+	free(config);
 	cub_print(cub);
 	return (0);
 }

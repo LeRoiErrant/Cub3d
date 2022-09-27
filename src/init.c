@@ -13,16 +13,18 @@ void	init_cub(t_cub3d *cub)
 
 void	init_config(t_cub3d *cub)
 {
-	cub->config.ceiling.red = 0;
-	cub->config.ceiling.green = 0;
-	cub->config.ceiling.blue = 0;
-	cub->config.floor.red = 0;
-	cub->config.floor.green = 0;
-	cub->config.floor.blue = 0;
+	cub->config.ceiling.red = -1;
+	cub->config.ceiling.green = -1;
+	cub->config.ceiling.blue = -1;
+	cub->config.floor.red = -1;
+	cub->config.floor.green = -1;
+	cub->config.floor.blue = -1;
 	cub->config.path_n = NULL;
 	cub->config.path_e = NULL;
 	cub->config.path_s = NULL;
 	cub->config.path_w = NULL;
 	cub->config.movespeed = 0.1;
 	cub->config.rotspeed = 0.05;
+	cub->config.map_w = 0;
+	cub->config.map_h = 0;
 }
