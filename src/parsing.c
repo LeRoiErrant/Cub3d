@@ -85,7 +85,7 @@ static int	fill_map(char **config, t_cub3d *cub)
 	return (check_map(cub));
 }
 
-//TODO fix leaks of cub->tmp
+//TODO handle player start position and direction // fix leaks of cub->tmp
 int	parsing(char **argv, t_cub3d *cub)
 {
 	int		fd;
