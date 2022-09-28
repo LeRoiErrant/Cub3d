@@ -33,29 +33,25 @@ char	*ft_strjoin(char const *s1, char const *s2)
 char	*ft_strjoin_free(char *s1, char *s2)
 {
 	char	*s3;
-	size_t	dstsize;
 
 	s3 = NULL;
 	if (s1 && !s2)
 	{
 		s3 = ft_strdup(s1);
 		free(s1);
-		return (s3);
 	}
-	if (!s1 && s2)
+	else if (!s1 && s2)
 	{
 		s3 = ft_strdup(s2);
 		free(s2);
-		return (s3);
 	}
-	if (s1 && s2)
+	else if (s1 && s2)
 	{
-		dstsize = ft_strlen(s1) + ft_strlen(s2) + 1;
-		s3 = (char *)ft_calloc(dstsize, sizeof(char));
+		s3 = (char *)ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char));
 		if (!s3)
 			return (NULL);
-		ft_strlcpy(s3, s1, dstsize);
-		ft_strlcat(s3, s2, dstsize);
+		ft_strlcpy(s3, s1, ft_strlen(s1) + ft_strlen(s2) + 1);
+		ft_strlcat(s3, s2, ft_strlen(s1) + ft_strlen(s2) + 1);
 		free(s1);
 		free(s2);
 	}
