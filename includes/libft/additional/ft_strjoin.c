@@ -37,7 +37,17 @@ char	*ft_strjoin_free(char *s1, char *s2)
 
 	s3 = NULL;
 	if (s1 && !s2)
-		return (s1);
+	{
+		s3 = ft_strdup(s1);
+		free(s1);
+		return (s3);
+	}
+	if (!s1 && s2)
+	{
+		s3 = ft_strdup(s2);
+		free(s2);
+		return (s3);
+	}
 	if (s1 && s2)
 	{
 		dstsize = ft_strlen(s1) + ft_strlen(s2) + 1;

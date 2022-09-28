@@ -24,10 +24,12 @@ int	ft_atoi(const char *str)
 	if (*str == '+' || *str == '-')
 		if (*str++ == '-')
 			minus = 1;
+	if (!ft_isdigit(*str))
+		return (-1);
 	while (ft_isdigit(*str))
 	{
 		if ((nbr > (FT_LONG_MAX - *str + '0') / 10) && minus)
-			return (0);
+			return (-1);
 		if ((nbr > (FT_LONG_MAX - *str + '0') / 10) && !minus)
 			return (-1);
 		nbr = 10 * nbr + (*str - '0');
