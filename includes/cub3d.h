@@ -13,14 +13,14 @@
 # include <limits.h>
 # include <stdint.h>
 
-#define SCREEN_W 640
-#define SCREEN_H 480
+# define SCREEN_W 640
+# define SCREEN_H 480
 
-#define TEXTURE_W 64
-#define TEXTURE_H 64
+# define TEXTURE_W 64
+# define TEXTURE_H 64
 
-#define SUCCESS 0
-#define FAILURE 1
+# define SUCCESS 0
+# define FAILURE 1
 
 # define DEFAULT "\001\033[0;39m\002"
 # define GRAY "\001\033[1;90m\002"
@@ -50,16 +50,13 @@ typedef struct s_win
 
 typedef struct s_img
 {
-	//mlx_new_image
 	void	*ptr;
 
-	//mlx_get_data_addr
 	char	*addr;		
 	int		bpp;
 	int		ll;
 	int		endian;
 
-	//mlx_xpm_file_to_image
 	int		width;
 	int		height;
 }	t_img;
@@ -92,7 +89,7 @@ typedef struct s_line
 	int			height;
 	int			drawstart;
 	int			drawend;
-	double		perpWalldist;
+	double		perpwalldist;
 	t_texture	tex_info;
 }	t_line;
 
@@ -131,21 +128,6 @@ typedef struct s_config
 	int		map_h;
 }	t_config;
 
-typedef struct s_cub3d
-{
-	t_mlx		mlx;
-	t_win		win;
-	t_img		img;
-	t_dpos		pos;
-	t_dpos		dir;
-	t_dpos		plane;
-	t_texture	tex;
-	t_config	config;
-	int			buffer[SCREEN_H][SCREEN_W];
-	int			reset_buffer;
-	char		**map;
-}	t_cub3d;
-
 typedef enum s_error
 {
 	E_SUCCESS,
@@ -157,7 +139,26 @@ typedef enum s_error
 	E_MAP,
 	E_CEILING,
 	E_FLOOR,
+	E_PATH,
+	E_WALL,
 }	t_error;
+
+typedef struct s_cub3d
+{
+	t_mlx		mlx;
+	t_win		win;
+	t_img		img;
+	t_dpos		pos;
+	t_dpos		dir;
+	t_dpos		plane;
+	t_texture	tex;
+	t_config	config;
+	t_error		errnum;
+	int			buffer[SCREEN_H][SCREEN_W];
+	int			reset_buffer;
+	char		**map;
+	char		**tmp;
+}	t_cub3d;
 
 // check.c
 int		check_config(t_cub3d *cub);
@@ -180,5 +181,6 @@ int		cub_error(int errnum, int fd);
 void	cub_print(t_cub3d *cub);
 int		count_space(char *str);
 void	get_map_size(char **config, t_cub3d *cub);
+void	free_cub(t_cub3d *cub);
 
 #endif

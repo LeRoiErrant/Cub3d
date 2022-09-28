@@ -9,6 +9,7 @@ PARS_DI		= parser
 UTILS_DIR	= utils
 LIB_DIR		= libft
 MLX_DIR		= mlx
+TEST_FILE	= ./config/test.cub
 
 # **************************************************************************** #
 #						COMPILATION AND LINK FLAGS							   #
@@ -113,9 +114,9 @@ launch: all
 re: fclean all
 
 vg: all
-	@valgrind --leak-check=full --track-origins=yes ./${NAME} ./config/test.cub
+	@valgrind --leak-check=full --track-origins=yes ./${NAME} $(TEST_FILE)
 
 test: all
-	./${NAME} ./config/test.cub
+	./${NAME} $(TEST_FILE)
 
 .PHONY: all bonus clean fclean launch re

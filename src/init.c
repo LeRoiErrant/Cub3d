@@ -9,6 +9,7 @@ void	init_cub(t_cub3d *cub)
 	cub->plane.x = 0;
 	cub->plane.y = 0.66;
 	cub->reset_buffer = 0;
+	cub->errnum = SUCCESS;
 }
 
 void	init_config(t_cub3d *cub)

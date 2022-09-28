@@ -14,7 +14,7 @@ static void	fill_path(char *config, t_cub3d *cub)
 
 static void	fill_color(char *config, t_cub3d *cub)
 {
-	char **tmp;
+	char	**tmp;
 
 	if (!ft_strncmp(config, "F", 1))
 	{
@@ -51,6 +51,8 @@ static int	fill_config(char **config, t_cub3d *cub)
 		fill_path(config[i], cub);
 		fill_color(config[i], cub);
 	}
+	if (i < 6)
+		return (cub_error(E_CONFIG, STDERR_FILENO));
 	return (check_config(cub));
 }
 
@@ -83,35 +85,31 @@ static int	fill_map(char **config, t_cub3d *cub)
 	return (check_map(cub));
 }
 
-//TODO error handling / check leaks after error return
+//TODO fix leaks of cub->tmp
 int	parsing(char **argv, t_cub3d *cub)
 {
 	int		fd;
 	char	*str;
-	char	*tmp;
-	char	**config;
+	char	*line;
 
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		return (cub_error(E_OPEN, STDERR_FILENO));
-	str = strdup("");
-	while (str)
+	str = NULL;
+	line = get_next_line(fd);
+	while (line)
 	{
-		tmp = get_next_line(fd);
-		if (!tmp)
-			break ;
-		if (tmp && ft_strcmp(tmp, "\n"))
-			str = ft_strjoin_free(str, tmp);
+		str = ft_strjoin_free(str, line);
+		line = get_next_line(fd);
 	}
 	if (!str)
-		return (cub_error(E_MALLOC, STDERR_FILENO));
-	config = ft_split(str, '\n');
+		return (cub_error(E_CONFIG, STDERR_FILENO));
+	cub->tmp = ft_split(str, '\n');
 	free(str);
-	if (fill_config(config, cub))
+	if (fill_config(cub->tmp, cub))
 		return (cub_error(E_CONFIG, -1));
-	if(fill_map(config, cub))
+	if (fill_map(cub->tmp, cub))
 		return (cub_error(E_FAILURE, -1));
-	free(config);
 	cub_print(cub);
-	return (0);
+	return (SUCCESS);
 }

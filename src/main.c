@@ -13,9 +13,11 @@ int	main(int argc, char **argv)
 	cub.mlx.ptr = mlx_init();
 	cub.win.ptr = mlx_new_window(cub.mlx.ptr, SCREEN_W, SCREEN_H, "cub3d");
 	cub.img.ptr = mlx_new_image(cub.mlx.ptr, SCREEN_W, SCREEN_H);
-	cub.img.addr = mlx_get_data_addr(cub.img.ptr, &cub.img.bpp, &cub.img.ll, &cub.img.endian);
+	cub.img.addr = mlx_get_data_addr(cub.img.ptr,
+			&cub.img.bpp, &cub.img.ll, &cub.img.endian);
 	mlx_put_image_to_window(cub.mlx.ptr, cub.win.ptr, cub.img.ptr, 0, 0);
 	mlx_loop_hook(cub.mlx.ptr, &key_hook, &cub);
 	mlx_loop(cub.mlx.ptr);
-	return (SUCCESS);
+	free_cub(&cub);
+	return (cub.errnum);
 }
