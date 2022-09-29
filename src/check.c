@@ -21,6 +21,36 @@ int	check_config(t_cub3d *cub)
 	return (SUCCESS);
 }
 
+int	check_char(char **map, t_cub3d *cub)
+{
+	int		i;
+	int		j;
+	int		player_count;
+	char	*set;
+
+	player_count = 0;
+	i = 5;
+	set = " 01NSEW";
+	while (map[++i])
+	{
+		j = -1;
+		while (map[i][++j])
+		{
+			if (!ft_strchr(set, map[i][j]))
+				return (cub_error(E_CHAR, STDERR_FILENO));
+			if (ft_strchr(set + 3, map[i][j]))
+			{
+				cub->pos.x = i - 6;
+				cub->pos.y = j;
+				player_count++;
+			}
+		}
+	}
+	if (player_count != 1)
+		return (cub_error(E_PLAYER, STDERR_FILENO));
+	return (SUCCESS);
+}
+
 static int	check_walls(t_cub3d *cub)
 {
 	int	i;

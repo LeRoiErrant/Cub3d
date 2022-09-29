@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-static void	fill_path(char *config, t_cub3d *cub)
+static void	fill_config_path(char *config, t_cub3d *cub)
 {
 	if (!ft_strncmp(config, "NO", 2))
 		cub->config.path_n = ft_strtrim(config + 2, " ");
@@ -12,7 +12,7 @@ static void	fill_path(char *config, t_cub3d *cub)
 		cub->config.path_e = ft_strtrim(config + 2, " ");
 }
 
-static void	fill_color(char *config, t_cub3d *cub)
+static void	fill_config_color(char *config, t_cub3d *cub)
 {
 	char	**tmp;
 
@@ -48,8 +48,8 @@ static int	fill_config(char **config, t_cub3d *cub)
 	while (config[++i] && i < 6)
 	{
 		config[i] += count_space(config[i]);
-		fill_path(config[i], cub);
-		fill_color(config[i], cub);
+		fill_config_path(config[i], cub);
+		fill_config_color(config[i], cub);
 	}
 	if (i < 6)
 		return (cub_error(E_CONFIG, STDERR_FILENO));
@@ -62,6 +62,8 @@ static int	fill_map(char **config, t_cub3d *cub)
 	int	j;
 
 	get_map_size(config, cub);
+	if (check_char(config, cub))
+		return (cub_error(E_CHAR, -1));
 	cub->map = (char **) ft_calloc(cub->config.map_h + 1, sizeof(char *));
 	if (!cub->map)
 		return (E_MALLOC);
@@ -85,7 +87,7 @@ static int	fill_map(char **config, t_cub3d *cub)
 	return (check_map(cub));
 }
 
-//TODO handle player start position and direction // fix leaks of cub->tmp
+//TODO handle player start direction // fix leaks of cub->tmp
 int	parsing(char **argv, t_cub3d *cub)
 {
 	int		fd;
@@ -102,6 +104,7 @@ int	parsing(char **argv, t_cub3d *cub)
 		str = ft_strjoin_free(str, line);
 		line = get_next_line(fd);
 	}
+	close(fd);
 	if (!str)
 		return (cub_error(E_CONFIG, STDERR_FILENO));
 	cub->tmp = ft_split(str, '\n');
@@ -109,7 +112,7 @@ int	parsing(char **argv, t_cub3d *cub)
 	if (fill_config(cub->tmp, cub))
 		return (cub_error(E_CONFIG, -1));
 	if (fill_map(cub->tmp, cub))
-		return (cub_error(E_FAILURE, -1));
+		return (cub_error(E_MAP, -1));
 	cub_print(cub);
 	return (SUCCESS);
 }

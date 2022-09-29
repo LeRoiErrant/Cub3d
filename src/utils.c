@@ -23,6 +23,10 @@ int	cub_error(int errnum, int fd)
 		ft_putstr_fd("Error\nWrong texture path config\n", STDERR_FILENO);
 	if (errnum == E_WALL && fd > 0)
 		ft_putstr_fd("Error\nMap not surrounded by walls\n", STDERR_FILENO);
+	if (errnum == E_CHAR && fd > 0)
+		ft_putstr_fd("Error\nWrong char in map\n", STDERR_FILENO);
+	if (errnum == E_PLAYER && fd > 0)
+		ft_putstr_fd("Error\nWrong amount of player\n", STDERR_FILENO);
 	return (errnum);
 }
 
@@ -44,9 +48,10 @@ void	cub_print(t_cub3d *cub)
 	printf("path west = {%s}\n", cub->config.path_w);
 	printf("path east = {%s}\n", cub->config.path_e);
 	printf("\n");
+	printf("pos.x = %f\npos.y = %f\n\n", cub->pos.x, cub->pos.y);
 	i = -1;
 	while (cub->map[++i])
-		printf("%s\n", cub->map[i]);
+		printf("%d\t|%s|\n", i, cub->map[i]);
 }
 
 int	count_space(char *str)

@@ -38,29 +38,26 @@
 # define CY "\033[36;1m"
 # define RC "\033[0m"
 
-typedef struct s_mlx
-{
-	void	*ptr;
-}	t_mlx;
-
-typedef struct s_win
-{
-	void	*ptr;
-}	t_win;
-
 typedef struct s_img
 {
-	void	*ptr;
+	void	*img;
 
 	char	*addr;		
 	int		bpp;
 	int		ll;
 	int		endian;
 
-	int		width;
-	int		height;
+	int		w;
+	int		h;
 }	t_img;
 
+typedef struct s_assets
+{
+	t_img	*north;
+	t_img	*south;
+	t_img	*east;
+	t_img	*west;
+}	t_assets;
 typedef struct s_dpos
 {
 	double	x;
@@ -141,20 +138,43 @@ typedef enum s_error
 	E_FLOOR,
 	E_PATH,
 	E_WALL,
+	E_CHAR,
+	E_PLAYER,
 }	t_error;
+
+enum e_key_event
+{
+	ON_KEYDOWN = 2,		//? int (*f)(int keycode, void *param)
+	ON_KEYUP = 3,		//? int (*f)(int keycode, void *param)
+	ON_MOUSEDOWN = 4,	//? int (*f)(int button, int x, int y, void *param)
+	ON_MOUSEUP = 5,		//? int (*f)(int button, int x, int y, void *param)
+	ON_MOUSEMOVE = 6,	//? int (*f)(int x, int y, void *param)
+	ON_EXPOSE = 12,		//? int (*f)(void *param)
+	ON_DESTROY = 17		//? int (*f)(void *param)
+};
+
+enum e_mouse_event
+{
+	ON_LEFT = 2,
+	ON_RIGHT = 2,
+	ON_MIDDLE = 3,
+	ON_SCROLLUP = 4,
+	ON_SCROLLDOWN = 5
+};
 
 typedef struct s_cub3d
 {
-	t_mlx		mlx;
-	t_win		win;
+	void		*mlx;
+	void		*win;
 	t_img		img;
+	t_img		buf;
 	t_dpos		pos;
 	t_dpos		dir;
 	t_dpos		plane;
 	t_texture	tex;
+	t_assets	textures;
 	t_config	config;
 	t_error		errnum;
-	int			buffer[SCREEN_H][SCREEN_W];
 	int			reset_buffer;
 	char		**map;
 	char		**tmp;
@@ -162,19 +182,22 @@ typedef struct s_cub3d
 
 // check.c
 int		check_config(t_cub3d *cub);
+int		check_char(char **map, t_cub3d *cub);
 int		check_map(t_cub3d *cub);
 
 // init.c
 void	init_config(t_cub3d *cub);
 void	init_cub(t_cub3d *cub);
+void	init_textures(t_cub3d *cub);
 
 // parsing.c
 int		parsing(char **argv, t_cub3d *cub);
 
 // mlx.c
-int		esc_win(t_cub3d *cub);
+int		close_win(t_cub3d *cub);
 int		key_event(int key, t_cub3d *cub);
 int		key_hook(t_cub3d *cub);
+void	mlx_test(t_cub3d *cub);
 
 // utils.c
 int		cub_error(int errnum, int fd);

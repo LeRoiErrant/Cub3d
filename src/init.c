@@ -2,8 +2,6 @@
 
 void	init_cub(t_cub3d *cub)
 {
-	cub->pos.x = 4.0;
-	cub->pos.y = 4.0;
 	cub->dir.x = -1.0;
 	cub->dir.y = 0.0;
 	cub->plane.x = 0;
@@ -28,4 +26,25 @@ void	init_config(t_cub3d *cub)
 	cub->config.rotspeed = 0.05;
 	cub->config.map_w = 0;
 	cub->config.map_h = 0;
+}
+
+int	load_img(t_img *img, t_cub3d *cub)
+{
+	if (!img)
+		return (cub_error(E_MALLOC, STDERR_FILENO));
+	img->img = mlx_xpm_file_to_image(cub->mlx, cub->config.path_n, &img->w, &img->h);
+	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->ll, &img->endian);
+	return (SUCCESS);
+}
+
+void	init_textures(t_cub3d *cub)
+{
+	cub->textures.north = ft_calloc(1, sizeof(t_img));
+	cub->textures.south = ft_calloc(1, sizeof(t_img));
+	cub->textures.east = ft_calloc(1, sizeof(t_img));
+	cub->textures.west = ft_calloc(1, sizeof(t_img));
+	load_img(cub->textures.north, cub);
+	load_img(cub->textures.south, cub);
+	load_img(cub->textures.east, cub);
+	load_img(cub->textures.west, cub);
 }
