@@ -1,5 +1,15 @@
 #include "../includes/cub3d.h"
 
+int	check_extension(char *argv)
+{
+	char	*extension;
+
+	extension = ft_strrchr(argv, '.');
+	if (extension && ft_strcmp(extension, ".cub"))
+		return (E_EXT);
+	return (SUCCESS);
+}
+
 int	check_config(t_cub3d *cub)
 {
 	if (cub->config.ceiling.red < 0 || cub->config.ceiling.red > 255)
@@ -51,7 +61,7 @@ int	check_char(char **map, t_cub3d *cub)
 	return (SUCCESS);
 }
 
-static int	check_walls(t_cub3d *cub)
+static int	check_spaces(t_cub3d *cub)
 {
 	int	i;
 	int	j;
@@ -80,26 +90,43 @@ static int	check_walls(t_cub3d *cub)
 	return (check);
 }
 
-int	check_map(t_cub3d *cub)
+int	check_borders(t_cub3d *cub)
 {
 	int	i;
-	int	j;
 
 	if (!*cub->map)
 		return (cub_error(E_MAP, STDERR_FILENO));
 	i = -1;
-	while (cub->map[++i])
-	{
-		j = -1;
-		while (cub->map[0][++j])
-			if (cub->map[0][j] == '0')
-				return (cub_error(E_MAP, STDERR_FILENO));
-		j = -1;
-		while (cub->map[cub->config.map_h - 1][++j])
-			if (cub->map[cub->config.map_h - 1][j] == '0')
-				return (cub_error(E_MAP, STDERR_FILENO));
-	}
-	if (check_walls(cub))
+	while (++i < cub->config.map_w)
+		if (cub->map[0][i] == '0'|| cub->map[cub->config.map_h - 1][i] == '0')
+			return (cub_error(E_WALL, STDERR_FILENO));
+	i = -1;
+	while (++i < cub->config.map_h)
+		if (cub->map[i][0] == '0' || cub->map[i][cub->config.map_w - 1] == '0')
+			return (cub_error(E_WALL, STDERR_FILENO));
+	if (check_spaces(cub))
+		return (cub_error(E_WALL, STDERR_FILENO));
+	if (check_player(cub))
 		return (cub_error(E_WALL, STDERR_FILENO));
 	return (SUCCESS);
+}
+
+int	check_player(t_cub3d *cub)
+{
+	int	i;
+	int	j;
+	int	check;
+
+	i = cub->pos.x;
+	j = cub->pos.y;
+	check = SUCCESS;
+	if (j >= 1)
+		check += cub->map[i][j - 1] == '.';
+	if (j < cub->config.map_w - 1)
+		check += cub->map[i][j + 1] == '.';
+	if (i >= 1)
+		check += cub->map[i - 1][j] == '.';
+	if (i < cub->config.map_h - 1)
+		check += cub->map[i + 1][j] == '.';
+	return (check);
 }

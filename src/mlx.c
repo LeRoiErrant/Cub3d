@@ -4,29 +4,33 @@
 ? Testing
 
 */
-int	close_win(t_cub3d *cub)
+int	exit_cub(t_cub3d *cub)
 {
+	mlx_destroy_image(cub->mlx, cub->img.img);
+	mlx_destroy_window(cub->mlx, cub->win);
+	free_cub(cub);
 	exit(cub->errnum);
 }
 
 int	key_event(int key, t_cub3d *cub)
 {
-	if (key == 53)
-		close_win(cub);
+	if (key == KEY_ESC)
+		exit_cub(cub);
+	printf("key = %d\n", key);
 	return (0);
 }
 
 int	key_hook(t_cub3d *cub)
 {
-	mlx_hook(cub->win, 17, 0L << 0, &close_win, cub);
+	mlx_hook(cub->win, 17, 0L << 0, &exit_cub, cub);
 	mlx_hook(cub->win, 2, 1L << 0, &key_event, cub);
 	return (0);
 }
 
 int	mouse_hook(t_cub3d *cub)
 {
-	mlx_hook(cub->win, ON_LEFT, 0L << 0, &close_win, cub);
-	mlx_hook(cub->win, ON_RIGHT, 1L << 0, &key_event, cub);
+	mlx_hook(cub->win, M_LEFT, 0L << 0, &exit_cub, cub);
+	mlx_hook(cub->win, M_RIGHT, 1L << 0, &key_event, cub);
 	return (0);
 }
 

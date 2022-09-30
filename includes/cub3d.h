@@ -129,9 +129,10 @@ typedef enum s_error
 {
 	E_SUCCESS,
 	E_FAILURE,
+	E_ARGC,
+	E_EXT,
 	E_MALLOC,
 	E_OPEN,
-	E_ARGC,
 	E_CONFIG,
 	E_MAP,
 	E_CEILING,
@@ -155,11 +156,28 @@ enum e_key_event
 
 enum e_mouse_event
 {
-	ON_LEFT = 2,
-	ON_RIGHT = 2,
-	ON_MIDDLE = 3,
-	ON_SCROLLUP = 4,
-	ON_SCROLLDOWN = 5
+	M_LEFT = 2,
+	M_RIGHT = 2,
+	M_MIDDLE = 3,
+	M_SCROLLUP = 4,
+	M_SCROLLDOWN = 5
+};
+
+enum e_keycode
+{
+	KEY_A = 0,
+	KEY_S = 1,
+	KEY_D = 2,
+	KEY_Q = 12,
+	KEY_W = 13,
+	KEY_E = 14,
+	KEY_R = 15,
+	KEY_SPACE =	49,
+	KEY_ESC =	53,
+	KEY_LEFT =	123,
+	KEY_RIGHT =	124,
+	KEY_DOWN =	125,
+	KEY_UP =	126
 };
 
 typedef struct s_cub3d
@@ -181,9 +199,11 @@ typedef struct s_cub3d
 }	t_cub3d;
 
 // check.c
+int		check_extension(char *argv);
 int		check_config(t_cub3d *cub);
 int		check_char(char **map, t_cub3d *cub);
-int		check_map(t_cub3d *cub);
+int		check_borders(t_cub3d *cub);
+int		check_player(t_cub3d *cub);
 
 // init.c
 void	init_config(t_cub3d *cub);
@@ -203,7 +223,7 @@ void	mlx_test(t_cub3d *cub);
 int		cub_error(int errnum, int fd);
 void	cub_print(t_cub3d *cub);
 int		count_space(char *str);
-void	get_map_size(char **config, t_cub3d *cub);
+int		get_map_size(char **config, t_cub3d *cub);
 void	free_cub(t_cub3d *cub);
 
 #endif

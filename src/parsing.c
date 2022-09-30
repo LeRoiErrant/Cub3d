@@ -61,7 +61,8 @@ static int	fill_map(char **config, t_cub3d *cub)
 	int	i;
 	int	j;
 
-	get_map_size(config, cub);
+	if (get_map_size(config, cub))
+		return (cub_error(E_MAP, STDERR_FILENO));
 	if (check_char(config, cub))
 		return (cub_error(E_CHAR, -1));
 	cub->map = (char **) ft_calloc(cub->config.map_h + 1, sizeof(char *));
@@ -84,7 +85,7 @@ static int	fill_map(char **config, t_cub3d *cub)
 			if (cub->map[i][j] == ' ')
 				cub->map[i][j] = '.';
 	}
-	return (check_map(cub));
+	return (check_borders(cub));
 }
 
 //TODO handle player start direction // fix leaks of cub->tmp
@@ -94,6 +95,8 @@ int	parsing(char **argv, t_cub3d *cub)
 	char	*str;
 	char	*line;
 
+	if (check_extension(argv[1]))
+		return (cub_error(E_EXT, STDERR_FILENO));
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		return (cub_error(E_OPEN, STDERR_FILENO));
