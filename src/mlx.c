@@ -45,5 +45,6 @@ void	mlx_test(t_cub3d *cub)
 //	mlx_mouse_hook(cub->win, &mouse_hook, cub);
 //	mlx_key_hook(cub->win, &key_hook, cub);
 	mlx_loop_hook(cub->mlx, &key_hook, cub);
+	init_textures(cub);
 	mlx_loop(cub->mlx);
 }

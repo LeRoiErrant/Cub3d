@@ -3,7 +3,7 @@
 EA ./assets/cardinal/east.xpm     
   F   220   ,100  ,  10       
 
-    NO   ./assets/cardinal/north.xpm 
+    NO  ./assets/cardinal/north.xpm 
 
 WE       ./assets/cardinal/west.xpm
 SO ./assets/cardinal/south.xpm

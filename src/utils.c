@@ -16,7 +16,7 @@ int	cub_error(int errnum, int fd)
 	if (errnum == E_CONFIG && fd > 0)
 		ft_putstr_fd("Error\nWrong config format\n", fd);
 	if (errnum == E_MAP && fd > 0)
-		ft_putstr_fd("Error\nWrong map config\n", fd);
+		ft_putstr_fd("Error\nWrong map format\n", fd);
 	if (errnum == E_CEILING && fd > 0)
 		ft_putstr_fd("Error\nWrong ceiling color config\n", fd);
 	if (errnum == E_FLOOR && fd > 0)
@@ -37,20 +37,20 @@ void	cub_print(t_cub3d *cub)
 	int	i;
 
 	printf("\n");
-	printf("F red = %d\n", cub->config.floor.red);
-	printf("F green = %d\n", cub->config.floor.green);
-	printf("F blue = %d\n", cub->config.floor.blue);
+	printf("F red =\t\t%d\n", cub->config.floor.red);
+	printf("F green =\t%d\n", cub->config.floor.green);
+	printf("F blue =\t%d\n", cub->config.floor.blue);
 	printf("\n");
-	printf("C red = %d\n", cub->config.ceiling.red);
-	printf("C green = %d\n", cub->config.ceiling.green);
-	printf("C blue = %d\n", cub->config.ceiling.blue);
+	printf("C red =\t\t%d\n", cub->config.ceiling.red);
+	printf("C green =\t%d\n", cub->config.ceiling.green);
+	printf("C blue =\t%d\n", cub->config.ceiling.blue);
 	printf("\n");
-	printf("path north = {%s}\n", cub->config.path_n);
-	printf("path south = {%s}\n", cub->config.path_s);
-	printf("path west = {%s}\n", cub->config.path_w);
-	printf("path east = {%s}\n", cub->config.path_e);
+	printf("path north =\t{%s}\n", cub->config.path_n);
+	printf("path south =\t{%s}\n", cub->config.path_s);
+	printf("path west =\t{%s}\n", cub->config.path_w);
+	printf("path east =\t{%s}\n", cub->config.path_e);
 	printf("\n");
-	printf("pos.x = %f\npos.y = %f\n\n", cub->pos.x, cub->pos.y);
+	printf("pos.x =\t\t%f\npos.y =\t\t%f\n\n", cub->pos.x, cub->pos.y);
 	i = -1;
 	while (cub->map[++i])
 		printf("%s\n", cub->map[i]);

@@ -1,15 +1,39 @@
 #include "../includes/cub3d.h"
 
-static void	fill_config_path(char *config, t_cub3d *cub)
+static int	check_path(char *path)
 {
+	int	fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (cub_error(E_PATH, STDERR_FILENO));
+	close(fd);
+	return (SUCCESS);
+}
+
+static int	fill_config_path(char *config, t_cub3d *cub)
+{	
 	if (!ft_strncmp(config, "NO", 2))
+	{
 		cub->config.path_n = ft_strtrim(config + 2, " ");
+		return(check_path(cub->config.path_n));
+	}
 	else if (!ft_strncmp(config, "SO", 2))
+	{
 		cub->config.path_s = ft_strtrim(config + 2, " ");
+		return(check_path(cub->config.path_s));
+	}
 	else if (!ft_strncmp(config, "WE", 2))
+	{
 		cub->config.path_w = ft_strtrim(config + 2, " ");
+		return(check_path(cub->config.path_w));
+	}
 	else if (!ft_strncmp(config, "EA", 2))
+	{
 		cub->config.path_e = ft_strtrim(config + 2, " ");
+		return(check_path(cub->config.path_e));
+	}
+	return (SUCCESS);
 }
 
 static void	fill_config_color(char *config, t_cub3d *cub)
@@ -48,7 +72,8 @@ static int	fill_config(char **config, t_cub3d *cub)
 	while (config[++i] && i < 6)
 	{
 		config[i] += count_space(config[i]);
-		fill_config_path(config[i], cub);
+		if(fill_config_path(config[i], cub))
+			return (E_PATH);
 		fill_config_color(config[i], cub);
 	}
 	if (i < 6)
@@ -67,7 +92,7 @@ static int	fill_map(char **config, t_cub3d *cub)
 		return (cub_error(E_CHAR, -1));
 	cub->map = (char **) ft_calloc(cub->config.map_h + 1, sizeof(char *));
 	if (!cub->map)
-		return (E_MALLOC);
+		return (cub_error(E_MALLOC, -1));
 	i = -1;
 	while (++i < cub->config.map_h)
 	{
