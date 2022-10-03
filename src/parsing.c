@@ -1,16 +1,5 @@
 #include "../includes/cub3d.h"
 
-static int	check_path(char *path)
-{
-	int	fd;
-
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		return (cub_error(E_PATH, STDERR_FILENO));
-	close(fd);
-	return (SUCCESS);
-}
-
 static int	fill_config_path(char *config, t_cub3d *cub)
 {	
 	if (!ft_strncmp(config, "NO", 2))

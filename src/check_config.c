@@ -30,3 +30,14 @@ int	check_config(t_cub3d *cub)
 		return (cub_error(E_PATH, STDERR_FILENO));
 	return (SUCCESS);
 }
+
+int	check_path(char *path)
+{
+	int	fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (cub_error(E_PATH, STDERR_FILENO));
+	close(fd);
+	return (SUCCESS);
+}

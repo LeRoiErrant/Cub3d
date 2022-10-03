@@ -201,6 +201,7 @@ typedef struct s_cub3d
 // check_config.c
 int		check_extension(char *argv);
 int		check_config(t_cub3d *cub);
+int		check_path(char *path);
 
 //check_map.c
 int		check_char(char **map, t_cub3d *cub);
