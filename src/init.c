@@ -1,16 +1,6 @@
 #include "../includes/cub3d.h"
 
-void	init_cub(t_cub3d *cub)
-{
-	cub->dir.x = -1.0;
-	cub->dir.y = 0.0;
-	cub->plane.x = 0;
-	cub->plane.y = 0.66;
-	cub->reset_buffer = 0;
-	cub->errnum = SUCCESS;
-}
-
-void	init_config(t_cub3d *cub)
+static void	init_config(t_cub3d *cub)
 {
 	cub->config.ceiling.red = -1;
 	cub->config.ceiling.green = -1;
@@ -28,7 +18,18 @@ void	init_config(t_cub3d *cub)
 	cub->config.map_h = 0;
 }
 
-int	load_img(t_img *img, t_cub3d *cub)
+void	init_cub(t_cub3d *cub)
+{
+	cub->dir.x = -1.0;
+	cub->dir.y = 0.0;
+	cub->plane.x = 0;
+	cub->plane.y = 0.66;
+	cub->reset_buffer = 0;
+	cub->errnum = SUCCESS;
+	init_config(cub);
+}
+
+static int	load_img(t_img *img, t_cub3d *cub)
 {
 	if (!img)
 		return (cub_error(E_MALLOC, STDERR_FILENO));

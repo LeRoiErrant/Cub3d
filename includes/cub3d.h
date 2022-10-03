@@ -198,15 +198,15 @@ typedef struct s_cub3d
 	char		**tmp;
 }	t_cub3d;
 
-// check.c
+// check_config.c
 int		check_extension(char *argv);
 int		check_config(t_cub3d *cub);
+
+//check_map.c
 int		check_char(char **map, t_cub3d *cub);
 int		check_borders(t_cub3d *cub);
-int		check_player(t_cub3d *cub);
 
 // init.c
-void	init_config(t_cub3d *cub);
 void	init_cub(t_cub3d *cub);
 void	init_textures(t_cub3d *cub);
 
