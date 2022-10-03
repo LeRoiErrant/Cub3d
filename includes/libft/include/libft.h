@@ -55,6 +55,8 @@ typedef struct s_dlist
 long	ft_atol(const char *str);
 int		ft_isnumber(char *str);
 char	*ft_itoa(int n);
+int		ft_matrix_isnumber(char **matrix);
+char	**ft_matrixtrim_free(char **matrix, char *set);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putchar(char c);
 void	ft_putendl_fd(char *s, int fd);

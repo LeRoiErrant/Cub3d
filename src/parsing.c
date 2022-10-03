@@ -25,6 +25,7 @@ static int	fill_config_path(char *config, t_cub3d *cub)
 	return (SUCCESS);
 }
 
+//TODO free tmp
 static void	fill_config_color(char *config, t_cub3d *cub)
 {
 	char	**tmp;
@@ -32,24 +33,26 @@ static void	fill_config_color(char *config, t_cub3d *cub)
 	if (!ft_strncmp(config, "F", 1))
 	{
 		tmp = ft_split(config + 1, ',');
-		if (ft_matrixlen(tmp) == 3)
+		tmp = ft_matrixtrim_free(tmp, " ");
+		if (ft_matrixlen(tmp) == 3 && ft_matrix_isnumber(tmp))
 		{
 			cub->config.floor.red = ft_atoi(tmp[0]);
 			cub->config.floor.green = ft_atoi(tmp[1]);
 			cub->config.floor.blue = ft_atoi(tmp[2]);
 		}
-		ft_free_double_ptr((void ***)&tmp);
+//		ft_free_double_ptr((void ***)&tmp);
 	}
 	else if (!ft_strncmp(config, "C", 1))
 	{
 		tmp = ft_split(config + 1, ',');
-		if (ft_matrixlen(tmp) == 3)
+		tmp = ft_matrixtrim_free(tmp, " ");
+		if (ft_matrixlen(tmp) == 3 && ft_matrix_isnumber(tmp))
 		{
 			cub->config.ceiling.red = ft_atoi(tmp[0]);
 			cub->config.ceiling.green = ft_atoi(tmp[1]);
 			cub->config.ceiling.blue = ft_atoi(tmp[2]);
 		}
-		ft_free_double_ptr((void ***)&tmp);
+//		ft_free_double_ptr((void ***)&tmp);
 	}
 }
 

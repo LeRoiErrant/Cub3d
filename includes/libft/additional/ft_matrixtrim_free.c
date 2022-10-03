@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isnumber.c                                      :+:      :+:    :+:   */
+/*   ft_matrixtrim_free.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: 0xNino <marvin@42lausanne.ch>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/13 17:55:37 by 0xNino            #+#    #+#             */
-/*   Updated: 2022/02/13 18:00:02 by 0xNino           ###   ########.fr       */
+/*   Created: 2022/10/03 21:39:49 by 0xNino            #+#    #+#             */
+/*   Updated: 2022/10/03 21:39:52 by 0xNino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-int	ft_isnumber(char *str)
+char	**ft_matrixtrim_free(char **matrix, char *set)
 {
-	int	i;
-	int	len;
+	int		i;
+	char	**tmp;
 
-	if (!str)
-		return (0);
-	i = 0;
-	len = ft_strlen(str);
-	if (str[0] == '-')
-		i++;
-	while (ft_isdigit(str[i]))
-		i++;
-	if (i < len)
-		return (0);
-	return (1);
+	if (!matrix)
+		return (NULL);
+	i = -1;
+	tmp = ft_calloc(ft_matrixlen(matrix), sizeof(char *));
+	if (!tmp)
+		return (NULL);
+	while (matrix && matrix[++i])
+	{
+		tmp[i] = ft_strtrim(matrix[i], set);
+		free(matrix[i]);
+	}
+	free(matrix);
+	return (tmp);
 }
