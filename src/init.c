@@ -25,6 +25,8 @@ void	init_cub(t_cub3d *cub)
 	cub->plane.x = 0;
 	cub->plane.y = 0.66;
 	cub->reset_buffer = 0;
+	cub->map = NULL;
+	cub->tmp = NULL;
 	cub->errnum = SUCCESS;
 	init_config(cub);
 }

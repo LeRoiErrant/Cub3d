@@ -76,7 +76,7 @@ static int	fill_map(char **config, t_cub3d *cub)
 	int	j;
 
 	if (get_map_size(config, cub))
-		return (cub_error(E_MAP, STDERR_FILENO));
+		return (cub_error(E_MAP, -1));
 	if (check_char(config, cub))
 		return (cub_error(E_CHAR, -1));
 	cub->map = (char **) ft_calloc(cub->config.map_h + 1, sizeof(char *));

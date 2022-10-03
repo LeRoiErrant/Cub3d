@@ -222,6 +222,7 @@ void	mlx_test(t_cub3d *cub);
 
 // utils.c
 int		cub_error(int errnum, int fd);
+int		cub_error_free(int errnum, int fd, t_cub3d *cub);
 void	cub_print(t_cub3d *cub);
 int		count_space(char *str);
 int		get_map_size(char **config, t_cub3d *cub);

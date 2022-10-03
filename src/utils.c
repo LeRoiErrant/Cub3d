@@ -32,6 +32,13 @@ int	cub_error(int errnum, int fd)
 	return (errnum);
 }
 
+int	cub_error_free(int errnum, int fd, t_cub3d *cub)
+{
+	cub_error(errnum, fd);
+	free_cub(cub);
+	return (errnum);
+}
+
 void	cub_print(t_cub3d *cub)
 {
 	int	i;

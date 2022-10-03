@@ -8,7 +8,7 @@ int	main(int argc, char **argv)
 		return (cub_error(E_ARGC, STDERR_FILENO));
 	init_cub(&cub);
 	if (parsing(argv, &cub) != SUCCESS)
-		return (cub_error(E_FAILURE, -1));
+		return (cub_error_free(E_FAILURE, -1, &cub));
 	mlx_test(&cub);
 	free_cub(&cub);
 	return (cub.errnum);
