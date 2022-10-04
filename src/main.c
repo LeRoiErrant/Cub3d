@@ -9,7 +9,7 @@ int	main(int argc, char **argv)
 	init_cub(&cub);
 	if (parsing(argv, &cub) != SUCCESS)
 		return (cub_error_free(E_FAILURE, -1, &cub));
-	mlx_test(&cub);
+	loop(&cub);
 	free_cub(&cub);
 	return (cub.errnum);
 }

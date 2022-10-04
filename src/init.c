@@ -31,7 +31,13 @@ void	init_cub(t_cub3d *cub)
 	init_config(cub);
 }
 
-static int	load_img(t_img *img, t_cub3d *cub)
+void	init_buffer(t_img *buf, t_cub3d *cub)
+{
+	buf->img = mlx_new_image(cub->mlx, 1, SCREEN_H);
+	buf->addr = mlx_get_data_addr(buf->img, &buf->bpp, &buf->ll, &buf->endian);
+}
+
+static int	init_img(t_img *img, t_cub3d *cub)
 {
 	if (!img)
 		return (cub_error(E_MALLOC, STDERR_FILENO));
@@ -46,8 +52,8 @@ void	init_textures(t_cub3d *cub)
 	cub->textures.south = ft_calloc(1, sizeof(t_img));
 	cub->textures.east = ft_calloc(1, sizeof(t_img));
 	cub->textures.west = ft_calloc(1, sizeof(t_img));
-	load_img(cub->textures.north, cub);
-	load_img(cub->textures.south, cub);
-	load_img(cub->textures.east, cub);
-	load_img(cub->textures.west, cub);
+	init_img(cub->textures.north, cub);
+	init_img(cub->textures.south, cub);
+	init_img(cub->textures.east, cub);
+	init_img(cub->textures.west, cub);
 }

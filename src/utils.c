@@ -100,4 +100,8 @@ void	free_cub(t_cub3d *cub)
 	free(cub->config.path_e);
 	ft_free_matrix(&cub->map);
 	free(cub->tmp);
+	free(cub->textures.north);
+	free(cub->textures.south);
+	free(cub->textures.east);
+	free(cub->textures.west);
 }

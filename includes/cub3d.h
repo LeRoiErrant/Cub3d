@@ -189,6 +189,7 @@ typedef struct s_cub3d
 	t_dpos		pos;
 	t_dpos		dir;
 	t_dpos		plane;
+	t_raycast	ray;
 	t_texture	tex;
 	t_assets	textures;
 	t_config	config;
@@ -209,16 +210,20 @@ int		check_borders(t_cub3d *cub);
 
 // init.c
 void	init_cub(t_cub3d *cub);
+void	init_buffer(t_img *buf, t_cub3d *cub);
 void	init_textures(t_cub3d *cub);
 
 // parsing.c
 int		parsing(char **argv, t_cub3d *cub);
 
 // mlx.c
-int		close_win(t_cub3d *cub);
-int		key_event(int key, t_cub3d *cub);
-int		key_hook(t_cub3d *cub);
-void	mlx_test(t_cub3d *cub);
+int		exit_cub(t_cub3d *cub);
+int		key_down(int keycode, t_cub3d *cub);
+int		key_release(int keycode, t_cub3d *cub);
+void	loop(t_cub3d *cub);
+
+// raycasting.c
+int		raycasting(t_cub3d *cub);
 
 // utils.c
 int		cub_error(int errnum, int fd);
