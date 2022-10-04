@@ -4,8 +4,11 @@ int	raycasting(t_cub3d *cub)
 {
 	int	x;
 
+	cub->tex.array = malloc(sizeof(int) * (SCREEN_W + 1));
+	if (!cub->tex.array)
+		return (E_MALLOC);
 	x = -1;
-	while (++x < SCREEN_W)
+	while (++x <= SCREEN_W)
 	{
 		//? calculate ray position and direction
 		cub->ray.camera.x = 2 * x / (double) SCREEN_W - 1;
@@ -97,6 +100,24 @@ int	raycasting(t_cub3d *cub)
 		cub->tex.step = 1.0 * TEXTURE_H / cub->ray.line_info.height;
 		//? Starting texture coordinate
 		cub->tex.pos = (cub->ray.line_info.drawstart - SCREEN_H / 2 + cub->ray.line_info.height / 2) * cub->tex.step;
+		t_img	texture;
+		if (cub->ray.side)
+		{
+			if (cub->ray.raydir.y < 0)
+				texture = cub->textures.north;
+			else
+				texture = cub->textures.south;
+		}
+		else
+		{
+			if (cub->ray.raydir.x < 0)
+				texture = cub->textures.west;
+			else
+				texture = cub->textures.east;
+		}
+		//TODO load texture line
+		//TODO draw image
 	}
+	free(cub->tex.array);
 	return (0);
 }
