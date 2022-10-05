@@ -37,6 +37,7 @@
 # define YE "\033[33;1m"
 # define CY "\033[36;1m"
 # define RC "\033[0m"
+# define INIT_FAILED "Error\nInitilization failure\n"
 
 typedef struct s_img
 {
@@ -125,7 +126,7 @@ typedef struct s_config
 	int		map_h;
 }	t_config;
 
-typedef enum s_error
+enum e_error
 {
 	E_SUCCESS,
 	E_FAILURE,
@@ -141,7 +142,8 @@ typedef enum s_error
 	E_WALL,
 	E_CHAR,
 	E_PLAYER,
-}	t_error;
+	E_END
+};
 
 enum e_key_event
 {
@@ -180,6 +182,12 @@ enum e_keycode
 	KEY_UP =	126
 };
 
+typedef struct s_error
+{
+	int		num;
+	char	**msg;
+}	t_error;
+
 typedef struct s_cub3d
 {
 	void		*mlx;
@@ -192,7 +200,7 @@ typedef struct s_cub3d
 	t_texture	tex;
 	t_assets	textures;
 	t_config	config;
-	t_error		errnum;
+	t_error		error;
 	int			reset_buffer;
 	char		**map;
 	char		**tmp;
@@ -209,6 +217,7 @@ int		check_borders(t_cub3d *cub);
 
 // init.c
 void	init_cub(t_cub3d *cub);
+int		init_errors(t_cub3d *cub);
 void	init_textures(t_cub3d *cub);
 
 // parsing.c
@@ -221,8 +230,9 @@ int		key_hook(t_cub3d *cub);
 void	mlx_test(t_cub3d *cub);
 
 // utils.c
-int		cub_error(int errnum, int fd);
+int		cub_error(int errnum, int fd, t_cub3d *cub);
 int		cub_error_free(int errnum, int fd, t_cub3d *cub);
+int		free_errors(t_cub3d *cub, int ret);
 void	cub_print(t_cub3d *cub);
 int		count_space(char *str);
 int		get_map_size(char **config, t_cub3d *cub);
