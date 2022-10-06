@@ -1,5 +1,13 @@
 #include "../includes/cub3d.h"
 
+double	get_deltadist(double ray_dir)
+{
+	if (ray_dir == 0)
+		return (1e30);
+	else
+		return (fabs(1 / ray_dir));
+}
+
 int	raycasting(t_cub3d *cub)
 {
 	int	x;
@@ -20,14 +28,8 @@ int	raycasting(t_cub3d *cub)
 		cub->ray.map.y = (int) cub->pos.y; 
 
 		//? length of ray from one x or y-side to next x or y-side
-		if (cub->ray.raydir.x == 0)
-			cub->ray.deltadist.x = 1e30;
-		else
-			cub->ray.deltadist.x = fabs(1 / cub->ray.raydir.x);
-		if (cub->ray.raydir.y == 0)
-			cub->ray.deltadist.y = 1e30;
-		else
-			cub->ray.deltadist.y = fabs(1 / cub->ray.raydir.y);
+		cub->ray.deltadist.x = get_deltadist(cub->ray.raydir.x);
+		cub->ray.deltadist.y = get_deltadist(cub->ray.raydir.y);
 		cub->ray.hit = 0;
 		//? calculate step and initial sideDist
 		if (cub->ray.raydir.x < 0)
@@ -101,19 +103,20 @@ int	raycasting(t_cub3d *cub)
 		//? Starting texture coordinate
 		cub->tex.pos = (cub->ray.line_info.drawstart - SCREEN_H / 2 + cub->ray.line_info.height / 2) * cub->tex.step;
 		t_img	texture;
+		(void) texture;
 		if (cub->ray.side)
 		{
 			if (cub->ray.raydir.y < 0)
-				texture = cub->textures.north;
+				texture = *cub->textures.north;
 			else
-				texture = cub->textures.south;
+				texture = *cub->textures.south;
 		}
 		else
 		{
 			if (cub->ray.raydir.x < 0)
-				texture = cub->textures.west;
+				texture = *cub->textures.west;
 			else
-				texture = cub->textures.east;
+				texture = *cub->textures.east;
 		}
 		//TODO load texture line
 		//TODO draw image
