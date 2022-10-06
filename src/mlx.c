@@ -17,6 +17,42 @@ int	key_down(int keycode, t_cub3d *cub)
 {
 	if (keycode == KEY_ESC)
 		exit_cub(cub);
+	if (keycode == KEY_UP)
+    {
+      	cub->pos.x += cub->dir.x * cub->config.movespeed;
+		cub->pos.y += cub->dir.y * cub->config.movespeed;
+	  /*if(worldMap[int(posX + dirX * moveSpeed)][int(posY)] == false) posX += dirX * moveSpeed;
+      if(worldMap[int(posX)][int(posY + dirY * moveSpeed)] == false) posY += dirY * moveSpeed;*/
+    }
+    //move backwards if no wall behind you
+    if (keycode == KEY_DOWN)
+    {
+      	cub->pos.x -= cub->dir.x * cub->config.movespeed;
+		cub->pos.y -= cub->dir.y * cub->config.movespeed;
+	 /*if(worldMap[int(posX - dirX * moveSpeed)][int(posY)] == false) posX -= dirX * moveSpeed;
+      if(worldMap[int(posX)][int(posY - dirY * moveSpeed)] == false) posY -= dirY * moveSpeed;*/
+    }
+	if (keycode == KEY_RIGHT)
+    {
+      //both camera direction and camera plane must be rotated
+      double oldDirX = cub->dir.x;
+      cub->dir.x = cub->dir.x * cos(-cub->config.rotspeed) - cub->dir.y * sin(-cub->config.rotspeed);
+      cub->dir.y = oldDirX * sin(-cub->config.rotspeed) + cub->dir.y * cos(-cub->config.rotspeed);
+      double oldPlaneX = cub->plane.x;
+      cub->plane.x = cub->plane.x * cos(-cub->config.rotspeed) - cub->plane.y * sin(-cub->config.rotspeed);
+      cub->plane.y = oldPlaneX * sin(-cub->config.rotspeed) + cub->plane.y * cos(-cub->config.rotspeed);
+    }
+    //rotate to the left
+    if (keycode == KEY_LEFT)
+    {
+      //both camera direction and camera plane must be rotated
+      double oldDirX = cub->dir.x;
+      cub->dir.x = cub->dir.x * cos(cub->config.rotspeed) - cub->dir.y * sin(cub->config.rotspeed);
+      cub->dir.y = oldDirX * sin(cub->config.rotspeed) + cub->dir.y * cos(cub->config.rotspeed);
+      double oldPlaneX = cub->plane.x;
+      cub->plane.x = cub->plane.x * cos(cub->config.rotspeed) - cub->plane.y * sin(cub->config.rotspeed);
+      cub->plane.y = oldPlaneX * sin(cub->config.rotspeed) + cub->plane.y * cos(cub->config.rotspeed);
+    }
 	return (0);
 }
 
