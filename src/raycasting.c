@@ -100,7 +100,7 @@ int	raycasting(t_cub3d *cub)
 		cub->tex.step = 1.0 * TEXTURE_H / cub->ray.line_info.height;
 		//? Starting texture coordinate
 		cub->tex.pos = (cub->ray.line_info.drawstart - SCREEN_H / 2 + cub->ray.line_info.height / 2) * cub->tex.step;
-		t_img	texture;
+		t_img	*texture;
 		if (cub->ray.side)
 		{
 			if (cub->ray.raydir.y < 0)
