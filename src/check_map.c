@@ -16,7 +16,7 @@ int	check_char(char **map, t_cub3d *cub)
 		while (map[i][++j])
 		{
 			if (!ft_strchr(set, map[i][j]))
-				return (cub_error(E_CHAR, STDERR_FILENO));
+				return (cub_error(E_CHAR, STDERR_FILENO, cub));
 			if (ft_strchr(set + 3, map[i][j]))
 			{
 				cub->pos.x = i - 6;
@@ -26,7 +26,7 @@ int	check_char(char **map, t_cub3d *cub)
 		}
 	}
 	if (player_count != 1)
-		return (cub_error(E_PLAYER, STDERR_FILENO));
+		return (cub_error(E_PLAYER, STDERR_FILENO, cub));
 	return (SUCCESS);
 }
 
@@ -84,19 +84,19 @@ int	check_borders(t_cub3d *cub)
 	int	i;
 
 	if (!*cub->map)
-		return (cub_error(E_MAP, STDERR_FILENO));
+		return (cub_error(E_MAP, STDERR_FILENO, cub));
 	i = -1;
 	while (++i < cub->config.map_w)
 		if (cub->map[0][i] == '0'|| cub->map[cub->config.map_h - 1][i] == '0')
-			return (cub_error(E_WALL, STDERR_FILENO));
+			return (cub_error(E_WALL, STDERR_FILENO, cub));
 	i = -1;
 	while (++i < cub->config.map_h)
 		if (cub->map[i][0] == '0' || cub->map[i][cub->config.map_w - 1] == '0')
-			return (cub_error(E_WALL, STDERR_FILENO));
+			return (cub_error(E_WALL, STDERR_FILENO, cub));
 	if (check_spaces(cub))
-		return (cub_error(E_WALL, STDERR_FILENO));
+		return (cub_error(E_WALL, STDERR_FILENO, cub));
 	if (check_player(cub))
-		return (cub_error(E_WALL, STDERR_FILENO));
+		return (cub_error(E_WALL, STDERR_FILENO, cub));
 	return (SUCCESS);
 }
 

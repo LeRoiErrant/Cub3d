@@ -10,7 +10,7 @@ int	exit_cub(t_cub3d *cub)
 	mlx_destroy_image(cub->mlx, cub->textures.west->img);
 	mlx_destroy_window(cub->mlx, cub->win);
 	free_cub(cub);
-	exit(cub->errnum);
+	exit(cub->error.num);
 }
 
 int	key_down(int keycode, t_cub3d *cub)
