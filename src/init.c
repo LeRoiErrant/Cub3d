@@ -28,8 +28,7 @@ void	init_cub(t_cub3d *cub)
 	cub->reset_buffer = 0;
 	cub->map = NULL;
 	cub->tmp = NULL;
-	cub->error.num = SUCCESS;
-	init_errors(cub);
+	cub->errnum = SUCCESS;
 	init_config(cub);
 }
 
@@ -42,7 +41,7 @@ void	init_buffer(t_img *buf, t_cub3d *cub)
 static int	init_img(t_img *img, t_cub3d *cub)
 {
 	if (!img)
-		return (cub_error(E_MALLOC, STDERR_FILENO, cub));
+		return (cub_error(E_MALLOC, STDERR_FILENO));
 	img->img = mlx_xpm_file_to_image(cub->mlx, cub->config.path_n, &img->w, &img->h);
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->ll, &img->endian);
 	return (SUCCESS);

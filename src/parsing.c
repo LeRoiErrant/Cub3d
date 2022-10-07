@@ -5,22 +5,22 @@ static int	fill_config_path(char *config, t_cub3d *cub)
 	if (!ft_strncmp(config, "NO", 2))
 	{
 		cub->config.path_n = ft_strtrim(config + 2, " ");
-		return(cub_error(check_path(cub->config.path_n), STDERR_FILENO, cub));
+		return(cub_error(check_path(cub->config.path_n), STDERR_FILENO));
 	}
 	else if (!ft_strncmp(config, "SO", 2))
 	{
 		cub->config.path_s = ft_strtrim(config + 2, " ");
-		return(cub_error(check_path(cub->config.path_s), STDERR_FILENO, cub));
+		return(cub_error(check_path(cub->config.path_s), STDERR_FILENO));
 	}
 	else if (!ft_strncmp(config, "WE", 2))
 	{
 		cub->config.path_w = ft_strtrim(config + 2, " ");
-		return(cub_error(check_path(cub->config.path_w), STDERR_FILENO, cub));
+		return(cub_error(check_path(cub->config.path_w), STDERR_FILENO));
 	}
 	else if (!ft_strncmp(config, "EA", 2))
 	{
 		cub->config.path_e = ft_strtrim(config + 2, " ");
-		return(cub_error(check_path(cub->config.path_e), STDERR_FILENO, cub));
+		return(cub_error(check_path(cub->config.path_e), STDERR_FILENO));
 	}
 	return (SUCCESS);
 }
@@ -69,7 +69,7 @@ static int	fill_config(char **config, t_cub3d *cub)
 		fill_config_color(config[i], cub);
 	}
 	if (i < 6)
-		return (cub_error(E_CONFIG, STDERR_FILENO, cub));
+		return (cub_error(E_CONFIG, STDERR_FILENO));
 	return (check_config(cub));
 }
 
@@ -79,12 +79,12 @@ static int	fill_map(char **config, t_cub3d *cub)
 	int	j;
 
 	if (get_map_size(config, cub))
-		return (cub_error(E_MAP, -1, cub));
+		return (cub_error(E_MAP, -1));
 	if (check_char(config, cub))
-		return (cub_error(E_CHAR, -1, cub));
+		return (cub_error(E_CHAR, -1));
 	cub->map = (char **) ft_calloc(cub->config.map_h + 1, sizeof(char *));
 	if (!cub->map)
-		return (cub_error(E_MALLOC, -1, cub));
+		return (cub_error(E_MALLOC, -1));
 	i = -1;
 	while (++i < cub->config.map_h)
 	{
@@ -113,10 +113,10 @@ int	parsing(char **argv, t_cub3d *cub)
 	char	*line;
 
 	if (check_extension(argv[1]))
-		return (cub_error(E_EXT, STDERR_FILENO, cub));
+		return (cub_error(E_EXT, STDERR_FILENO));
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
-		return (cub_error(E_OPEN, STDERR_FILENO, cub));
+		return (cub_error(E_OPEN, STDERR_FILENO));
 	str = NULL;
 	line = get_next_line(fd);
 	while (line)
@@ -126,13 +126,13 @@ int	parsing(char **argv, t_cub3d *cub)
 	}
 	close(fd);
 	if (!str)
-		return (cub_error(E_CONFIG, STDERR_FILENO, cub));
+		return (cub_error(E_CONFIG, STDERR_FILENO));
 	cub->tmp = ft_split(str, '\n');
 	free(str);
 	if (fill_config(cub->tmp, cub))
-		return (cub_error(E_CONFIG, -1, cub));
+		return (cub_error(E_CONFIG, -1));
 	if (fill_map(cub->tmp, cub))
-		return (cub_error(E_MAP, -1, cub));
+		return (cub_error(E_MAP, -1));
 	cub_print(cub);
 	return (SUCCESS);
 }

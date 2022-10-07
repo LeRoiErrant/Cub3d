@@ -37,7 +37,6 @@
 # define YE "\033[33;1m"
 # define CY "\033[36;1m"
 # define RC "\033[0m"
-# define INIT_FAILED "Error\nInitilization failure\n"
 
 typedef struct s_img
 {
@@ -142,51 +141,50 @@ enum e_error
 	E_WALL,
 	E_CHAR,
 	E_PLAYER,
-	E_END
 };
 
 enum e_key_event
 {
-	ON_KEYDOWN = 2,		//? int (*f)(int keycode, void *param)
-	ON_KEYUP = 3,		//? int (*f)(int keycode, void *param)
-	ON_MOUSEDOWN = 4,	//? int (*f)(int button, int x, int y, void *param)
-	ON_MOUSEUP = 5,		//? int (*f)(int button, int x, int y, void *param)
-	ON_MOUSEMOVE = 6,	//? int (*f)(int x, int y, void *param)
-	ON_EXPOSE = 12,		//? int (*f)(void *param)
-	ON_DESTROY = 17		//? int (*f)(void *param)
+	ON_KEYDOWN 		= 2,		//? int (*f)(int keycode, void *param)
+	ON_KEYUP 		= 3,		//? int (*f)(int keycode, void *param)
+	ON_MOUSEDOWN 	= 4,	//? int (*f)(int button, int x, int y, void *param)
+	ON_MOUSEUP 		= 5,		//? int (*f)(int button, int x, int y, void *param)
+	ON_MOUSEMOVE 	= 6,	//? int (*f)(int x, int y, void *param)
+	ON_EXPOSE 		= 12,		//? int (*f)(void *param)
+	ON_DESTROY 		= 17		//? int (*f)(void *param)
 };
 
 enum e_mouse_event
 {
-	M_LEFT = 2,
-	M_RIGHT = 2,
-	M_MIDDLE = 3,
-	M_SCROLLUP = 4,
-	M_SCROLLDOWN = 5
+	M_LEFT 			= 2,
+	M_RIGHT 		= 2,
+	M_MIDDLE 		= 3,
+	M_SCROLLUP 		= 4,
+	M_SCROLLDOWN	= 5
 };
 
 enum e_keycode
 {
-	KEY_A = 0,
-	KEY_S = 1,
-	KEY_D = 2,
-	KEY_Q = 12,
-	KEY_W = 13,
-	KEY_E = 14,
-	KEY_R = 15,
-	KEY_SPACE =	49,
-	KEY_ESC =	53,
-	KEY_LEFT =	123,
-	KEY_RIGHT =	124,
-	KEY_DOWN =	125,
-	KEY_UP =	126
+	KEY_A 		= 	0,
+	KEY_S 		= 	1,
+	KEY_D 		= 	2,
+	KEY_Q 		= 	12,
+	KEY_W 		= 	13,
+	KEY_E 		= 	14,
+	KEY_R 		= 	15,
+	KEY_SPACE 	= 	49,
+	KEY_ESC 	=	53,
+	KEY_LEFT 	=	123,
+	KEY_RIGHT 	=	124,
+	KEY_DOWN 	=	125,
+	KEY_UP 		=	126
 };
 
-typedef struct s_error
+enum e_side
 {
-	int		num;
-	char	**msg;
-}	t_error;
+	SIDE_X,
+	SIDE_Y
+};
 
 typedef struct s_cub3d
 {
@@ -201,7 +199,7 @@ typedef struct s_cub3d
 	t_texture	tex;
 	t_assets	textures;
 	t_config	config;
-	t_error		error;
+	int			errnum;
 	int			reset_buffer;
 	char		**map;
 	char		**tmp;
@@ -219,7 +217,6 @@ int		check_borders(t_cub3d *cub);
 // init.c
 void	init_cub(t_cub3d *cub);
 void	init_buffer(t_img *buf, t_cub3d *cub);
-int		init_errors(t_cub3d *cub);
 void	init_textures(t_cub3d *cub);
 
 // parsing.c
@@ -235,7 +232,7 @@ void	loop(t_cub3d *cub);
 int		raycasting(t_cub3d *cub);
 
 // utils.c
-int		cub_error(int errnum, int fd, t_cub3d *cub);
+int		cub_error(int errnum, int fd);
 int		cub_error_free(int errnum, int fd, t_cub3d *cub);
 int		free_errors(t_cub3d *cub, int ret);
 void	cub_print(t_cub3d *cub);
