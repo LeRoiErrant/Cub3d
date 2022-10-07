@@ -9,6 +9,10 @@ int	exit_cub(t_cub3d *cub)
 	mlx_destroy_image(cub->mlx, cub->textures.south->img);
 	mlx_destroy_image(cub->mlx, cub->textures.west->img);
 	mlx_destroy_window(cub->mlx, cub->win);
+	free(cub->textures.north);
+	free(cub->textures.south);
+	free(cub->textures.east);
+	free(cub->textures.west);
 	free_cub(cub);
 	exit(cub->errnum);
 }
