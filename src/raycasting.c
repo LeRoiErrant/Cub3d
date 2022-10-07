@@ -69,7 +69,7 @@ void	run_dda(t_cub3d *cub)
 		}
 		else
 		{
-			cub->ray.sidedist.y += cub->ray.deltadist.x;
+			cub->ray.sidedist.y += cub->ray.deltadist.y;
 			cub->ray.map.y += cub->ray.step.y;
 			if (cub->ray.step.y < 0)
 				cub->ray.side = 1;
@@ -90,6 +90,17 @@ double	calculate_perp_dist(t_cub3d *cub)
 		return (cub->ray.sidedist.y - cub->ray.deltadist.y);
 }
 
+void	draw_floors(t_img *img, int x)
+{
+	int	i;
+
+	i = -1;
+	while (++i < SCREEN_H / 2)
+		my_mlx_pixel_put(img, x, i, 0x000000FF);
+	/*while (i++ < SCREEN_H - 1)
+		my_mlx_pixel_put(img, x, i, 0x000000AB);*/
+}
+
 int	raycasting(t_cub3d *cub)
 {
 	int	x;
@@ -105,6 +116,7 @@ int	raycasting(t_cub3d *cub)
 	x = -1;
 	while (++x <= SCREEN_W)
 	{
+		//draw_floors(&img, x);
 		//? calculate ray position and direction
 		cub->ray.camera.x = 2 * x / (double) SCREEN_W - 1;
 		cub->ray.raydir.x = cub->dir.x + cub->plane.x * cub->ray.camera.x;

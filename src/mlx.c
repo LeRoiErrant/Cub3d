@@ -27,7 +27,7 @@ int	key_down(int keycode, t_cub3d *cub)
     //move backwards if no wall behind you
     if (keycode == KEY_DOWN)
     {
-      	cub->pos.x -= cub->dir.x * cub->config.movespeed;
+		cub->pos.x -= cub->dir.x * cub->config.movespeed;
 		cub->pos.y -= cub->dir.y * cub->config.movespeed;
 	 /*if(worldMap[int(posX - dirX * moveSpeed)][int(posY)] == false) posX -= dirX * moveSpeed;
       if(worldMap[int(posX)][int(posY - dirY * moveSpeed)] == false) posY -= dirY * moveSpeed;*/
@@ -63,8 +63,25 @@ int	key_release(int keycode, t_cub3d *cub)
 	return (0);
 }
 
+/*void	draw_cell(t_cub3d *cub, t_img *img, t_dpos pos)
+{
+	int	x;
+	int	y;
+
+
+}
+
+void	draw_map(t_cub3d *cub, t_img *img)
+{
+
+}*/
+
 int	update(t_cub3d *cub)
 {
+	t_img	img;
+	img.img = mlx_new_image(cub->mlx, SCREEN_W, SCREEN_H);
+	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.ll, &img.endian);
+	//draw_map(cub, &img);
 	raycasting(cub);
 	return (0);
 }
