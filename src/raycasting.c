@@ -8,6 +8,19 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
+void ver_line(t_img *img, int x, int length, int color)
+{
+	int i;
+	int	start;
+
+	start = (SCREEN_H / 2) - (length / 2) - 1;
+	i = start;
+	if (length <= 0)
+		return;
+	while (++i - start != length)
+		my_mlx_pixel_put(img, x, i, color);
+}
+
 /*double	get_deltadist(double ray_dir)
 {
 	if (ray_dir == 0)
@@ -31,7 +44,7 @@ void	first_step(t_cub3d *cub)
 	if (cub->ray.raydir.y < 0)
 	{
 		cub->ray.step.y = -1;
-		cub->ray.sidedist.y = (cub->pos.y - cub->ray.map.y) * cub->ray.deltadist.x;
+		cub->ray.sidedist.y = (cub->pos.y - cub->ray.map.y) * cub->ray.deltadist.y;
 	}
 	else
 	{
@@ -40,7 +53,7 @@ void	first_step(t_cub3d *cub)
 	}
 }
 
-void	run_dda(t_cub3d *cub, int x)
+void	run_dda(t_cub3d *cub)
 {
 	while (cub->ray.hit == 0)
 	{
@@ -65,10 +78,7 @@ void	run_dda(t_cub3d *cub, int x)
 		}
 		//? Check if ray has hit a wall
 		if (cub->map[cub->ray.map.x][cub->ray.map.y] == '1')
-		{
 			cub->ray.hit = 1;
-			printf("RAY[%i] - SIDE: %i\n", x, cub->ray.side);
-		}
 	}
 }
 
@@ -117,7 +127,7 @@ int	raycasting(t_cub3d *cub)
 		first_step(cub);
 
 		//? perform DDA
-		run_dda(cub, x);
+		run_dda(cub);
 		
 		//? Calculate distance of perpendicular ray (Euclidean distance would give fisheye effect!)
 		cub->ray.line_info.perpwalldist = calculate_perp_dist(cub);
@@ -171,17 +181,18 @@ int	raycasting(t_cub3d *cub)
 		//TODO load texture line
 		//TODO draw image
 		*/
-		
-		for (int i = cub->ray.line_info.drawstart ; i <= cub->ray.line_info.drawend ; i++){
-			if (cub->ray.side == SIDE_X)
-				my_mlx_pixel_put(&img, x, i, 0x00FF0000);
-			else if (cub->ray.side == SIDE_Y)
-				my_mlx_pixel_put(&img, x, i, 0x00AB0000);
-			if (cub->ray.side == 2)
-				my_mlx_pixel_put(&img, x, i, 0x0000FF00);
-			else
-				my_mlx_pixel_put(&img, x, i, 0x0000AB00);
-		}
+		int color;
+
+
+		if (cub->ray.side == SIDE_X)
+			color = 0x00FF0000;
+		else if (cub->ray.side == SIDE_Y)
+			color = 0x00AB0000;
+		else if (cub->ray.side == 2)
+			color = 0x0000FF00;
+		else
+			color = 0x0000AB00;
+		ver_line(&img, x, cub->ray.line_info.drawend - cub->ray.line_info.drawstart, color);
 	}
 	mlx_put_image_to_window(cub->mlx, cub->win, img.img, 0, 0);
 	mlx_destroy_image(cub->mlx, img.img);
