@@ -69,7 +69,7 @@ void	run_dda(t_cub3d *cub)
 		}
 		else
 		{
-			cub->ray.sidedist.y += cub->ray.deltadist.x;
+			cub->ray.sidedist.y += cub->ray.deltadist.y;
 			cub->ray.map.y += cub->ray.step.y;
 			if (cub->ray.step.y < 0)
 				cub->ray.side = 1;
