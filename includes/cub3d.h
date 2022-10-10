@@ -38,6 +38,11 @@
 # define CY "\033[36;1m"
 # define RC "\033[0m"
 
+# define HEX_RED 0x00FF0000
+# define HEX_DARK_RED 0x00AB0000
+# define HEX_GREEN 0x0000FF00
+# define HEX_DARK_GREEN 0x0000AB00
+
 typedef struct s_img
 {
 	void	*img;
@@ -193,6 +198,7 @@ typedef struct s_cub3d
 	t_img		img;
 	t_img		buf;
 	t_dpos		pos;
+	t_dpos		pc;
 	t_dpos		dir;
 	t_dpos		plane;
 	t_raycast	ray;
@@ -239,5 +245,8 @@ void	cub_print(t_cub3d *cub);
 int		count_space(char *str);
 int		get_map_size(char **config, t_cub3d *cub);
 void	free_cub(t_cub3d *cub);
+
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void	minimap(t_cub3d *cub);
 
 #endif

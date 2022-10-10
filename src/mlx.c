@@ -25,6 +25,9 @@ int	key_down(int keycode, t_cub3d *cub)
     {
       	cub->pos.x += cub->dir.x * cub->config.movespeed;
 		cub->pos.y += cub->dir.y * cub->config.movespeed;
+		cub->pc.x = cub->pos.x * 10;
+		cub->pc.y = cub->pos.y * 10;
+		printf("X: %f | Y: %f\n   pc.x: %i | pc.y: %i\n", cub->pos.x, cub->pos.y, (int) cub->pc.x, (int) cub->pc.y);
 	  /*if(worldMap[int(posX + dirX * moveSpeed)][int(posY)] == false) posX += dirX * moveSpeed;
       if(worldMap[int(posX)][int(posY + dirY * moveSpeed)] == false) posY += dirY * moveSpeed;*/
     }
@@ -33,6 +36,9 @@ int	key_down(int keycode, t_cub3d *cub)
     {
       	cub->pos.x -= cub->dir.x * cub->config.movespeed;
 		cub->pos.y -= cub->dir.y * cub->config.movespeed;
+		cub->pc.x = cub->pos.x * 10;
+		cub->pc.y = cub->pos.y * 10;
+		printf("X: %f | Y: %f\n   pc.x: %i | pc.y: %i\n", cub->pos.x, cub->pos.y, (int) cub->pc.x, (int) cub->pc.y);
 	 /*if(worldMap[int(posX - dirX * moveSpeed)][int(posY)] == false) posX -= dirX * moveSpeed;
       if(worldMap[int(posX)][int(posY - dirY * moveSpeed)] == false) posY -= dirY * moveSpeed;*/
     }
@@ -70,6 +76,7 @@ int	key_release(int keycode, t_cub3d *cub)
 int	update(t_cub3d *cub)
 {
 	raycasting(cub);
+	minimap(cub);
 	return (0);
 }
 

@@ -19,8 +19,10 @@ int	check_char(char **map, t_cub3d *cub)
 				return (cub_error(E_CHAR, STDERR_FILENO));
 			if (ft_strchr(set + 3, map[i][j]))
 			{
-				cub->pos.x = i - 6;
+				cub->pos.x = i - 5;
 				cub->pos.y = j;
+				cub->pc.x = cub->pos.x * 10;
+				cub->pc.y = cub->pos.y * 10;
 				player_count++;
 			}
 		}

@@ -21,6 +21,24 @@ void ver_line(t_img *img, int x, int length, int color)
 		my_mlx_pixel_put(img, x, i, color);
 }
 
+void d_square(t_img *img, int x, int y, int length, int color)
+{
+	t_ipos 	i;
+	t_ipos	start;
+
+	start.x = x;
+	start.y = y;
+	i.x = start.x;
+	if (length <= 0)
+		return;
+	while (++i.x - start.x != length)
+	{
+		i.y = start.y;
+		while (++i.y - start.y != length)
+			my_mlx_pixel_put(img, i.x, i.y, color);
+	}
+}
+
 /*double	get_deltadist(double ray_dir)
 {
 	if (ray_dir == 0)
@@ -185,15 +203,17 @@ int	raycasting(t_cub3d *cub)
 
 
 		if (cub->ray.side == SIDE_X)
-			color = 0x00FF0000;
+			color = HEX_RED;
 		else if (cub->ray.side == SIDE_Y)
-			color = 0x00AB0000;
+			color = HEX_DARK_RED;
 		else if (cub->ray.side == 2)
-			color = 0x0000FF00;
+			color = HEX_GREEN;
 		else
-			color = 0x0000AB00;
-		ver_line(&img, x, cub->ray.line_info.drawend - cub->ray.line_info.drawstart, color);
+			color = HEX_DARK_GREEN;
+		ver_line(&img, x - 1, cub->ray.line_info.drawend - cub->ray.line_info.drawstart, color);
 	}
+	(void) img;
+
 	mlx_put_image_to_window(cub->mlx, cub->win, img.img, 0, 0);
 	mlx_destroy_image(cub->mlx, img.img);
 	free(cub->tex.array);
