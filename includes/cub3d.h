@@ -13,11 +13,11 @@
 # include <limits.h>
 # include <stdint.h>
 
-/*# define SCREEN_W 640
-# define SCREEN_H 480*/
+# define SCREEN_W 640
+# define SCREEN_H 480
 
-# define SCREEN_W 1920
-# define SCREEN_H 1080
+/*# define SCREEN_W 1920
+# define SCREEN_H 1080*/
 
 # define TEXTURE_W 64
 # define TEXTURE_H 64
