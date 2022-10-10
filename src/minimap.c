@@ -17,6 +17,23 @@ void d_cell(t_img *img, int x, int y, int color)
 	}
 }
 
+void d_pc(t_img *img, int x, int y, int color)
+{
+	t_ipos 	i;
+	int		length;
+
+	length = 6;
+	i.x = x - 1;
+	if (length <= 0)
+		return;
+	while (++i.x - x != length)
+	{
+		i.y = y - 1;
+		while (++i.y - y != length)
+			my_mlx_pixel_put(img, i.x, i.y, color);
+	}
+}
+
 void	minimap(t_cub3d *cub)
 {
 	t_ipos	test;
@@ -27,7 +44,7 @@ void	minimap(t_cub3d *cub)
 
 	test.x = 0;
 	test.y = 0;
-	minimap.img = mlx_new_image(cub->mlx, SCREEN_W / 4, SCREEN_H);
+	minimap.img = mlx_new_image(cub->mlx, SCREEN_W / 8, SCREEN_H);
 	minimap.addr = mlx_get_data_addr(minimap.img, &minimap.bpp, &minimap.ll, &minimap.endian);
 	coord.x = 0;
 	cell.x = -1;
@@ -48,7 +65,7 @@ void	minimap(t_cub3d *cub)
 		}
 		coord.x += 10;
 	}
-	d_cell(&minimap, (int) cub->pc.x, (int) cub->pc.y, HEX_GREEN);
+	d_pc(&minimap, (int) cub->pc.x - 3, (int) cub->pc.y - 3, HEX_GREEN);
 	mlx_put_image_to_window(cub->mlx, cub->win, minimap.img, 0, 0);
 	mlx_destroy_image(cub->mlx, minimap.img);
 }

@@ -121,7 +121,7 @@ int	raycasting(t_cub3d *cub)
 	if (!cub->tex.array)
 		return (E_MALLOC);
 	x = -1;
-	while (++x <= SCREEN_W)
+	while (++x < SCREEN_W)
 	{
 		//? calculate ray position and direction
 		cub->ray.camera.x = 2 * x / (double) SCREEN_W - 1;
@@ -210,7 +210,7 @@ int	raycasting(t_cub3d *cub)
 			color = HEX_GREEN;
 		else
 			color = HEX_DARK_GREEN;
-		ver_line(&img, x - 1, cub->ray.line_info.drawend - cub->ray.line_info.drawstart, color);
+		ver_line(&img, x, cub->ray.line_info.drawend - cub->ray.line_info.drawstart, color);
 	}
 	(void) img;
 
