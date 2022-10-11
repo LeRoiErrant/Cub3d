@@ -60,7 +60,7 @@ void	update_pos(t_cub3d *cub)
 {
 	t_dpos	move;
 
-	//printf("hello world\r");
+	printf("hello world\r");
 	//printf("W: %i A: %i S: %i D: %i \r", cub->move.up, cub->move.left, cub->move.down, cub->move.right);
 	if (cub->move.up)
     {

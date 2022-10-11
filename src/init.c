@@ -16,6 +16,12 @@ static void	init_config(t_cub3d *cub)
 	cub->config.rotspeed = 0.02;
 	cub->config.map_w = 0;
 	cub->config.map_h = 0;
+	cub->move.up = 0;
+	cub->move.left = 0;
+	cub->move.down = 0;
+	cub->move.right = 0;
+	cub->rot.left = 0;
+	cub->rot.right = 0;
 }
 
 //TODO Valeur de retour pour le malloc des erreurs ?
@@ -29,12 +35,6 @@ void	init_cub(t_cub3d *cub)
 	cub->map = NULL;
 	cub->tmp = NULL;
 	cub->errnum = SUCCESS;
-	cub->move.up = 0;
-	cub->move.left = 0;
-	cub->move.down = 0;
-	cub->move.right = 0;
-	cub->rot.left = 0;
-	cub->rot.right = 0;
 	init_config(cub);
 }
 
