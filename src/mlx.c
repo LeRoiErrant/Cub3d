@@ -20,8 +20,15 @@ int	exit_cub(t_cub3d *cub)
 void	rotate_camera(int keycode, t_cub3d *cub)
 {
 	if (keycode == KEY_RIGHT)
+		cub->rot.right = 1;
+    if (keycode == KEY_LEFT)
+		cub->rot.left = 1;
+}
+
+void	update_cam(t_cub3d *cub)
+{
+	if (cub->rot.right)
     {
-      //both camera direction and camera plane must be rotated
       double oldDirX = cub->dir.x;
       cub->dir.x = cub->dir.x * cos(-cub->config.rotspeed) - cub->dir.y * sin(-cub->config.rotspeed);
       cub->dir.y = oldDirX * sin(-cub->config.rotspeed) + cub->dir.y * cos(-cub->config.rotspeed);
@@ -30,9 +37,8 @@ void	rotate_camera(int keycode, t_cub3d *cub)
       cub->plane.y = oldPlaneX * sin(-cub->config.rotspeed) + cub->plane.y * cos(-cub->config.rotspeed);
     }
     //rotate to the left
-    if (keycode == KEY_LEFT)
+    if (cub->rot.left)
     {
-      //both camera direction and camera plane must be rotated
       double oldDirX = cub->dir.x;
       cub->dir.x = cub->dir.x * cos(cub->config.rotspeed) - cub->dir.y * sin(cub->config.rotspeed);
       cub->dir.y = oldDirX * sin(cub->config.rotspeed) + cub->dir.y * cos(cub->config.rotspeed);
@@ -42,55 +48,54 @@ void	rotate_camera(int keycode, t_cub3d *cub)
     }
 }
 
+void	valid_move(t_cub3d *cub, t_dpos move)
+{
+	cub->pos.x += move.x;
+	cub->pos.y += move.y;
+	cub->pc.x = cub->pos.x * 10;
+	cub->pc.y = cub->pos.y * 10;
+}
+
 void	update_pos(t_cub3d *cub)
 {
 	t_dpos	move;
 
-	printf("W: %i A: %i S: %i D: %i \r", cub->move.w, cub->move.a, cub->move.s, cub->move.d);
-	if (cub->move.w)
+	//printf("hello world\r");
+	//printf("W: %i A: %i S: %i D: %i \r", cub->move.up, cub->move.left, cub->move.down, cub->move.right);
+	if (cub->move.up)
     {
 		move.x = cub->dir.x * cub->config.movespeed;
 		move.y = cub->dir.y * cub->config. movespeed;
     }
-    if (cub->move.s)
+    if (cub->move.down)
     {
       	move.x = -1 * cub->dir.x * cub->config.movespeed;
 		move.y = -1 * cub->dir.y * cub->config.movespeed;
     }
-	if (cub->move.a)
+	if (cub->move.left)
     {
       	move.x = -1 * cub->dir.y * cub->config.movespeed;
 		move.y = cub->dir.x * cub->config.movespeed;
-	 /*if(worldMap[int(posX - dirX * moveSpeed)][int(posY)] == false) posX -= dirX * moveSpeed;
-      if(worldMap[int(posX)][int(posY - dirY * moveSpeed)] == false) posY -= dirY * moveSpeed;*/
     }
-	if (cub->move.d)
+	if (cub->move.right)
     {
       	move.x = cub->dir.y * cub->config.movespeed;
 		move.y = -1 * cub->dir.x * cub->config.movespeed;
-	 /*if(worldMap[int(posX - dirX * moveSpeed)][int(posY)] == false) posX -= dirX * moveSpeed;
-      if(worldMap[int(posX)][int(posY - dirY * moveSpeed)] == false) posY -= dirY * moveSpeed;*/
     }
 	if (cub->map[(int) (cub->pos.x + move.x)][(int) (cub->pos.y + move.y)] != '1')
-	{
-		cub->pos.x += move.x;
-		cub->pos.y += move.y;
-		cub->pc.x = cub->pos.x * 10;
-		cub->pc.y = cub->pos.y * 10;
-		//printf("X: %f | Y: %f\n   pc.x: %i | pc.y: %i\n", cub->pos.x, cub->pos.y, (int) cub->pc.x, (int) cub->pc.y);
-	}
+		valid_move(cub, move);
 }
 
 void	check_movement(int keycode, t_cub3d *cub)
 {
 	if (keycode == KEY_W)
-		cub->move.w = 1;
+		cub->move.up = 1;
     if (keycode == KEY_S)
-		cub->move.s = 1;
+		cub->move.down = 1;
 	if (keycode == KEY_A)
-		cub->move.a = 1;
+		cub->move.left = 1;
 	if (keycode == KEY_D)
-		cub->move.d = 1;
+		cub->move.right = 1;
 }
 
 
@@ -108,13 +113,17 @@ int	key_down(int keycode, t_cub3d *cub)
 int	key_release(int keycode, t_cub3d *cub)
 {
 	if (keycode == KEY_W)
-		cub->move.w = 0;
+		cub->move.up = 0;
     if (keycode == KEY_S)
-		cub->move.s = 0;
+		cub->move.down = 0;
 	if (keycode == KEY_A)
-		cub->move.a = 0;
+		cub->move.left = 0;
 	if (keycode == KEY_D)
-		cub->move.d = 0;
+		cub->move.right = 0;
+	if (keycode == KEY_RIGHT)
+		cub->rot.right = 0;
+    if (keycode == KEY_LEFT)
+		cub->rot.left = 0;
 	return (0);
 }
 
@@ -122,6 +131,7 @@ int	update(t_cub3d *cub)
 {
 	raycasting(cub);
 	minimap(cub);
+	update_cam(cub);
 	update_pos(cub);
 	return (0);
 }

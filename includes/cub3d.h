@@ -80,10 +80,10 @@ typedef struct s_ipos
 
 typedef struct s_move
 {
-	int	w;
-	int	a;
-	int	s;
-	int	d;
+	int	up;
+	int	left;
+	int	down;
+	int	right;
 }	t_move;
 
 typedef struct s_texture
@@ -207,6 +207,7 @@ typedef struct s_cub3d
 	void		*mlx;
 	void		*win;
 	t_move		move;
+	t_move		rot;
 	t_img		img;
 	t_img		buf;
 	t_dpos		pos;
