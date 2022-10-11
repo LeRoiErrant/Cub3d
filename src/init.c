@@ -12,7 +12,7 @@ static void	init_config(t_cub3d *cub)
 	cub->config.path_e = NULL;
 	cub->config.path_s = NULL;
 	cub->config.path_w = NULL;
-	cub->config.movespeed = 0.1;
+	cub->config.movespeed = 0.02;
 	cub->config.rotspeed = 0.05;
 	cub->config.map_w = 0;
 	cub->config.map_h = 0;
@@ -29,6 +29,10 @@ void	init_cub(t_cub3d *cub)
 	cub->map = NULL;
 	cub->tmp = NULL;
 	cub->errnum = SUCCESS;
+	cub->move.w = 0;
+	cub->move.a = 0;
+	cub->move.s = 0;
+	cub->move.d = 0;
 	init_config(cub);
 }
 

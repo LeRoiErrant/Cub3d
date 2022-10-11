@@ -78,6 +78,14 @@ typedef struct s_ipos
 	int	y;
 }	t_ipos;
 
+typedef struct s_move
+{
+	int	w;
+	int	a;
+	int	s;
+	int	d;
+}	t_move;
+
 typedef struct s_texture
 {
 	int		**array;
@@ -198,6 +206,7 @@ typedef struct s_cub3d
 {
 	void		*mlx;
 	void		*win;
+	t_move		move;
 	t_img		img;
 	t_img		buf;
 	t_dpos		pos;
