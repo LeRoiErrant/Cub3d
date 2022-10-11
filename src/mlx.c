@@ -19,6 +19,7 @@ int	exit_cub(t_cub3d *cub)
 
 int	key_down(int keycode, t_cub3d *cub)
 {
+	t_ipos	mod;
 	if (keycode == KEY_ESC)
 		exit_cub(cub);
 	if (keycode == KEY_UP)
@@ -27,7 +28,10 @@ int	key_down(int keycode, t_cub3d *cub)
 		cub->pos.y += cub->dir.y * cub->config.movespeed;
 		cub->pc.x = cub->pos.x * 10;
 		cub->pc.y = cub->pos.y * 10;
+		mod.x = (int) cub->pc.x % 10;
+		mod.y = (int) cub->pc.y % 10;
 		printf("X: %f | Y: %f\n   pc.x: %i | pc.y: %i\n", cub->pos.x, cub->pos.y, (int) cub->pc.x, (int) cub->pc.y);
+		printf("mod.x: %i | mod.y: %i\n", mod.x, mod.y);
 	  /*if(worldMap[int(posX + dirX * moveSpeed)][int(posY)] == false) posX += dirX * moveSpeed;
       if(worldMap[int(posX)][int(posY + dirY * moveSpeed)] == false) posY += dirY * moveSpeed;*/
     }
@@ -38,7 +42,10 @@ int	key_down(int keycode, t_cub3d *cub)
 		cub->pos.y -= cub->dir.y * cub->config.movespeed;
 		cub->pc.x = cub->pos.x * 10;
 		cub->pc.y = cub->pos.y * 10;
+		mod.x = (int) cub->pc.x % 10;
+		mod.y = (int) cub->pc.y % 10;
 		printf("X: %f | Y: %f\n   pc.x: %i | pc.y: %i\n", cub->pos.x, cub->pos.y, (int) cub->pc.x, (int) cub->pc.y);
+		printf("mod.x: %i | mod.y: %i\n", mod.x, mod.y);
 	 /*if(worldMap[int(posX - dirX * moveSpeed)][int(posY)] == false) posX -= dirX * moveSpeed;
       if(worldMap[int(posX)][int(posY - dirY * moveSpeed)] == false) posY -= dirY * moveSpeed;*/
     }

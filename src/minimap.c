@@ -17,7 +17,35 @@ void d_cell(t_img *img, int x, int y, int color)
 	}
 }
 
-void d_pc(t_img *img, int x, int y, int color)
+int	in_circle(float x, float y)
+{
+	float	distance;
+
+	distance = sqrtf(powf(x - 4.5, 2.) + powf(y - 4.5, 2.));
+	if (distance <= 3.45)
+		return (1);
+	return (0);
+}
+
+void	draw_pc(t_img *img, int color)
+{
+	t_ipos	i;
+	int	is_it;
+
+	i.y = -1;
+	while (++i.y < 10)
+	{
+		i.x = -1;
+		while (++i.x < 10)
+		{
+			is_it = in_circle((float)i.x, (float)i.y);
+			if (is_it)
+				my_mlx_pixel_put(img, i.x + 55, i.y + 55, color);
+		}
+	}
+}
+
+/*void d_pc(t_img *img, int x, int y, int color)
 {
 	t_ipos 	i;
 	int		length;
@@ -32,7 +60,7 @@ void d_pc(t_img *img, int x, int y, int color)
 		while (++i.y - y != length)
 			my_mlx_pixel_put(img, i.x, i.y, color);
 	}
-}
+}*/
 
 /*void	minimap(t_cub3d *cub)
 {
@@ -100,6 +128,24 @@ int	is_not_in_map(t_cub3d *cub, t_ipos start, t_ipos cell)
 		return (0);
 }
 
+void	draw_frame(t_img *img)
+{
+	t_ipos	i;
+
+	i.x = -1;
+	while (++i.x < 130)
+	{
+		i.y = -1;
+		while (++i.y < 130)
+		{
+			if (i.x < 10 || i.y < 10 || i.x >= 120 || i.y >= 120)
+				my_mlx_pixel_put(img, i.x, i.y, 0xFF000000);
+			else if (i.x < 20 || i.y < 20 || i.x >= 110 || i.y >= 110)
+				my_mlx_pixel_put(img, i.x, i.y, 0x00FFD700);
+		}
+	}
+}
+
 void	minimap(t_cub3d *cub)
 {
 	t_img	minimap;
@@ -107,15 +153,18 @@ void	minimap(t_cub3d *cub)
 	t_ipos	cell;
 	t_ipos	coord;
 	int		color;
+	t_ipos	mod;
 
-	minimap.img = mlx_new_image(cub->mlx, 120, 120);
+	minimap.img = mlx_new_image(cub->mlx, 130, 130);
 	minimap.addr = mlx_get_data_addr(minimap.img, &minimap.bpp, &minimap.ll, &minimap.endian);
 	get_start(cub, &start);
-	coord.x = 0;
+	mod.x = (int) cub->pc.x % 10;
+	mod.y = (int) cub->pc.y % 10;
+	coord.x = 10;
 	cell.x = -1;
 	while (++cell.x < 11) 
 	{
-		coord.y = 0;
+		coord.y = 10;
 		cell.y = -1;
 		while (++cell.y < 11)
 		{
@@ -123,12 +172,14 @@ void	minimap(t_cub3d *cub)
 				color = 0x00000000;
 			else
 				color = get_map_color(cub, start.x + cell.x, start.y + cell.y);
-			d_cell(&minimap, coord.x, coord.y, color);
+			d_cell(&minimap, coord.y - mod.y, coord.x - mod.x, color);
 			coord.y += 10;
 		}
 		coord.x += 10;
 	}
-	d_pc(&minimap, 50 + ((int) cub->pc.x % 10), 50 + ((int) cub->pc.y % 10), HEX_GREEN);
+	//d_pc(&minimap, 50, 50, HEX_GREEN);
+	draw_pc(&minimap, HEX_GREEN);
+	draw_frame(&minimap);
 	mlx_put_image_to_window(cub->mlx, cub->win, minimap.img, 0, 0);
 	mlx_destroy_image(cub->mlx, minimap.img);
 }
