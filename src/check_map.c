@@ -1,5 +1,29 @@
 #include "../includes/cub3d.h"
 
+void	get_initial_direction(t_cub3d *cub, char pc)
+{
+	if (pc == 'N')
+	{
+		cub->dir.x = -1.0;
+		cub->plane.y = 0.66;
+	}
+	else if (pc == 'S')
+	{
+		cub->dir.x = 1.0;
+		cub->plane.y = 0.66;
+	}
+	else if (pc == 'E')
+	{
+		cub->dir.y = 1.0;
+		cub->plane.x = 0.66;
+	}
+	else
+	{
+		cub->dir.y = -1.0;
+		cub->plane.x = 0.66;
+	}
+}
+
 int	check_char(char **map, t_cub3d *cub)
 {
 	int		i;
@@ -21,6 +45,7 @@ int	check_char(char **map, t_cub3d *cub)
 			{
 				cub->pos.x = i - 6 + 0.5;
 				cub->pos.y = j + 0.5;
+				get_initial_direction(cub, map[i][j]);
 				cub->pc.x = cub->pos.x * 10;
 				cub->pc.y = cub->pos.y * 10;
 				player_count++;
