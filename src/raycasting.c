@@ -112,11 +112,6 @@ int	raycasting(t_cub3d *cub)
 {
 	int	x;
 
-	t_img	img;
-
-	img.img = mlx_new_image(cub->mlx, SCREEN_W, SCREEN_H);
-	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.ll, &img.endian);
-
 	cub->tex.array = malloc(sizeof(int) * (SCREEN_W + 1));
 	if (!cub->tex.array)
 		return (E_MALLOC);
@@ -200,22 +195,26 @@ int	raycasting(t_cub3d *cub)
 		//TODO draw image
 		*/
 		int color;
+		int	i;
 
-
+		color = cub->config.ceiling.rgb;
+		i = -1;
+		while (++i < SCREEN_H / 2)
+			my_mlx_pixel_put(&cub->screen, x, i, color);
+		color = cub->config.floor.rgb;
+		while (i < SCREEN_H)
+			my_mlx_pixel_put(&cub->screen, x, i++, color);
 		if (cub->ray.side == SIDE_X)
-			color = HEX_RED;
+			color = 0x00783114;
 		else if (cub->ray.side == SIDE_Y)
-			color = HEX_DARK_RED;
+			color = 0x00963d19;
 		else if (cub->ray.side == 2)
-			color = HEX_GREEN;
+			color = 0x00602710;
 		else
-			color = HEX_DARK_GREEN;
-		ver_line(&img, x, cub->ray.line_info.drawend - cub->ray.line_info.drawstart, color);
+			color = 0x006e351e;
+		ver_line(&cub->screen, x, cub->ray.line_info.drawend - cub->ray.line_info.drawstart, color);
 	}
-	(void) img;
-
-	mlx_put_image_to_window(cub->mlx, cub->win, img.img, 0, 0);
-	mlx_destroy_image(cub->mlx, img.img);
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->screen.img, 0, 0);
 	free(cub->tex.array);
 	return (0);
 }

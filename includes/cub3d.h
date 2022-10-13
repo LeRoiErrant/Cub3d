@@ -86,6 +86,13 @@ typedef struct s_move
 	int	right;
 }	t_move;
 
+typedef struct s_engine
+{
+	t_move	move;
+	t_move	rot;
+	t_dpos	delta;
+}	t_engine;
+
 typedef struct s_texture
 {
 	int		**array;
@@ -125,6 +132,7 @@ typedef struct s_rgb
 	int	red;
 	int	green;
 	int	blue;
+	int	rgb;
 }	t_rgb;
 
 typedef struct s_config
@@ -139,6 +147,7 @@ typedef struct s_config
 	t_rgb	ceiling;
 	int		map_w;
 	int		map_h;
+	//t_engine	engine;
 }	t_config;
 
 enum e_error
@@ -206,10 +215,13 @@ typedef struct s_cub3d
 {
 	void		*mlx;
 	void		*win;
-	t_move		move;
-	t_move		rot;
+	char		**map;
+	char		**tmp;
 	t_img		img;
 	t_img		buf;
+	t_img		screen;
+	t_img		bground;
+	t_img		minimap;
 	t_dpos		pos;
 	t_dpos		pc;
 	t_dpos		dir;
@@ -218,10 +230,9 @@ typedef struct s_cub3d
 	t_texture	tex;
 	t_assets	textures;
 	t_config	config;
+	t_engine	engine;
 	int			errnum;
 	int			reset_buffer;
-	char		**map;
-	char		**tmp;
 }	t_cub3d;
 
 // check_config.c
@@ -261,5 +272,9 @@ void	free_cub(t_cub3d *cub);
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void	minimap(t_cub3d *cub);
+void	init_engine(t_cub3d *cub);
+void	init_screen_win(t_cub3d *cub);
+void 	d_cell(t_img *img, int x, int y, int color);
+void 	ver_line(t_img *img, int x, int length, int color);
 
 #endif

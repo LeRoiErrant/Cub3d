@@ -91,7 +91,6 @@ int	get_map_size(char **config, t_cub3d *cub)
 	return (SUCCESS);
 }
 
-//TODO free tmp array
 void	free_cub(t_cub3d *cub)
 {
 	free(cub->config.path_n);
@@ -100,4 +99,6 @@ void	free_cub(t_cub3d *cub)
 	free(cub->config.path_e);
 	ft_free_matrix(&cub->map);
 	free(cub->tmp);
+	//mlx_destroy_image(cub->mlx, cub->screen.img);
+	//mlx_destroy_image(cub->mlx, cub->minimap.img);
 }

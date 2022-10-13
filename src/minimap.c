@@ -148,15 +148,12 @@ void	draw_frame(t_img *img)
 
 void	minimap(t_cub3d *cub)
 {
-	t_img	minimap;
 	t_ipos	start;
 	t_ipos	cell;
 	t_ipos	coord;
 	int		color;
 	t_ipos	mod;
 
-	minimap.img = mlx_new_image(cub->mlx, 130, 130);
-	minimap.addr = mlx_get_data_addr(minimap.img, &minimap.bpp, &minimap.ll, &minimap.endian);
 	get_start(cub, &start);
 	mod.x = (int) cub->pc.x % 10;
 	mod.y = (int) cub->pc.y % 10;
@@ -172,14 +169,13 @@ void	minimap(t_cub3d *cub)
 				color = 0x00000000;
 			else
 				color = get_map_color(cub, start.x + cell.x, start.y + cell.y);
-			d_cell(&minimap, coord.y - mod.y, coord.x - mod.x, color);
+			d_cell(&cub->minimap, coord.y - mod.y, coord.x - mod.x, color);
 			coord.y += 10;
 		}
 		coord.x += 10;
 	}
 	//d_pc(&minimap, 50, 50, HEX_GREEN);
-	draw_pc(&minimap, HEX_GREEN);
-	draw_frame(&minimap);
-	mlx_put_image_to_window(cub->mlx, cub->win, minimap.img, 0, 0);
-	mlx_destroy_image(cub->mlx, minimap.img);
+	draw_pc(&cub->minimap, HEX_GREEN);
+	draw_frame(&cub->minimap);
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->minimap.img, 0, 0);
 }
