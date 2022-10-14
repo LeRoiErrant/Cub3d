@@ -1,5 +1,34 @@
 #include "../includes/cub3d.h"
 
+int	get_t(int trgb)
+{
+	return ((trgb >> 24) & 0xFF);
+}
+
+int	get_r(int trgb)
+{
+	return ((trgb >> 16) & 0xFF);
+}
+
+int	get_g(int trgb)
+{
+	return ((trgb >> 8) & 0xFF);
+}
+
+int	get_b(int trgb)
+{
+	return (trgb & 0xFF);
+}
+
+int	get_color(t_img *img, int x, int y)
+{
+	char	*color;
+
+	color = img->addr + (y * img->ll + x * (img->bpp / 8));
+	return (*(int *)color);
+}
+
+
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
@@ -81,18 +110,18 @@ void	run_dda(t_cub3d *cub)
 			cub->ray.sidedist.x += cub->ray.deltadist.x;
 			cub->ray.map.x += cub->ray.step.x;
 			if (cub->ray.step.x < 0)
-				cub->ray.side = 0;
+				cub->ray.side = TEX_NO;
 			else
-				cub->ray.side = 2;
+				cub->ray.side = TEX_SO;
 		}
 		else
 		{
 			cub->ray.sidedist.y += cub->ray.deltadist.y;
 			cub->ray.map.y += cub->ray.step.y;
 			if (cub->ray.step.y < 0)
-				cub->ray.side = 1;
+				cub->ray.side = TEX_WE;
 			else
-				cub->ray.side = 3;
+				cub->ray.side = TEX_EA;
 		}
 		//? Check if ray has hit a wall
 		if (cub->map[cub->ray.map.x][cub->ray.map.y] == '1')
@@ -108,12 +137,38 @@ double	calculate_perp_dist(t_cub3d *cub)
 		return (cub->ray.sidedist.y - cub->ray.deltadist.y);
 }
 
+int	get_tex_color(t_cub3d *cub)
+{
+	cub->o_tex.y = (int) cub->o_tex.pos & (TEXTURE_H - 1);
+	cub->o_tex.pos += cub->o_tex.step;
+	cub->o_tex.color = get_color(cub->tex[cub->ray.side], cub->o_tex.x, cub->o_tex.y);
+	return (cub->o_tex.color);
+}
+
+void	draw_column(t_cub3d *cub, int x)
+{
+	int	i;
+	int	color;
+
+	i = -1;
+	while (++i < SCREEN_H)
+	{
+		if (i < cub->ray.line_info.drawstart)
+			color = distance_shade(cub->config.ceiling.rgb, (double) i / (SCREEN_H / 12));
+		else if (i <= cub->ray.line_info.drawend)
+			color = distance_shade(get_tex_color(cub), cub->ray.line_info.perpwalldist);
+		else
+			color = distance_shade(cub->config.floor.rgb,  ((double) SCREEN_H - i) / (SCREEN_H / 12));
+		my_mlx_pixel_put(&cub->screen, x, i, color);
+	}
+}
+
 int	raycasting(t_cub3d *cub)
 {
 	int	x;
 
-	cub->tex.array = malloc(sizeof(int) * (SCREEN_W + 1));
-	if (!cub->tex.array)
+	cub->o_tex.array = malloc(sizeof(int) * (SCREEN_W + 1));
+	if (!cub->o_tex.array)
 		return (E_MALLOC);
 	x = -1;
 	while (++x < SCREEN_W)
@@ -155,48 +210,47 @@ int	raycasting(t_cub3d *cub)
 		cub->ray.line_info.drawend = (cub->ray.line_info.height / 2) + (SCREEN_H / 2);
 		if (cub->ray.line_info.drawend >= SCREEN_H)
 			cub->ray.line_info.drawend = SCREEN_H - 1;
-		/*
+	
+		
 		//? calculate value of wallX
-		if (cub->ray.side == 0)
-			cub->tex.wall.x = cub->pos.y + cub->ray.line_info.perpwalldist * cub->ray.raydir.y;
+		if (cub->ray.side % 2 == SIDE_X)
+			cub->o_tex.wall.x = cub->pos.y + cub->ray.line_info.perpwalldist * cub->ray.raydir.y;
 		else
-			cub->tex.wall.x = cub->pos.x + cub->ray.line_info.perpwalldist * cub->ray.raydir.x;
-		cub->tex.wall.x -= floor(cub->tex.wall.x);
+			cub->o_tex.wall.x = cub->pos.x + cub->ray.line_info.perpwalldist * cub->ray.raydir.x;
+		cub->o_tex.wall.x -= floor(cub->o_tex.wall.x);
 		
 		//? x coordinate on the texture
-		cub->tex.x = (int) (cub->tex.wall.x * (double) TEXTURE_W);
-		if (cub->ray.side == 0 && cub->ray.raydir.x > 0)
-			cub->tex.x = TEXTURE_W - cub->tex.x - 1;
-		if (cub->ray.side == 1 && cub->ray.raydir.y < 0)
-			cub->tex.x = TEXTURE_W - cub->tex.x - 1;
+		cub->o_tex.x = (int) (cub->o_tex.wall.x * (double) TEXTURE_W);
+
+		if (cub->ray.side % 2 == SIDE_X && cub->ray.raydir.x > 0)
+			cub->o_tex.x = TEXTURE_W - cub->o_tex.x - 1;
+		if (cub->ray.side % 2 == SIDE_Y && cub->ray.raydir.y < 0)
+			cub->o_tex.x = TEXTURE_W - cub->o_tex.x - 1;
 		
 		//? How much to increase the texture coordinate per screen pixel
-		cub->tex.step = 1.0 * TEXTURE_H / cub->ray.line_info.height;
+		cub->o_tex.step = 1.0 * TEXTURE_H / cub->ray.line_info.height;
 		
 		//? Starting texture coordinate
-		cub->tex.pos = (cub->ray.line_info.drawstart - SCREEN_H / 2 + cub->ray.line_info.height / 2) * cub->tex.step;
-		t_img	texture;
-		(void) texture;
-		if (cub->ray.side)
+		cub->o_tex.pos = (cub->ray.line_info.drawstart - SCREEN_H / 2 + cub->ray.line_info.height / 2) * cub->o_tex.step;
+		/*int	y;
+
+		y = cub->ray.line_info.drawstart - 1;
+		while (++y <= cub->ray.line_info.drawend)
 		{
-			if (cub->ray.raydir.y < 0)
-				texture = *cub->textures.north;
-			else
-				texture = *cub->textures.south;
-		}
-		else
-		{
-			if (cub->ray.raydir.x < 0)
-				texture = *cub->textures.west;
-			else
-				texture = *cub->textures.east;
-		}
+			cub->o_tex.y = (int) cub->o_tex.pos & (TEXTURE_H - 1);
+			cub->o_tex.pos += cub->o_tex.step;
+			cub->o_tex.color = get_color(cub->tex[cub->ray.side], cub->o_tex.x, cub->o_tex.y);
+			my_mlx_pixel_put(&cub->screen, x, y, cub->o_tex.color);
+		}*/
+		draw_column(cub, x);
 		//TODO load texture line
 		//TODO draw image
-		*/
+		/*
 		int color;
 		int	i;
+		double	dist;
 
+		dist = cub->ray.line_info.perpwalldist;
 		color = cub->config.ceiling.rgb;
 		i = -1;
 		while (++i < SCREEN_H / 2)
@@ -204,17 +258,18 @@ int	raycasting(t_cub3d *cub)
 		color = cub->config.floor.rgb;
 		while (i < SCREEN_H)
 			my_mlx_pixel_put(&cub->screen, x, i++, color);
-		if (cub->ray.side == SIDE_X)
-			color = 0x00783114;
-		else if (cub->ray.side == SIDE_Y)
-			color = 0x00963d19;
-		else if (cub->ray.side == 2)
-			color = 0x00602710;
-		else
-			color = 0x006e351e;
+		if (cub->ray.side == TEX_NO)
+			color = distance_shade (0x00783114, dist);
+		else if (cub->ray.side == TEX_WE)
+			color = distance_shade(0x00963d19, dist);
+		else if (cub->ray.side == TEX_SO)
+			color = distance_shade(0x00602710, dist);
+		else if (cub->ray.side == TEX_EA)
+			color = distance_shade(0x006e351e, dist);
 		ver_line(&cub->screen, x, cub->ray.line_info.drawend - cub->ray.line_info.drawstart, color);
+	*/
 	}
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->screen.img, 0, 0);
-	free(cub->tex.array);
+	free(cub->o_tex.array);
 	return (0);
 }

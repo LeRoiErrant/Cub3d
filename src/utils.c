@@ -52,10 +52,10 @@ void	cub_print(t_cub3d *cub)
 	printf("C green =\t%d\n", cub->config.ceiling.green);
 	printf("C blue =\t%d\n", cub->config.ceiling.blue);
 	printf("\n");
-	printf("path north =\t{%s}\n", cub->config.path_n);
-	printf("path south =\t{%s}\n", cub->config.path_s);
-	printf("path west =\t{%s}\n", cub->config.path_w);
-	printf("path east =\t{%s}\n", cub->config.path_e);
+	printf("path north =\t{%s}\n", cub->config.path[TEX_NO]);
+	printf("path south =\t{%s}\n", cub->config.path[TEX_SO]);
+	printf("path west =\t{%s}\n", cub->config.path[TEX_WE]);
+	printf("path east =\t{%s}\n", cub->config.path[TEX_EA]);
 	printf("\n");
 	printf("pos.x =\t\t%f\npos.y =\t\t%f\n\n", cub->pos.x, cub->pos.y);
 	i = -1;
@@ -93,10 +93,10 @@ int	get_map_size(char **config, t_cub3d *cub)
 
 void	free_cub(t_cub3d *cub)
 {
-	free(cub->config.path_n);
-	free(cub->config.path_s);
-	free(cub->config.path_w);
-	free(cub->config.path_e);
+	free(cub->config.path[TEX_NO]);
+	free(cub->config.path[TEX_SO]);
+	free(cub->config.path[TEX_WE]);
+	free(cub->config.path[TEX_EA]);
 	ft_free_matrix(&cub->map);
 	free(cub->tmp);
 	//mlx_destroy_image(cub->mlx, cub->screen.img);

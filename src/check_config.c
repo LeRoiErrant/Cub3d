@@ -24,9 +24,9 @@ int	check_config(t_cub3d *cub)
 		return (cub_error(E_FLOOR, STDERR_FILENO));
 	if (cub->config.floor.blue < 0 || cub->config.floor.blue > 255)
 		return (cub_error(E_FLOOR, STDERR_FILENO));
-	if (!cub->config.path_n || !cub->config.path_s)
+	if (!cub->config.path[TEX_NO] || !cub->config.path[TEX_SO])
 		return (cub_error(E_PATH, STDERR_FILENO));
-	if (!cub->config.path_w || !cub->config.path_e)
+	if (!cub->config.path[TEX_WE] || !cub->config.path[TEX_EA])
 		return (cub_error(E_PATH, STDERR_FILENO));
 	return (SUCCESS);
 }

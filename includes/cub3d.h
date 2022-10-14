@@ -46,110 +46,6 @@
 # define HEX_GREEN 0x0000FF00
 # define HEX_DARK_GREEN 0x0000AB00
 
-typedef struct s_img
-{
-	void	*img;
-
-	char	*addr;		
-	int		bpp;
-	int		ll;
-	int		endian;
-
-	int		w;
-	int		h;
-}	t_img;
-
-typedef struct s_assets
-{
-	t_img	*north;
-	t_img	*south;
-	t_img	*east;
-	t_img	*west;
-}	t_assets;
-typedef struct s_dpos
-{
-	double	x;
-	double	y;
-}	t_dpos;
-
-typedef struct s_ipos
-{
-	int	x;
-	int	y;
-}	t_ipos;
-
-typedef struct s_move
-{
-	int	up;
-	int	left;
-	int	down;
-	int	right;
-}	t_move;
-
-typedef struct s_engine
-{
-	t_move	move;
-	t_move	rot;
-	t_dpos	delta;
-}	t_engine;
-
-typedef struct s_texture
-{
-	int		**array;
-	int		x;
-	int		y;
-	int		num;
-	double	pos;
-	double	step;
-	t_dpos	wall;
-}	t_texture;
-
-typedef struct s_line
-{
-	int			height;
-	int			drawstart;
-	int			drawend;
-	double		perpwalldist;
-	t_texture	tex_info;
-}	t_line;
-
-typedef struct s_raycast
-{
-	t_dpos	sidedist;
-	t_dpos	raydir;
-	t_dpos	deltadist;
-	t_dpos	camera;
-	t_ipos	map;
-	t_ipos	step;
-	int		hit;
-	int		side;
-	int		line;
-	t_line	line_info;
-}	t_raycast;
-
-typedef struct s_rgb
-{
-	int	red;
-	int	green;
-	int	blue;
-	int	rgb;
-}	t_rgb;
-
-typedef struct s_config
-{
-	double	movespeed;
-	double	rotspeed;
-	char	*path_n;
-	char	*path_s;
-	char	*path_w;
-	char	*path_e;
-	t_rgb	floor;
-	t_rgb	ceiling;
-	int		map_w;
-	int		map_h;
-	//t_engine	engine;
-}	t_config;
-
 enum e_error
 {
 	E_SUCCESS,
@@ -211,6 +107,117 @@ enum e_side
 	SIDE_Y
 };
 
+enum e_tex
+{
+	TEX_NO,
+	TEX_WE,
+	TEX_SO,
+	TEX_EA,
+	TEX_END
+};
+typedef struct s_img
+{
+	void	*img;
+
+	char	*addr;		
+	int		bpp;
+	int		ll;
+	int		endian;
+
+	int		w;
+	int		h;
+}	t_img;
+
+typedef struct s_assets
+{
+	t_img	*north;
+	t_img	*south;
+	t_img	*east;
+	t_img	*west;
+}	t_assets;
+typedef struct s_dpos
+{
+	double	x;
+	double	y;
+}	t_dpos;
+
+typedef struct s_ipos
+{
+	int	x;
+	int	y;
+}	t_ipos;
+
+typedef struct s_move
+{
+	int	up;
+	int	left;
+	int	down;
+	int	right;
+}	t_move;
+
+typedef struct s_engine
+{
+	t_move	move;
+	t_move	rot;
+	t_dpos	delta;
+}	t_engine;
+
+typedef struct s_texture
+{
+	int		**array;
+	int		x;
+	int		y;
+	int		w;
+	int		h;
+	int		num;
+	double	pos;
+	double	step;
+	t_dpos	wall;
+	int		color;
+}	t_texture;
+
+typedef struct s_line
+{
+	int			height;
+	int			drawstart;
+	int			drawend;
+	double		perpwalldist;
+	t_texture	tex_info;
+}	t_line;
+
+typedef struct s_raycast
+{
+	t_dpos	sidedist;
+	t_dpos	raydir;
+	t_dpos	deltadist;
+	t_dpos	camera;
+	t_ipos	map;
+	t_ipos	step;
+	int		hit;
+	int		side;
+	int		line;
+	t_line	line_info;
+}	t_raycast;
+
+typedef struct s_rgb
+{
+	int	red;
+	int	green;
+	int	blue;
+	int	rgb;
+}	t_rgb;
+
+typedef struct s_config
+{
+	double	movespeed;
+	double	rotspeed;
+	char	*path[TEX_END];
+	t_rgb	floor;
+	t_rgb	ceiling;
+	int		map_w;
+	int		map_h;
+}	t_config;
+
 typedef struct s_cub3d
 {
 	void		*mlx;
@@ -227,12 +234,15 @@ typedef struct s_cub3d
 	t_dpos		dir;
 	t_dpos		plane;
 	t_raycast	ray;
-	t_texture	tex;
+	t_texture	o_tex;
+	t_img		*tex[TEX_END];
 	t_assets	textures;
 	t_config	config;
 	t_engine	engine;
 	int			errnum;
 	int			reset_buffer;
+	int			color;
+	t_ipos		coord_test;
 }	t_cub3d;
 
 // check_config.c
@@ -247,7 +257,7 @@ int		check_borders(t_cub3d *cub);
 // init.c
 void	init_cub(t_cub3d *cub);
 void	init_buffer(t_img *buf, t_cub3d *cub);
-void	init_textures(t_cub3d *cub);
+//void	init_textures(t_cub3d *cub);
 
 // parsing.c
 int		parsing(char **argv, t_cub3d *cub);
@@ -276,5 +286,8 @@ void	init_engine(t_cub3d *cub);
 void	init_screen_win(t_cub3d *cub);
 void 	d_cell(t_img *img, int x, int y, int color);
 void 	ver_line(t_img *img, int x, int length, int color);
+int		distance_shade(int color, double distance);
+void	path_to_img(t_cub3d *cub);
+int		get_color(t_img *img, int x, int y);
 
 #endif

@@ -1,26 +1,44 @@
 #include "../includes/cub3d.h"
 
+void	load_tex(t_cub3d *cub, t_img *tex, char *path)
+{
+	tex->img = mlx_xpm_file_to_image(cub->mlx, path, &tex->w, &tex->h);
+	tex->addr = mlx_get_data_addr(tex->img, &tex->bpp, &tex->ll, &tex->endian);
+}
+
+void	path_to_img(t_cub3d *cub)
+{
+	int	i;
+
+	i = -1;
+	while (++i < TEX_END)
+	{
+		cub->tex[i] = ft_calloc(1, sizeof(t_img));
+		load_tex(cub, cub->tex[i], cub->config.path[i]);
+	}
+}
+
 static int	fill_config_path(char *config, t_cub3d *cub)
 {	
 	if (!ft_strncmp(config, "NO", 2))
 	{
-		cub->config.path_n = ft_strtrim(config + 2, " ");
-		return(cub_error(check_path(cub->config.path_n), STDERR_FILENO));
+		cub->config.path[TEX_NO] = ft_strtrim(config + 2, " ");
+		return(cub_error(check_path(cub->config.path[TEX_NO]), STDERR_FILENO));
 	}
 	else if (!ft_strncmp(config, "SO", 2))
 	{
-		cub->config.path_s = ft_strtrim(config + 2, " ");
-		return(cub_error(check_path(cub->config.path_s), STDERR_FILENO));
+		cub->config.path[TEX_SO] = ft_strtrim(config + 2, " ");
+		return(cub_error(check_path(cub->config.path[TEX_SO]), STDERR_FILENO));
 	}
 	else if (!ft_strncmp(config, "WE", 2))
 	{
-		cub->config.path_w = ft_strtrim(config + 2, " ");
-		return(cub_error(check_path(cub->config.path_w), STDERR_FILENO));
+		cub->config.path[TEX_WE] = ft_strtrim(config + 2, " ");
+		return(cub_error(check_path(cub->config.path[TEX_WE]), STDERR_FILENO));
 	}
 	else if (!ft_strncmp(config, "EA", 2))
 	{
-		cub->config.path_e = ft_strtrim(config + 2, " ");
-		return(cub_error(check_path(cub->config.path_e), STDERR_FILENO));
+		cub->config.path[TEX_EA] = ft_strtrim(config + 2, " ");
+		return(cub_error(check_path(cub->config.path[TEX_EA]), STDERR_FILENO));
 	}
 	return (SUCCESS);
 }
@@ -138,6 +156,7 @@ int	parsing(char **argv, t_cub3d *cub)
 		return (cub_error(E_CONFIG, -1));
 	if (fill_map(cub->tmp, cub))
 		return (cub_error(E_MAP, -1));
+	//path_to_img(cub);
 	cub_print(cub);
 	return (SUCCESS);
 }

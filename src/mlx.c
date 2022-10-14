@@ -2,17 +2,17 @@
 
 int	exit_cub(t_cub3d *cub)
 {
+	int	i;
+
+	i = -1;
+	while (++i < TEX_END)
+	{
+		mlx_destroy_image(cub->mlx, cub->tex[i]->img);
+		free(cub->tex[i]);
+	}
 //	mlx_destroy_image(cub->mlx, cub->img.img);
 	mlx_destroy_image(cub->mlx, cub->buf.img);
-	mlx_destroy_image(cub->mlx, cub->textures.north->img);
-	mlx_destroy_image(cub->mlx, cub->textures.east->img);
-	mlx_destroy_image(cub->mlx, cub->textures.south->img);
-	mlx_destroy_image(cub->mlx, cub->textures.west->img);
 	mlx_destroy_window(cub->mlx, cub->win);
-	free(cub->textures.north);
-	free(cub->textures.south);
-	free(cub->textures.east);
-	free(cub->textures.west);
 	free_cub(cub);
 	exit(cub->errnum);
 }
@@ -169,7 +169,7 @@ static int	create_trgb(t_rgb rgb)
 static t_img	init_bground(t_cub3d *cub)
 {
 	t_img	bground;
-	t_ipos	i;
+	//t_ipos	i;
 	
 
 	cub->config.floor.rgb = create_trgb(cub->config.floor);
@@ -177,9 +177,9 @@ static t_img	init_bground(t_cub3d *cub)
 	bground.img = mlx_new_image(cub->mlx, SCREEN_W, SCREEN_H);
 	bground.addr = mlx_get_data_addr(bground.img, &bground.bpp, &bground.ll, &bground.endian);
 	cub->bground = bground;
-	i.x = -1;
+	/*i.x = -1;
 	while (++i.x < SCREEN_W)
-		ver_line(cub->bground.img, i.x, SCREEN_H, cub->config.floor.rgb);
+		ver_line(cub->bground.img, i.x, SCREEN_H, cub->config.floor.rgb);*/
 	return (bground);
 }	
 
@@ -188,11 +188,12 @@ void	loop(t_cub3d *cub)
 	cub->mlx = mlx_init();
 	cub->win = mlx_new_window(cub->mlx, SCREEN_W, SCREEN_H, "cub3d");
 	init_buffer(&cub->buf, cub);
-	init_textures(cub);
+	//init_textures(cub);
 	init_bground(cub);
 	mlx_hook(cub->win, ON_KEYDOWN, 0, key_down, cub);
 	mlx_hook(cub->win, ON_KEYUP, 0, key_release, cub);
 	mlx_hook(cub->win, ON_DESTROY, 0, exit_cub, cub);
+	path_to_img(cub);
 	mlx_loop_hook(cub->mlx, &update, cub);
 	mlx_loop(cub->mlx);
 }
