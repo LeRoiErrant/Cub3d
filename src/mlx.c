@@ -193,7 +193,8 @@ void	loop(t_cub3d *cub)
 	mlx_hook(cub->win, ON_KEYDOWN, 0, key_down, cub);
 	mlx_hook(cub->win, ON_KEYUP, 0, key_release, cub);
 	mlx_hook(cub->win, ON_DESTROY, 0, exit_cub, cub);
-	path_to_img(cub);
+	if (path_to_img(cub))
+		return;
 	mlx_loop_hook(cub->mlx, &update, cub);
 	mlx_loop(cub->mlx);
 }

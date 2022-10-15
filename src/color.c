@@ -11,7 +11,7 @@ int	shade_color(int color, double divide)
 
 int	distance_shade(int color, double distance)
 {
-	return (shade_color(color, distance / 4.5));
+	return (shade_color(color, distance / 2.));
 }
 
 /*int	get_tex_color(t_img *tex, t_ipos *pos)

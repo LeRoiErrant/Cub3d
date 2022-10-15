@@ -1,10 +1,10 @@
-NO ./assets/cardinal/north.xpm
-SO ./assets/cardinal/south.xpm
-WE ./assets/cardinal/west.xpm
-EA ./assets/cardinal/east.xpm
+NO ./assets/vheran/42/black.xpm
+SO ./assets/vheran/42/altcores.xpm
+WE ./assets/vheran/42/altpros.xpm
+EA ./assets/vheran/42/altthreads.xpm
 
-F 196,88,36
-C 135,206,235
+F 56,62,66
+C 47,79,79
 
         1111111111111111111111111
         1000000000110000000000001

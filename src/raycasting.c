@@ -154,11 +154,11 @@ void	draw_column(t_cub3d *cub, int x)
 	while (++i < SCREEN_H)
 	{
 		if (i < cub->ray.line_info.drawstart)
-			color = distance_shade(cub->config.ceiling.rgb, (double) i / (SCREEN_H / 12));
+			color = distance_shade(cub->config.ceiling.rgb, (double) i / (SCREEN_H / 6.5));
 		else if (i <= cub->ray.line_info.drawend)
 			color = distance_shade(get_tex_color(cub), cub->ray.line_info.perpwalldist);
 		else
-			color = distance_shade(cub->config.floor.rgb,  ((double) SCREEN_H - i) / (SCREEN_H / 12));
+			color = distance_shade(cub->config.floor.rgb,  ((double) SCREEN_H - i) / (SCREEN_H / 6.5));
 		my_mlx_pixel_put(&cub->screen, x, i, color);
 	}
 }

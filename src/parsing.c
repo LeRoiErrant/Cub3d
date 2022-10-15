@@ -6,16 +6,19 @@ void	load_tex(t_cub3d *cub, t_img *tex, char *path)
 	tex->addr = mlx_get_data_addr(tex->img, &tex->bpp, &tex->ll, &tex->endian);
 }
 
-void	path_to_img(t_cub3d *cub)
+int	path_to_img(t_cub3d *cub)
 {
 	int	i;
+	int	check;
 
 	i = -1;
+	check = SUCCESS;
 	while (++i < TEX_END)
 	{
 		cub->tex[i] = ft_calloc(1, sizeof(t_img));
 		load_tex(cub, cub->tex[i], cub->config.path[i]);
 	}
+	return (check);
 }
 
 static int	fill_config_path(char *config, t_cub3d *cub)

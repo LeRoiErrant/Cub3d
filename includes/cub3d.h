@@ -287,7 +287,7 @@ void	init_screen_win(t_cub3d *cub);
 void 	d_cell(t_img *img, int x, int y, int color);
 void 	ver_line(t_img *img, int x, int length, int color);
 int		distance_shade(int color, double distance);
-void	path_to_img(t_cub3d *cub);
+int		path_to_img(t_cub3d *cub);
 int		get_color(t_img *img, int x, int y);
 
 #endif
