@@ -166,6 +166,24 @@ static int	create_trgb(t_rgb rgb)
 	return (t << 24 | rgb.red << 16 | rgb.green << 8 | rgb.blue);
 }
 
+int	mouse_move(int x, int y, t_cub3d *cub)
+{
+	float	rotspeed;
+	float	olddirx;
+	float	oldplanex;
+
+	(void) y;
+	rotspeed = ((float) (x - SCREEN_W / 2)) / 500.0;
+	olddirx = cub->dir.x;
+	oldplanex = cub->plane.x;
+	cub->dir.x = cub->dir.x * cos(-rotspeed) - cub->dir.y * sin(-rotspeed);
+	cub->dir.y = olddirx * sin(-rotspeed) + cub->dir.y * cos(-rotspeed);
+	cub->plane.x = cub->plane.x * cos(-rotspeed) - cub->plane.y * sin(-rotspeed);
+	cub->plane.y = oldplanex * sin(-rotspeed) + cub->plane.y * cos(-rotspeed);
+	mlx_mouse_move(cub->win, (int)(SCREEN_W / 2), (int)(SCREEN_H / 2));
+	return (0);
+}
+
 static t_img	init_bground(t_cub3d *cub)
 {
 	t_img	bground;
@@ -190,11 +208,13 @@ void	loop(t_cub3d *cub)
 	init_buffer(&cub->buf, cub);
 	//init_textures(cub);
 	init_bground(cub);
+	mlx_mouse_move(cub->win, (int)(SCREEN_W / 2), (int)(SCREEN_H / 2));
+	mlx_mouse_hide(cub->win);
 	mlx_hook(cub->win, ON_KEYDOWN, 0, key_down, cub);
 	mlx_hook(cub->win, ON_KEYUP, 0, key_release, cub);
 	mlx_hook(cub->win, ON_DESTROY, 0, exit_cub, cub);
-	if (path_to_img(cub))
-		return;
+	mlx_hook(cub->win, ON_MOUSEMOVE, 0, mouse_move, cub);
+	path_to_img(cub);
 	mlx_loop_hook(cub->mlx, &update, cub);
 	mlx_loop(cub->mlx);
 }
