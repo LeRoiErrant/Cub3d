@@ -8,10 +8,10 @@ static void	init_config(t_cub3d *cub)
 	cub->config.floor.red = -1;
 	cub->config.floor.green = -1;
 	cub->config.floor.blue = -1;
-	cub->config.path_n = NULL;
-	cub->config.path_e = NULL;
-	cub->config.path_s = NULL;
-	cub->config.path_w = NULL;
+	cub->config.path[TEX_NO] = NULL;
+	cub->config.path[TEX_WE] = NULL;
+	cub->config.path[TEX_SO] = NULL;
+	cub->config.path[TEX_EA] = NULL;
 	cub->config.movespeed = 0.02;
 	cub->config.rotspeed = 0.02;
 	cub->config.map_w = 0;
@@ -24,14 +24,14 @@ void	init_buffer(t_img *buf, t_cub3d *cub)
 	buf->addr = mlx_get_data_addr(buf->img, &buf->bpp, &buf->ll, &buf->endian);
 }
 
-static int	init_img(t_img *img, t_cub3d *cub)
+/*static int	init_img(t_img *img, t_cub3d *cub)
 {
 	if (!img)
 		return (cub_error(E_MALLOC, STDERR_FILENO));
-	img->img = mlx_xpm_file_to_image(cub->mlx, cub->config.path_n, &img->w, &img->h);
+	img->img = mlx_xpm_file_to_image(cub->mlx, cub->config.path[TEX_NO], &img->w, &img->h);
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->ll, &img->endian);
 	return (SUCCESS);
-}
+}*/
 
 //TODO Valeur de retour pour le malloc des erreurs ?
 void	init_cub(t_cub3d *cub)
@@ -44,10 +44,11 @@ void	init_cub(t_cub3d *cub)
 	cub->map = NULL;
 	cub->tmp = NULL;
 	cub->errnum = SUCCESS;
+	cub->color = 0;
 	init_config(cub);
 }
 
-void	init_textures(t_cub3d *cub)
+/*void	init_textures(t_cub3d *cub)
 {
 	cub->textures.north = ft_calloc(1, sizeof(t_img));
 	cub->textures.south = ft_calloc(1, sizeof(t_img));
@@ -57,4 +58,4 @@ void	init_textures(t_cub3d *cub)
 	init_img(cub->textures.south, cub);
 	init_img(cub->textures.east, cub);
 	init_img(cub->textures.west, cub);
-}
+}*/
