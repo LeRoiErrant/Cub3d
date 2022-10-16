@@ -177,11 +177,13 @@ void	check_door_hit(t_cub3d *cub)
 		check_door_hit_y(cub);
 }
 
-void	check_door(t_cub3d *cub, int x, int y)
+void	check_door(t_cub3d *cub, int x, int y, t_ipos d)
 {
 	if (x < 0 || SCREEN_H <= x || y < 0 || SCREEN_W <= y)
 		return;
-	if (cub->map[x][y] == 'O')
+	if (x - d.x < 0 || SCREEN_H <= x - d.x || y - d.y < 0 || SCREEN_W <= y - d.y)
+		return;	
+	if (cub->map[x][y] == 'O' && cub->map[x - d.x][y - d.y] == '1')
 		cub->ray.door.tex = TEX_OPN;
 	else
 		cub->ray.door.tex = 0;
@@ -189,15 +191,21 @@ void	check_door(t_cub3d *cub, int x, int y)
 
 void	check_open_door(t_cub3d *cub, int x, int y, int side)
 {
+	t_ipos	d;
+
 	cub->ray.hit = 1;
-	if (side == TEX_NO)
-		check_door(cub, x - cub->ray.step.x, y);
-	else if (side == TEX_SO)
-		check_door(cub, x - cub->ray.step.x, y);
-	else if (side == TEX_WE)
-		check_door(cub, x, y - cub->ray.step.y);
-	else
-		check_door(cub, x, y - cub->ray.step.y);
+	d.x = 0;
+	d.y = 0;
+	if (side == TEX_NO || side == TEX_SO)
+	{
+		d.x = cub->ray.step.x;
+		check_door(cub, x - cub->ray.step.x, y, d);
+	}
+	else if (side == TEX_WE || side == TEX_EA)
+	{
+		d.y = cub->ray.step.y;
+		check_door(cub, x, y - cub->ray.step.y, d);
+	}
 }
 
 void	does_it_hit(t_cub3d *cub)
