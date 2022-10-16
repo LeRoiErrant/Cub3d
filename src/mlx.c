@@ -54,7 +54,7 @@ void	move_validation(t_cub3d *cub, t_dpos move)
 
 	coord.x = (int) (cub->pos.x + move.x);
 	coord.y = (int) (cub->pos.y + move.y);
-	if (cub->map[coord.x][coord.y] == '1')
+	if (cub->map[coord.x][coord.y] == '1' || cub->map[coord.x][coord.y] == 'D')
 		return;
 	cub->pos.x += move.x;
 	cub->pos.y += move.y;

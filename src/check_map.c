@@ -33,7 +33,7 @@ int	check_char(char **map, t_cub3d *cub)
 
 	player_count = 0;
 	i = 5;
-	set = " 01NSEW";
+	set = " 01DONSEW";
 	while (map[++i])
 	{
 		j = -1;
@@ -41,7 +41,7 @@ int	check_char(char **map, t_cub3d *cub)
 		{
 			if (!ft_strchr(set, map[i][j]))
 				return (cub_error(E_CHAR, STDERR_FILENO));
-			if (ft_strchr(set + 3, map[i][j]))
+			if (ft_strchr(set + 5, map[i][j]))
 			{
 				cub->pos.x = i - 6 + 0.5;
 				cub->pos.y = j + 0.5;

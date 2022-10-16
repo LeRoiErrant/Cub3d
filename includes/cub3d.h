@@ -113,8 +113,17 @@ enum e_tex
 	TEX_WE,
 	TEX_SO,
 	TEX_EA,
+	TEX_D_OPN,
+	TEX_D_CLS,
 	TEX_END
 };
+
+typedef struct s_door
+{
+	int	state;
+	int	tex;
+}	t_door;
+
 typedef struct s_img
 {
 	void	*img;
@@ -191,10 +200,11 @@ typedef struct s_raycast
 	t_dpos	raydir;
 	t_dpos	deltadist;
 	t_dpos	camera;
-	t_ipos	map;
+	t_dpos	map;
 	t_ipos	step;
 	int		hit;
 	int		side;
+	t_door	door;
 	int		line;
 	t_line	line_info;
 }	t_raycast;

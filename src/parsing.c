@@ -82,6 +82,17 @@ static void	fill_config_color(char *config, t_cub3d *cub)
 	}
 }
 
+static int	config_doors(t_cub3d *cub)
+{
+	cub->config.path[TEX_D_CLS] = ft_strdup("./assets/vheran/42/closed.xpm");
+	if (check_path(cub->config.path[TEX_D_CLS]))
+		return (E_PATH);
+	cub->config.path[TEX_D_OPN] = ft_strdup("./assets/vheran/42/open.xpm");
+	if (check_path(cub->config.path[TEX_D_OPN]))
+		return (E_PATH);
+	return (SUCCESS);
+}
+
 static int	fill_config(char **config, t_cub3d *cub)
 {
 	int	i;
@@ -94,6 +105,8 @@ static int	fill_config(char **config, t_cub3d *cub)
 			return (E_PATH);
 		fill_config_color(config[i], cub);
 	}
+	if (config_doors(cub))
+		return (E_PATH);
 	if (i < 6)
 		return (cub_error(E_CONFIG, STDERR_FILENO));
 	return (check_config(cub));

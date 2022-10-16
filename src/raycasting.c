@@ -100,10 +100,83 @@ void	first_step(t_cub3d *cub)
 	}
 }
 
+
+double	calculate_perp_dist(t_cub3d *cub)
+{
+	if (cub->ray.side % 2 == SIDE_X)
+		return (cub->ray.sidedist.x - cub->ray.deltadist.x);
+	else
+		return (cub->ray.sidedist.y - cub->ray.deltadist.y);
+}
+
+double	door_offset(t_config *config, int x, int y)
+{
+	if (x >= 0 && x < config->map_w && y >= 0 && y < config->map_h)
+		return (x + y * config->map_w);
+	else
+		return ((double)0);
+}
+
+void	check_door_hit_x(t_cub3d* cub)
+{
+	//! Est-ce que le rayon frappe la porte au centre de la case ou les murs latéraux.
+	/*double	offset;
+	double	wall;
+
+	offset = 0.5 * cub->ray.step.x;
+	offset += (1 - cub->ray.step.x) / 2;
+	cub->ray.line_info.perpwalldist = cub->ray.map.x - cub->pos.x + offset;
+	cub->ray.line_info.perpwalldist /= cub->ray.raydir.x;
+	wall = cub->pos.y + cub->ray.line_info.perpwalldist * cub->ray.raydir.x;
+	wall -= (int) wall;
+	if (cub->ray.sidedist.x - (cub->ray.deltadist.x / 2) >= cub->ray.sidedist.y)
+	{
+		cub->ray.map.y += cub->ray.step.y;
+		cub->ray.side = SIDE_Y;
+		cub->ray.door.tex = TEX_EA;
+	}
+	else
+		cub->ray.door.tex = TEX_D_CLS;*/
+	cub->ray.hit = 0;
+
+}
+
+void	check_door_hit_y(t_cub3d* cub)
+{
+	cub->ray.hit = 0;
+}
+
+void	check_door_hit(t_cub3d *cub)
+{
+	cub->ray.hit = 1;
+	//! On vérifie si la porte est horizontale ou verticale sur la map
+	if (cub->ray.side % 2 == SIDE_X)
+		check_door_hit_x(cub);
+	else
+		check_door_hit_y(cub);
+}
+
+void	does_it_hit(t_cub3d *cub)
+{
+	t_ipos	i;
+
+	i.x = (int) floor(cub->ray.map.x);
+	i.y = (int) floor(cub->ray.map.y);
+	if (cub->map[i.x][i.y] == '1')
+	{
+		cub->ray.hit = 1;
+		//? Calculate distance of perpendicular ray (Euclidean distance would give fisheye effect!)
+		cub->ray.line_info.perpwalldist = calculate_perp_dist(cub);
+	}
+	else if (cub->map[i.x][i.y] == 'D' || cub->map[i.x][i.y] == 'O')
+		check_door_hit(cub);
+}
+
 void	run_dda(t_cub3d *cub)
 {
 	while (cub->ray.hit == 0)
 	{
+		cub->ray.door.state = 0;
 		//? jump to next map square, either in x-direction, or in y-direction
 		if (cub->ray.sidedist.x < cub->ray.sidedist.y)
 		{
@@ -124,24 +197,19 @@ void	run_dda(t_cub3d *cub)
 				cub->ray.side = TEX_EA;
 		}
 		//? Check if ray has hit a wall
-		if (cub->map[cub->ray.map.x][cub->ray.map.y] == '1')
-			cub->ray.hit = 1;
+		does_it_hit(cub);
 	}
 }
 
-double	calculate_perp_dist(t_cub3d *cub)
-{
-	if (cub->ray.side % 2 == SIDE_X)
-		return (cub->ray.sidedist.x - cub->ray.deltadist.x);
-	else
-		return (cub->ray.sidedist.y - cub->ray.deltadist.y);
-}
 
 int	get_tex_color(t_cub3d *cub)
 {
 	cub->o_tex.y = (int) cub->o_tex.pos & (TEXTURE_H - 1);
 	cub->o_tex.pos += cub->o_tex.step;
-	cub->o_tex.color = get_color(cub->tex[cub->ray.side], cub->o_tex.x, cub->o_tex.y);
+	if (!cub->ray.door.state)
+		cub->o_tex.color = get_color(cub->tex[cub->ray.side], cub->o_tex.x, cub->o_tex.y);
+	else
+		cub->o_tex.color = get_color(cub->tex[cub->ray.door.tex], cub->o_tex.x, cub->o_tex.y);
 	return (cub->o_tex.color);
 }
 
@@ -153,13 +221,20 @@ void	draw_column(t_cub3d *cub, int x)
 	i = -1;
 	while (++i < SCREEN_H)
 	{
-		if (i < cub->ray.line_info.drawstart)
+		/*if (i < cub->ray.line_info.drawstart)
 			color = distance_shade(cub->config.ceiling.rgb, (double) i / (SCREEN_H / 6.5));
 		else if (i <= cub->ray.line_info.drawend)
 			color = distance_shade(get_tex_color(cub), cub->ray.line_info.perpwalldist);
 		else
-			color = distance_shade(cub->config.floor.rgb,  ((double) SCREEN_H - i) / (SCREEN_H / 6.5));
-		my_mlx_pixel_put(&cub->screen, x, i, color);
+			color = distance_shade(cub->config.floor.rgb,  ((double) SCREEN_H - i) / (SCREEN_H / 6.5));*/
+		if (i < cub->ray.line_info.drawstart)
+			color = cub->config.ceiling.rgb;
+		else if (i <= cub->ray.line_info.drawend)
+			color = get_tex_color(cub);
+		else
+			color = cub->config.floor.rgb;
+		if (color)
+			my_mlx_pixel_put(&cub->screen, x, i, color);
 	}
 }
 
@@ -173,6 +248,7 @@ int	raycasting(t_cub3d *cub)
 	x = -1;
 	while (++x < SCREEN_W)
 	{
+		cub->ray.door.state = 0;
 		//? calculate ray position and direction
 		cub->ray.camera.x = 2 * x / (double) SCREEN_W - 1;
 		cub->ray.raydir.x = cub->dir.x + cub->plane.x * cub->ray.camera.x;
@@ -197,9 +273,6 @@ int	raycasting(t_cub3d *cub)
 		//? perform DDA
 		run_dda(cub);
 		
-		//? Calculate distance of perpendicular ray (Euclidean distance would give fisheye effect!)
-		cub->ray.line_info.perpwalldist = calculate_perp_dist(cub);
-
 		//? Calculate height of line to draw on screen
 		cub->ray.line_info.height = (int) (SCREEN_H / cub->ray.line_info.perpwalldist);
 
