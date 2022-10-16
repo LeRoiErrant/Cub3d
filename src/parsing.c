@@ -84,11 +84,14 @@ static void	fill_config_color(char *config, t_cub3d *cub)
 
 static int	config_doors(t_cub3d *cub)
 {
-	cub->config.path[TEX_D_CLS] = ft_strdup("./assets/vheran/42/closed.xpm");
-	if (check_path(cub->config.path[TEX_D_CLS]))
+	cub->config.path[TEX_CLS] = ft_strdup("./assets/vheran/42/closed.xpm");
+	if (check_path(cub->config.path[TEX_CLS]))
 		return (E_PATH);
-	cub->config.path[TEX_D_OPN] = ft_strdup("./assets/vheran/42/open.xpm");
-	if (check_path(cub->config.path[TEX_D_OPN]))
+	cub->config.path[TEX_OPN] = ft_strdup("./assets/vheran/42/open.xpm");
+	if (check_path(cub->config.path[TEX_OPN]))
+		return (E_PATH);
+	cub->config.path[TEX_SIDE] = ft_strdup("./assets/vheran/42/side.xpm");
+	if (check_path(cub->config.path[TEX_SIDE]))
 		return (E_PATH);
 	return (SUCCESS);
 }

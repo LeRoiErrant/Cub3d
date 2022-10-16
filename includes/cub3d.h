@@ -113,8 +113,9 @@ enum e_tex
 	TEX_WE,
 	TEX_SO,
 	TEX_EA,
-	TEX_D_OPN,
-	TEX_D_CLS,
+	TEX_OPN,
+	TEX_CLS,
+	TEX_SIDE,
 	TEX_END
 };
 

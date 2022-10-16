@@ -137,11 +137,11 @@ void	check_door_hit_x(t_cub3d* cub)
 		cub->ray.map.y += cub->ray.step.y;
 		cub->ray.sidedist.y += cub->ray.deltadist.y;
 		cub->ray.side = SIDE_Y;
-		cub->ray.door.tex = TEX_D_CLS;
+		cub->ray.door.tex = TEX_SIDE;
 		cub->ray.line_info.perpwalldist = 0;
 	}
 	else
-		cub->ray.door.tex = TEX_D_CLS;
+		cub->ray.door.tex = TEX_CLS;
 }
 
 void	check_door_hit_y(t_cub3d* cub)
@@ -160,11 +160,11 @@ void	check_door_hit_y(t_cub3d* cub)
 		cub->ray.map.x += cub->ray.step.x;
 		cub->ray.sidedist.x += cub->ray.deltadist.x;
 		cub->ray.side = SIDE_X;
-		cub->ray.door.tex = TEX_D_CLS;
+		cub->ray.door.tex = TEX_SIDE;
 		cub->ray.line_info.perpwalldist = 0;
 	}
 	else
-		cub->ray.door.tex = TEX_D_CLS;
+		cub->ray.door.tex = TEX_CLS;
 }
 
 void	check_door_hit(t_cub3d *cub)
@@ -182,30 +182,32 @@ void	check_door(t_cub3d *cub, int x, int y)
 	if (x < 0 || SCREEN_H <= x || y < 0 || SCREEN_W <= y)
 		return;
 	if (cub->map[x][y] == 'O')
-		cub->ray.door.tex = TEX_D_CLS;
+		cub->ray.door.tex = TEX_OPN;
+	else
+		cub->ray.door.tex = 0;
 }
 
 void	check_open_door(t_cub3d *cub, int x, int y, int side)
 {
 	cub->ray.hit = 1;
 	if (side == TEX_NO)
-		check_door(cub, x + 1, y);
+		check_door(cub, x - cub->ray.step.x, y);
 	else if (side == TEX_SO)
-		check_door(cub, x - 1, y);
+		check_door(cub, x - cub->ray.step.x, y);
 	else if (side == TEX_WE)
-		check_door(cub, x, y + 1);
+		check_door(cub, x, y - cub->ray.step.y);
 	else
-		check_door(cub, x, y - 1);
+		check_door(cub, x, y - cub->ray.step.y);
 }
 
 void	does_it_hit(t_cub3d *cub)
 {
 	t_ipos	i;
 
-	i.x = (int) floor(cub->ray.map.x);
-	i.y = (int) floor(cub->ray.map.y);
+	i.x = (int) cub->ray.map.x;
+	i.y = (int) cub->ray.map.y;
 	if (cub->map[i.x][i.y] == '1')
-		check_open_door(cub, i.x, i.x, cub->ray.side);
+		check_open_door(cub, i.x, i.y, cub->ray.side);
 	else if (cub->map[i.x][i.y] == 'D')
 		check_door_hit(cub);
 }
@@ -311,7 +313,6 @@ int	raycasting(t_cub3d *cub)
 
 		//? perform DDA
 		run_dda(cub);
-		
 		//? Calculate distance of perpendicular ray (Euclidean distance would give fisheye effect!)
 		if (!cub->ray.line_info.perpwalldist)
 			cub->ray.line_info.perpwalldist = calculate_perp_dist(cub);

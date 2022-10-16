@@ -61,9 +61,6 @@ t_ipos	door_range(t_cub3d *cub)
 	coord.y = (int) (cub->pos.y + (mult * cub->ray.step.y));
 	while (loop && mult <= 1.5)
 	{
-		printf("loop mult: %f\n", mult);
-		printf("coord.x: %i .y: %i\n", coord.x, coord.y);
-		printf("Map[%i][%i] = %c\n", coord.x, coord.y, cub->map[coord.x][coord.y]);
 		if (cub->map[coord.x][coord.y] == 'D' || cub->map[coord.x][coord.y] == 'O')
 			loop = 0;
 		else
@@ -73,7 +70,6 @@ t_ipos	door_range(t_cub3d *cub)
 			coord.y = (int) (cub->pos.y + (mult * cub->dir.y));
 		}
 	}
-	printf("mult: %f\n", mult);
 	return (coord);
 }
 
@@ -82,10 +78,6 @@ void	open_door(t_cub3d *cub)
 	t_ipos	coord;
 
 	coord = door_range(cub);
-	printf("pos.x: %i .y: %i\n", (int) cub->pos.x, (int) cub->pos.y);
-	printf("Dir.x: %f .y: %f\n", cub->dir.x, cub->dir.y);
-	printf("coord.x: %i .y: %i\n", coord.x, coord.y);
-	printf("Map[%i][%i] = %c\n", coord.x, coord.y, cub->map[coord.x][coord.y]);
 	if (cub->map[coord.x][coord.y] == 'D')
 		cub->map[coord.x][coord.y] = 'O';
 	else if (cub->map[coord.x][coord.y] == 'O')
