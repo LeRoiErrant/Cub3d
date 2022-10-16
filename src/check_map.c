@@ -10,7 +10,7 @@ void	get_initial_direction(t_cub3d *cub, char pc)
 	else if (pc == 'S')
 	{
 		cub->dir.x = 1.0;
-		cub->plane.y = 0.66;
+		cub->plane.y = -0.66;
 	}
 	else if (pc == 'E')
 	{
@@ -20,7 +20,7 @@ void	get_initial_direction(t_cub3d *cub, char pc)
 	else
 	{
 		cub->dir.y = -1.0;
-		cub->plane.x = 0.66;
+		cub->plane.x = -0.66;
 	}
 }
 
