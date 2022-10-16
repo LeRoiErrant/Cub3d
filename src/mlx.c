@@ -48,6 +48,50 @@ void	update_cam(t_cub3d *cub)
     }
 }
 
+t_ipos	door_range(t_cub3d *cub)
+{
+	t_ipos	coord;
+	int		loop;
+	double	mult;
+
+	
+	loop = 1;
+	mult = 0.1;
+	coord.x = (int) (cub->pos.x + (mult * cub->ray.step.x));
+	coord.y = (int) (cub->pos.y + (mult * cub->ray.step.y));
+	while (loop && mult <= 1.5)
+	{
+		printf("loop mult: %f\n", mult);
+		printf("coord.x: %i .y: %i\n", coord.x, coord.y);
+		printf("Map[%i][%i] = %c\n", coord.x, coord.y, cub->map[coord.x][coord.y]);
+		if (cub->map[coord.x][coord.y] == 'D' || cub->map[coord.x][coord.y] == 'O')
+			loop = 0;
+		else
+		{
+			mult += 0.1;
+			coord.x = (int) (cub->pos.x + (mult * cub->dir.x));
+			coord.y = (int) (cub->pos.y + (mult * cub->dir.y));
+		}
+	}
+	printf("mult: %f\n", mult);
+	return (coord);
+}
+
+void	open_door(t_cub3d *cub)
+{
+	t_ipos	coord;
+
+	coord = door_range(cub);
+	printf("pos.x: %i .y: %i\n", (int) cub->pos.x, (int) cub->pos.y);
+	printf("Dir.x: %f .y: %f\n", cub->dir.x, cub->dir.y);
+	printf("coord.x: %i .y: %i\n", coord.x, coord.y);
+	printf("Map[%i][%i] = %c\n", coord.x, coord.y, cub->map[coord.x][coord.y]);
+	if (cub->map[coord.x][coord.y] == 'D')
+		cub->map[coord.x][coord.y] = 'O';
+	else if (cub->map[coord.x][coord.y] == 'O')
+		cub->map[coord.x][coord.y] = 'D';	
+}
+
 void	move_validation(t_cub3d *cub, t_dpos move)
 {
 	t_ipos	coord;
@@ -127,6 +171,8 @@ int	key_release(int keycode, t_cub3d *cub)
 		cub->engine.rot.right = 0;
     if (keycode == KEY_LEFT)
 		cub->engine.rot.left = 0;
+	if (keycode == KEY_E)
+		open_door(cub);
 	return (0);
 }
 
