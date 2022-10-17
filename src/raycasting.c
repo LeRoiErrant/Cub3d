@@ -263,24 +263,18 @@ int	get_tex_color(t_cub3d *cub)
 
 void	draw_column(t_cub3d *cub, int x)
 {
-	int	i;
-	int	color;
+	int		i;
+	int		color;
 
 	i = -1;
 	while (++i < SCREEN_H)
 	{
-		/*if (i < cub->ray.line_info.drawstart)
+		if (i < cub->ray.line_info.drawstart)
 			color = distance_shade(cub->config.ceiling.rgb, (double) i / (SCREEN_H / 6.5));
 		else if (i <= cub->ray.line_info.drawend)
 			color = distance_shade(get_tex_color(cub), cub->ray.line_info.perpwalldist);
 		else
-			color = distance_shade(cub->config.floor.rgb,  ((double) SCREEN_H - i) / (SCREEN_H / 6.5));*/
-		if (i < cub->ray.line_info.drawstart)
-			color = cub->config.ceiling.rgb;
-		else if (i <= cub->ray.line_info.drawend)
-			color = get_tex_color(cub);
-		else
-			color = cub->config.floor.rgb;
+			color = distance_shade(cub->config.floor.rgb,  ((double) SCREEN_H - i) / (SCREEN_H / 6.5));
 		if (color)
 			my_mlx_pixel_put(&cub->screen, x, i, color);
 	}
