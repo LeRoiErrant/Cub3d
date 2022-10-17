@@ -76,11 +76,15 @@ t_ipos	door_range(t_cub3d *cub)
 void	open_door(t_cub3d *cub)
 {
 	t_ipos	coord;
+	int		pos_x;
+	int		pos_y;
 
 	coord = door_range(cub);
+	pos_x = (int) cub->pos.x;
+	pos_y = (int) cub->pos.y;
 	if (cub->map[coord.x][coord.y] == 'D')
 		cub->map[coord.x][coord.y] = 'O';
-	else if (cub->map[coord.x][coord.y] == 'O')
+	else if (cub->map[coord.x][coord.y] == 'O' && cub->map[pos_x][pos_y] != 'O')
 		cub->map[coord.x][coord.y] = 'D';	
 }
 

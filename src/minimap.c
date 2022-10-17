@@ -111,6 +111,8 @@ int	get_map_color(t_cub3d *cub, int x, int y)
 	(void) y;
 	if (cub->map[x][y] == '1')
 		return (HEX_DARK_RED);
+	else if (cub->map[x][y] == 'D')
+		return (HEX_DARK_BLUE);
 	else if (cub->map[x][y] != '.')
 		return (0x00AAAAAA);
 	else

@@ -13,8 +13,8 @@
 # include <limits.h>
 # include <stdint.h>
 
-# define SCREEN_W 640
-# define SCREEN_H 480
+# define SCREEN_W 1920
+# define SCREEN_H 1080
 
 /*# define SCREEN_W 1920
 # define SCREEN_H 1080*/
@@ -45,6 +45,8 @@
 # define HEX_DARK_RED 0x00AB0000
 # define HEX_GREEN 0x0000FF00
 # define HEX_DARK_GREEN 0x0000AB00
+# define HEX_BLUE 0x000000FF
+# define HEX_DARK_BLUE 0x000000AB
 
 enum e_error
 {
