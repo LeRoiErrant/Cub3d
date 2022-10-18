@@ -112,10 +112,10 @@ static int	config_guns(t_cub3d *cub)
 		return (E_PATH);
 	cub->config.path[TEX_GUN4] = ft_strdup("./assets/weapons/gun04.xpm");
 	if (check_path(cub->config.path[TEX_GUN4]))
-	return (E_PATH);
+		return (E_PATH);
 	cub->config.path[TEX_GUN5] = ft_strdup("./assets/weapons/gun05.xpm");
 	if (check_path(cub->config.path[TEX_GUN5]))
-	return (E_PATH);
+		return (E_PATH);
 	return (SUCCESS);
 }
 
