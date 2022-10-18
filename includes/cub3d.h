@@ -68,18 +68,18 @@ enum e_error
 
 enum e_key_event
 {
-	ON_KEYDOWN 		= 2,		//? int (*f)(int keycode, void *param)
-	ON_KEYUP 		= 3,		//? int (*f)(int keycode, void *param)
+	ON_KEYDOWN 		= 2,	//? int (*f)(int keycode, void *param)
+	ON_KEYUP 		= 3,	//? int (*f)(int keycode, void *param)
 	ON_MOUSEDOWN 	= 4,	//? int (*f)(int button, int x, int y, void *param)
-	ON_MOUSEUP 		= 5,		//? int (*f)(int button, int x, int y, void *param)
+	ON_MOUSEUP 		= 5,	//? int (*f)(int button, int x, int y, void *param)
 	ON_MOUSEMOVE 	= 6,	//? int (*f)(int x, int y, void *param)
-	ON_EXPOSE 		= 12,		//? int (*f)(void *param)
-	ON_DESTROY 		= 17		//? int (*f)(void *param)
+	ON_EXPOSE 		= 12,	//? int (*f)(void *param)
+	ON_DESTROY 		= 17	//? int (*f)(void *param)
 };
 
 enum e_mouse_event
 {
-	M_LEFT 			= 2,
+	M_LEFT 			= 1,
 	M_RIGHT 		= 2,
 	M_MIDDLE 		= 3,
 	M_SCROLLUP 		= 4,
@@ -118,6 +118,12 @@ enum e_tex
 	TEX_OPN,
 	TEX_CLS,
 	TEX_SIDE,
+	TEX_GUN0,
+	TEX_GUN1,
+	TEX_GUN2,
+	TEX_GUN3,
+	TEX_GUN4,
+	TEX_GUN5,
 	TEX_END
 };
 
@@ -242,6 +248,7 @@ typedef struct s_cub3d
 	t_img		screen;
 	t_img		bground;
 	t_img		minimap;
+	t_img		gun;
 	t_dpos		pos;
 	t_dpos		pc;
 	t_dpos		dir;
@@ -255,6 +262,7 @@ typedef struct s_cub3d
 	int			errnum;
 	int			reset_buffer;
 	int			color;
+	int			gun_frame;
 	t_ipos		coord_test;
 }	t_cub3d;
 

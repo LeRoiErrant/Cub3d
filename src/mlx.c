@@ -190,6 +190,21 @@ int	mouse_move(int x, int y, t_cub3d *cub)
 	return (0);
 }
 
+//TODO animation loop
+int	mouse_down(int button, int x, int y, t_cub3d *cub)
+{
+	(void) x;
+	(void) y;
+	if (button == M_LEFT)
+	{
+		if (cub->gun_frame < TEX_GUN5)
+			cub->gun_frame++;
+	}
+	if (cub->gun_frame == TEX_GUN5)
+		cub->gun_frame = TEX_GUN0;
+	return (SUCCESS);
+}
+
 void	draw_floor(t_cub3d *cub, t_img *img)
 {
 	int	start;
@@ -206,15 +221,23 @@ void	draw_floor(t_cub3d *cub, t_img *img)
 	}
 }
 
+//TODO animation loop
+void	gun(t_cub3d *cub)
+{	
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->tex[cub->gun_frame]->img, SCREEN_W / 2 - (cub->tex[cub->gun_frame]->w / 2), SCREEN_H - cub->tex[cub->gun_frame]->h);
+}
+
 int	update(t_cub3d *cub)
 {
 	init_screen_win(cub);
 	raycasting(cub);
 	minimap(cub);
+	gun(cub);
 	update_cam(cub);
 	update_pos(cub);
 	mlx_destroy_image(cub->mlx, cub->screen.img);
 	mlx_destroy_image(cub->mlx, cub->minimap.img);
+	mlx_destroy_image(cub->mlx, cub->gun.img);
 	return (0);
 }
 
@@ -256,6 +279,7 @@ void	loop(t_cub3d *cub)
 	mlx_hook(cub->win, ON_KEYUP, 0, key_release, cub);
 	mlx_hook(cub->win, ON_DESTROY, 0, exit_cub, cub);
 	mlx_hook(cub->win, ON_MOUSEMOVE, 0, mouse_move, cub);
+	mlx_hook(cub->win, ON_MOUSEDOWN, 0, mouse_down, cub);
 	path_to_img(cub);
 	mlx_loop_hook(cub->mlx, &update, cub);
 	mlx_loop(cub->mlx);

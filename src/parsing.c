@@ -96,6 +96,29 @@ static int	config_doors(t_cub3d *cub)
 	return (SUCCESS);
 }
 
+static int	config_guns(t_cub3d *cub)
+{
+	cub->config.path[TEX_GUN0] = ft_strdup("./assets/weapons/gun00.xpm");
+	if (check_path(cub->config.path[TEX_GUN0]))
+		return (E_PATH);
+	cub->config.path[TEX_GUN1] = ft_strdup("./assets/weapons/gun01.xpm");
+	if (check_path(cub->config.path[TEX_GUN1]))
+		return (E_PATH);
+	cub->config.path[TEX_GUN2] = ft_strdup("./assets/weapons/gun02.xpm");
+	if (check_path(cub->config.path[TEX_GUN2]))
+		return (E_PATH);
+	cub->config.path[TEX_GUN3] = ft_strdup("./assets/weapons/gun03.xpm");
+	if (check_path(cub->config.path[TEX_GUN3]))
+		return (E_PATH);
+	cub->config.path[TEX_GUN4] = ft_strdup("./assets/weapons/gun04.xpm");
+	if (check_path(cub->config.path[TEX_GUN4]))
+	return (E_PATH);
+	cub->config.path[TEX_GUN5] = ft_strdup("./assets/weapons/gun05.xpm");
+	if (check_path(cub->config.path[TEX_GUN5]))
+	return (E_PATH);
+	return (SUCCESS);
+}
+
 static int	fill_config(char **config, t_cub3d *cub)
 {
 	int	i;
@@ -109,6 +132,8 @@ static int	fill_config(char **config, t_cub3d *cub)
 		fill_config_color(config[i], cub);
 	}
 	if (config_doors(cub))
+		return (E_PATH);
+	if (config_guns(cub))
 		return (E_PATH);
 	if (i < 6)
 		return (cub_error(E_CONFIG, STDERR_FILENO));
