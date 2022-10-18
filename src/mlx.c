@@ -197,11 +197,11 @@ int	mouse_down(int button, int x, int y, t_cub3d *cub)
 	(void) y;
 	if (button == M_LEFT)
 	{
-		if (cub->gun_frame < TEX_GUN5)
+		if (cub->gun_frame == TEX_GUN5)
+			cub->gun_frame = TEX_GUN0;
+		else if (cub->gun_frame < TEX_GUN5)
 			cub->gun_frame++;
 	}
-	if (cub->gun_frame == TEX_GUN5)
-		cub->gun_frame = TEX_GUN0;
 	return (SUCCESS);
 }
 
