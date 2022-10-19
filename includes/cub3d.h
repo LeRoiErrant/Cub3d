@@ -249,6 +249,8 @@ typedef struct s_cub3d
 	t_img		bground;
 	t_img		minimap;
 	t_img		gun;
+	int			shoot;
+	int			framecount;
 	t_dpos		pos;
 	t_dpos		pc;
 	t_dpos		dir;

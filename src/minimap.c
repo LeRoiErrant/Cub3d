@@ -30,7 +30,6 @@ int	in_circle(float x, float y)
 void	draw_dir(t_img *img, t_cub3d *cub)
 {
 	t_ipos	i;
-	//int		is_it;
 	t_ipos	d;
 
 	d.x = (int) 5 * cub->dir.x;
@@ -40,11 +39,7 @@ void	draw_dir(t_img *img, t_cub3d *cub)
 	{
 		i.x = -1;
 		while (++i.x < 2)
-		{
-			/*is_it = in_circle((float)i.x, (float)i.y);
-			if (is_it)*/
 				my_mlx_pixel_put(img, i.x + 59 + d.y, i.y + 59 + d.x, 0x00000000);
-		}
 	}
 }
 

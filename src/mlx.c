@@ -196,12 +196,7 @@ int	mouse_down(int button, int x, int y, t_cub3d *cub)
 	(void) x;
 	(void) y;
 	if (button == M_LEFT)
-	{
-		if (cub->gun_frame == TEX_GUN5)
-			cub->gun_frame = TEX_GUN0;
-		else if (cub->gun_frame < TEX_GUN5)
-			cub->gun_frame++;
-	}
+		cub->shoot = 1;
 	return (SUCCESS);
 }
 
@@ -227,14 +222,34 @@ void	gun(t_cub3d *cub)
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->tex[cub->gun_frame]->img, SCREEN_W / 2 - (cub->tex[cub->gun_frame]->w / 2), SCREEN_H - cub->tex[cub->gun_frame]->h);
 }
 
+void	animation(t_cub3d *cub)
+{
+	if (cub->shoot)
+	{
+		cub->framecount++;
+		if (cub->framecount % 8 == 0)
+		{
+			if (cub->gun_frame == TEX_GUN5)
+			{
+				cub->gun_frame = TEX_GUN0;
+				cub->shoot = 0;
+				cub->framecount = 0;
+			}
+			else if (cub->gun_frame < TEX_GUN5)
+				cub->gun_frame++;
+		}
+	}
+}
+
 int	update(t_cub3d *cub)
 {
 	init_screen_win(cub);
 	raycasting(cub);
 	minimap(cub);
-	gun(cub);
 	update_cam(cub);
 	update_pos(cub);
+	animation(cub);
+	gun(cub);
 	mlx_destroy_image(cub->mlx, cub->screen.img);
 	mlx_destroy_image(cub->mlx, cub->minimap.img);
 	mlx_destroy_image(cub->mlx, cub->gun.img);
