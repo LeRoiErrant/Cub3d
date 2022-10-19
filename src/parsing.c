@@ -4,6 +4,7 @@ void	load_tex(t_cub3d *cub, t_img *tex, char *path)
 {
 	tex->img = mlx_xpm_file_to_image(cub->mlx, path, &tex->w, &tex->h);
 	tex->addr = mlx_get_data_addr(tex->img, &tex->bpp, &tex->ll, &tex->endian);
+	printf("tex: %s bpp: %i ll: %i endian: %i\n", path, tex->bpp, tex->ll, tex->endian);
 }
 
 int	path_to_img(t_cub3d *cub)
