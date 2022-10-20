@@ -1,5 +1,13 @@
 #include "../includes/cub3d.h"
 
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = img->addr + (y * img->ll + x * (img->bpp / 8));
+	*(unsigned int *)dst = color;
+}
+
 static int	shade_color(int color, double divide)
 {
 	if (divide <= 1.)
@@ -9,15 +17,12 @@ static int	shade_color(int color, double divide)
 		+ ((int)((0x0000FF & color) / divide)));
 }
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+int	distance_shade(int color, double distance)
 {
-	char	*dst;
-
-	dst = img->addr + (y * img->ll + x * (img->bpp / 8));
-	*(unsigned int *)dst = color;
+	return (shade_color(color, distance / 2.));
 }
 
-int	get_color(t_img *img, int x, int y)
+static int	get_color(t_img *img, int x, int y)
 {
 	char	*color;
 
@@ -34,9 +39,4 @@ int	get_tex_color(t_cub3d *cub)
 	else
 		cub->o_tex.color = get_color(cub->tex[cub->ray.door.tex], cub->o_tex.x, cub->o_tex.y);
 	return (cub->o_tex.color);
-}
-
-int	distance_shade(int color, double distance)
-{
-	return (shade_color(color, distance / 2.));
 }

@@ -2,7 +2,6 @@
 
 void	check_door_hit_x(t_cub3d* cub)
 {
-	//! Est-ce que le rayon frappe la porte au centre de la case ou les murs latéraux.
 	double	offset;
 	double	wall;
 	t_ipos	i;
@@ -27,7 +26,7 @@ void	check_door_hit_x(t_cub3d* cub)
 		cub->ray.door.tex = TEX_CLS;
 }
 
-void	check_door_hit_y(t_cub3d* cub)
+void	check_door_hit_y(t_cub3d *cub)
 {
 	double	offset;
 	double	wall;
@@ -53,7 +52,6 @@ void	check_door_hit_y(t_cub3d* cub)
 void	check_door_hit(t_cub3d *cub)
 {
 	cub->ray.hit = 1;
-	//! On vérifie si la porte est horizontale ou verticale sur la map
 	if (cub->ray.side % 2 == SIDE_X)
 		check_door_hit_x(cub);
 	else
@@ -63,9 +61,9 @@ void	check_door_hit(t_cub3d *cub)
 void	check_door(t_cub3d *cub, int x, int y, t_ipos d)
 {
 	if (x < 0 || SCREEN_H <= x || y < 0 || SCREEN_W <= y)
-		return;
+		return ;
 	if (x - d.x < 0 || SCREEN_H <= x - d.x || y - d.y < 0 || SCREEN_W <= y - d.y)
-		return;	
+		return ;
 	if (cub->map[x][y] == 'O' && cub->map[x - d.x][y - d.y] == '1')
 		cub->ray.door.tex = cub->door_side - 5;
 	else

@@ -44,3 +44,26 @@ int	config_doors(t_cub3d *cub)
 		return (E_PATH);
 	return (SUCCESS);
 }
+
+int	config_guns(t_cub3d *cub)
+{
+	cub->config.path[TEX_GUN0] = ft_strdup("./assets/vheran/Gun/gun00.xpm");
+	if (check_path(cub->config.path[TEX_GUN0]))
+		return (E_PATH);
+	cub->config.path[TEX_GUN1] = ft_strdup("./assets/vheran/Gun/gun01.xpm");
+	if (check_path(cub->config.path[TEX_GUN1]))
+		return (E_PATH);
+	cub->config.path[TEX_GUN2] = ft_strdup("./assets/vheran/Gun/gun02.xpm");
+	if (check_path(cub->config.path[TEX_GUN2]))
+		return (E_PATH);
+	cub->config.path[TEX_GUN3] = ft_strdup("./assets/vheran/Gun/gun03.xpm");
+	if (check_path(cub->config.path[TEX_GUN3]))
+		return (E_PATH);
+	cub->config.path[TEX_GUN4] = ft_strdup("./assets/vheran/Gun/gun04.xpm");
+	if (check_path(cub->config.path[TEX_GUN4]))
+		return (E_PATH);
+	cub->config.path[TEX_GUN5] = ft_strdup("./assets/vheran/Gun/gun05.xpm");
+	if (check_path(cub->config.path[TEX_GUN5]))
+		return (E_PATH);
+	return (SUCCESS);
+}

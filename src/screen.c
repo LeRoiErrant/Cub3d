@@ -3,7 +3,7 @@
 static t_img	init_screen(t_cub3d *cub)
 {
 	t_img	screen;
-	
+
 	screen.img = mlx_new_image(cub->mlx, SCREEN_W, SCREEN_H);
 	screen.addr = mlx_get_data_addr(screen.img, &screen.bpp, &screen.ll, &screen.endian);
 	return (screen);

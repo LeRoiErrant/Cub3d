@@ -101,12 +101,6 @@ void	free_cub(t_cub3d *cub)
 		if (cub->config.path[i])
 			free(cub->config.path[i]);
 	}
-	// free(cub->config.path[TEX_NO]);
-	// free(cub->config.path[TEX_SO]);
-	// free(cub->config.path[TEX_WE]);
-	// free(cub->config.path[TEX_EA]);
 	ft_free_matrix(&cub->map);
 	free(cub->tmp);
-	//mlx_destroy_image(cub->mlx, cub->screen.img);
-	//mlx_destroy_image(cub->mlx, cub->minimap.img);
 }

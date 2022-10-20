@@ -12,14 +12,14 @@ void	draw_dir(t_img *img, t_cub3d *cub)
 	{
 		i.x = -1;
 		while (++i.x < 2)
-				my_mlx_pixel_put(img, i.x + 59 + d.y, i.y + 59 + d.x, 0x00000000);
+			my_mlx_pixel_put(img, i.x + 59 + d.y, i.y + 59 + d.x, 0x00000000);
 	}
 }
 
 void	draw_pc(t_img *img, int color, t_cub3d *cub)
 {
 	t_ipos	i;
-	int	is_it;
+	int		is_it;
 
 	draw_dir(img, cub);
 	i.y = -1;
@@ -66,7 +66,7 @@ void	minimap(t_cub3d *cub)
 	mod.y = (int) cub->pc.y % 10;
 	coord.x = 10;
 	cell.x = -1;
-	while (++cell.x < 11) 
+	while (++cell.x < 11)
 	{
 		coord.y = 10;
 		cell.y = -1;

@@ -279,34 +279,88 @@ typedef struct s_cub3d
 	t_ipos		coord_test;
 }	t_cub3d;
 
+//animations.c
+void	anim_door(t_cub3d *cub);
+void	animation(t_cub3d *cub);
+
 // check_config.c
 int		check_extension(char *argv);
 int		check_config(t_cub3d *cub);
 int		check_path(char *path);
 
-//check_map.c
+// check_map.c
 int		check_char(char **map, t_cub3d *cub);
 int		check_borders(t_cub3d *cub);
 
-// init.c
-void	init_cub(t_cub3d *cub);
-void	init_buffer(t_img *buf, t_cub3d *cub);
-//void	init_textures(t_cub3d *cub);
+// color.c
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+int		distance_shade(int color, double distance);
+int		get_tex_color(t_cub3d *cub);
 
-// parsing.c
-int		parsing(char **argv, t_cub3d *cub);
+// door_open.c
+void	open_door(t_cub3d *cub);
 
-// mlx.c
+// door.c
+void	check_door_hit_x(t_cub3d* cub);
+void	check_door_hit_y(t_cub3d* cub);
+void	check_door_hit(t_cub3d *cub);
+void	check_door(t_cub3d *cub, int x, int y, t_ipos d);
+void	check_open_door(t_cub3d *cub, int x, int y, int side);
+
+// config.c
+int		fill_config_path(char *config, t_cub3d *cub);
+int		fill_config_color(char *config, t_cub3d *cub);
+
+// config_bonus.c
+int		config_doors(t_cub3d *cub);
+int		config_guns(t_cub3d *cub);
+
+// engine.c
+void	rotate_camera(int keycode, t_cub3d *cub);
+void	update_cam(t_cub3d *cub);
+void	move_validation(t_cub3d *cub, t_dpos move);
+void	update_pos(t_cub3d *cub);
+void	check_movement(int keycode, t_cub3d *cub);
+
+// hooks.c
 int		exit_cub(t_cub3d *cub);
 int		key_down(int keycode, t_cub3d *cub);
 int		key_release(int keycode, t_cub3d *cub);
+int		mouse_move(int x, int y, t_cub3d *cub);
+int		mouse_down(int button, int x, int y, t_cub3d *cub);
+
+// init.c
+int		init_cub(t_cub3d *cub);
+void	init_engine(t_cub3d *cub);
+int		init_tex(t_cub3d *cub);
+
+//minimap_utils.c
+void	get_start(t_cub3d *cub, t_ipos *start);
+int		get_map_color(t_cub3d *cub, int x, int y);
+int		is_not_in_map(t_cub3d *cub, t_ipos start, t_ipos cell);
+
+//minimap.c
+void	draw_dir(t_img *img, t_cub3d *cub);
+void	draw_pc(t_img *img, int color, t_cub3d *cub);
+void	draw_frame(t_img *img);
+void	minimap(t_cub3d *cub);
+
+// parsing.c
+int		parsing(char **argv, t_cub3d *cub);
+int		init_tex(t_cub3d *cub);
+
+// mlx.c
 void	loop(t_cub3d *cub);
+
+// raycasting_utils.c
+double	calculate_perp_dist(t_cub3d *cub);
+void	does_it_hit(t_cub3d *cub);
+void	draw_column(t_cub3d *cub, int x);
 
 // raycasting.c
 void	first_step(t_cub3d *cub);
 double	calculate_perp_dist(t_cub3d *cub);
 void	does_it_hit(t_cub3d *cub);
-void	run_dda(t_cub3d *cub);
 int		raycasting(t_cub3d *cub);
 
 // utils.c
@@ -318,52 +372,19 @@ int		count_space(char *str);
 int		get_map_size(char **config, t_cub3d *cub);
 void	free_cub(t_cub3d *cub);
 
-//minimap.c
-void	draw_dir(t_img *img, t_cub3d *cub);
-void	draw_pc(t_img *img, int color, t_cub3d *cub);
-void	draw_frame(t_img *img);
-void	minimap(t_cub3d *cub);
-
-//minimap_utils.c
-void	get_start(t_cub3d *cub, t_ipos *start);
-int		get_map_color(t_cub3d *cub, int x, int y);
-int		is_not_in_map(t_cub3d *cub, t_ipos start, t_ipos cell);
-
-void	init_engine(t_cub3d *cub);
-void	init_screen_win(t_cub3d *cub);
-
-int		path_to_img(t_cub3d *cub);
-
-//color.c
-int		get_color(t_img *img, int x, int y);
-int		get_tex_color(t_cub3d *cub);
-int		distance_shade(int color, double distance);
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
-
 //rgb.c
 int		get_t(int trgb);
 int		get_r(int trgb);
 int		get_g(int trgb);
 int		get_b(int trgb);
+int		create_trgb(t_rgb rgb);
 
-//door.c
-void	check_door_hit_x(t_cub3d* cub);
-void	check_door_hit_y(t_cub3d* cub);
-void	check_door_hit(t_cub3d *cub);
-void	check_door(t_cub3d *cub, int x, int y, t_ipos d);
-void	check_open_door(t_cub3d *cub, int x, int y, int side);
-
-//door_config.c
-int		config_doors(t_cub3d *cub);
+// screen.c
+void	init_screen_win(t_cub3d *cub);
 
 //shapes.c
 int		in_circle(float x, float y);
 void 	d_cell(t_img *img, int x, int y, int color);
 void 	ver_line(t_img *img, int x, int length, int color);
-void	draw_column(t_cub3d *cub, int x);
-
-//animations.c
-void	anim_door(t_cub3d *cub);
-void	animation(t_cub3d *cub);
 
 #endif

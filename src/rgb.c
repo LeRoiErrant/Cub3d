@@ -19,3 +19,11 @@ int	get_b(int trgb)
 {
 	return (trgb & 0xFF);
 }
+
+int	create_trgb(t_rgb rgb)
+{
+	int	t;
+
+	t = 0;
+	return (t << 24 | rgb.red << 16 | rgb.green << 8 | rgb.blue);
+}

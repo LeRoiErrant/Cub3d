@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-void	get_initial_direction(t_cub3d *cub, char pc)
+static void	get_initial_direction(t_cub3d *cub, char pc)
 {
 	if (pc == 'N')
 	{
@@ -114,7 +114,7 @@ int	check_borders(t_cub3d *cub)
 		return (cub_error(E_MAP, STDERR_FILENO));
 	i = -1;
 	while (++i < cub->config.map_w)
-		if (cub->map[0][i] == '0'|| cub->map[cub->config.map_h - 1][i] == '0')
+		if (cub->map[0][i] == '0' || cub->map[cub->config.map_h - 1][i] == '0')
 			return (cub_error(E_WALL, STDERR_FILENO));
 	i = -1;
 	while (++i < cub->config.map_h)
@@ -126,4 +126,3 @@ int	check_borders(t_cub3d *cub)
 		return (cub_error(E_WALL, STDERR_FILENO));
 	return (SUCCESS);
 }
-
