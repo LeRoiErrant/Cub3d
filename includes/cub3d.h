@@ -314,14 +314,33 @@ int		count_space(char *str);
 int		get_map_size(char **config, t_cub3d *cub);
 void	free_cub(t_cub3d *cub);
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+
 void	minimap(t_cub3d *cub);
 void	init_engine(t_cub3d *cub);
 void	init_screen_win(t_cub3d *cub);
 void 	d_cell(t_img *img, int x, int y, int color);
 void 	ver_line(t_img *img, int x, int length, int color);
-int		distance_shade(int color, double distance);
 int		path_to_img(t_cub3d *cub);
+
+//color.c
 int		get_color(t_img *img, int x, int y);
+int		distance_shade(int color, double distance);
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+
+//rgb.c
+int		get_t(int trgb);
+int		get_r(int trgb);
+int		get_g(int trgb);
+int		get_b(int trgb);
+
+//door.c
+void	check_door_hit_x(t_cub3d* cub);
+void	check_door_hit_y(t_cub3d* cub);
+void	check_door_hit(t_cub3d *cub);
+void	check_door(t_cub3d *cub, int x, int y, t_ipos d);
+void	check_open_door(t_cub3d *cub, int x, int y, int side);
+
+//door_config.c
+int		config_doors(t_cub3d *cub);
 
 #endif

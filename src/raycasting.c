@@ -1,41 +1,5 @@
 #include "../includes/cub3d.h"
 
-int	get_t(int trgb)
-{
-	return ((trgb >> 24) & 0xFF);
-}
-
-int	get_r(int trgb)
-{
-	return ((trgb >> 16) & 0xFF);
-}
-
-int	get_g(int trgb)
-{
-	return ((trgb >> 8) & 0xFF);
-}
-
-int	get_b(int trgb)
-{
-	return (trgb & 0xFF);
-}
-
-int	get_color(t_img *img, int x, int y)
-{
-	char	*color;
-
-	color = img->addr + (y * img->ll + x * (img->bpp / 8));
-	return (*(int *)color);
-}
-
-
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = img->addr + (y * img->ll + x * (img->bpp / 8));
-	*(unsigned int *)dst = color;
-}
 
 void ver_line(t_img *img, int x, int length, int color)
 {
@@ -68,14 +32,6 @@ void d_square(t_img *img, int x, int y, int length, int color)
 	}
 }
 
-/*double	get_deltadist(double ray_dir)
-{
-	if (ray_dir == 0)
-		return (1e30);
-	else
-		return (fabs(1 / ray_dir));
-}*/
-
 void	first_step(t_cub3d *cub)
 {
 	if (cub->ray.raydir.x < 0)
@@ -100,112 +56,12 @@ void	first_step(t_cub3d *cub)
 	}
 }
 
-
 double	calculate_perp_dist(t_cub3d *cub)
 {
 	if (cub->ray.side % 2 == SIDE_X)
 		return (cub->ray.sidedist.x - cub->ray.deltadist.x);
 	else
 		return (cub->ray.sidedist.y - cub->ray.deltadist.y);
-}
-
-double	door_offset(t_config *config, int x, int y)
-{
-	if (x >= 0 && x < config->map_w && y >= 0 && y < config->map_h)
-		return (3 + (x + y * config->map_w));
-	else
-		return ((double)0);
-}
-
-void	check_door_hit_x(t_cub3d* cub)
-{
-	//! Est-ce que le rayon frappe la porte au centre de la case ou les murs latéraux.
-	double	offset;
-	double	wall;
-	t_ipos	i;
-
-	i.x = cub->ray.map.x;
-	i.y = cub->ray.map.y;
-	offset = 0.5 * cub->ray.step.x;
-	offset += (1 - cub->ray.step.x) / 2;
-	cub->ray.line_info.perpwalldist = cub->ray.map.x - cub->pos.x + offset;
-	cub->ray.line_info.perpwalldist /= cub->ray.raydir.x;
-	wall = cub->pos.y + cub->ray.line_info.perpwalldist * cub->ray.raydir.x;
-	wall -= (int) wall;
-	if (cub->ray.sidedist.x - (cub->ray.deltadist.x / 2) >= cub->ray.sidedist.y)
-	{
-		cub->ray.map.y += cub->ray.step.y;
-		cub->ray.sidedist.y += cub->ray.deltadist.y;
-		cub->ray.side = SIDE_Y;
-		cub->ray.door.tex = cub->door_side;
-		cub->ray.line_info.perpwalldist = 0;
-	}
-	else
-		cub->ray.door.tex = TEX_CLS;
-}
-
-void	check_door_hit_y(t_cub3d* cub)
-{
-	double	offset;
-	double	wall;
-
-	offset = 0.5 * cub->ray.step.y;
-	offset += (1 - cub->ray.step.y) / 2;
-	cub->ray.line_info.perpwalldist = cub->ray.map.y - cub->pos.y + offset;
-	cub->ray.line_info.perpwalldist /= cub->ray.raydir.y;
-	wall = cub->pos.x + cub->ray.line_info.perpwalldist * cub->ray.raydir.y;
-	wall -= (int) wall;
-	if (cub->ray.sidedist.y - (cub->ray.deltadist.y / 2) >= cub->ray.sidedist.x)
-	{
-		cub->ray.map.x += cub->ray.step.x;
-		cub->ray.sidedist.x += cub->ray.deltadist.x;
-		cub->ray.side = SIDE_X;
-		cub->ray.door.tex = cub->door_side;
-		cub->ray.line_info.perpwalldist = 0;
-	}
-	else
-		cub->ray.door.tex = TEX_CLS;
-}
-
-void	check_door_hit(t_cub3d *cub)
-{
-	cub->ray.hit = 1;
-	//! On vérifie si la porte est horizontale ou verticale sur la map
-	if (cub->ray.side % 2 == SIDE_X)
-		check_door_hit_x(cub);
-	else
-		check_door_hit_y(cub);
-}
-
-void	check_door(t_cub3d *cub, int x, int y, t_ipos d)
-{
-	if (x < 0 || SCREEN_H <= x || y < 0 || SCREEN_W <= y)
-		return;
-	if (x - d.x < 0 || SCREEN_H <= x - d.x || y - d.y < 0 || SCREEN_W <= y - d.y)
-		return;	
-	if (cub->map[x][y] == 'O' && cub->map[x - d.x][y - d.y] == '1')
-		cub->ray.door.tex = cub->door_side - 5;
-	else
-		cub->ray.door.tex = 0;
-}
-
-void	check_open_door(t_cub3d *cub, int x, int y, int side)
-{
-	t_ipos	d;
-
-	cub->ray.hit = 1;
-	d.x = 0;
-	d.y = 0;
-	if (side == TEX_NO || side == TEX_SO)
-	{
-		d.x = cub->ray.step.x;
-		check_door(cub, x - cub->ray.step.x, y, d);
-	}
-	else if (side == TEX_WE || side == TEX_EA)
-	{
-		d.y = cub->ray.step.y;
-		check_door(cub, x, y - cub->ray.step.y, d);
-	}
 }
 
 void	does_it_hit(t_cub3d *cub)
