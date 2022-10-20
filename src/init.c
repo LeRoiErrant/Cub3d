@@ -45,6 +45,11 @@ void	init_cub(t_cub3d *cub)
 	cub->tmp = NULL;
 	cub->errnum = SUCCESS;
 	cub->color = 0;
+	cub->gun_frame = TEX_GUN0;
+	cub->shoot = 0;
+	cub->framecount = 0;
+	cub->g_framecount = 0;
+	cub->appear = 0;
 	init_config(cub);
 }
 

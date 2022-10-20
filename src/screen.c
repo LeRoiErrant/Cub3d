@@ -18,8 +18,18 @@ static t_img	init_minimap(t_cub3d *cub)
 	return (map);
 }
 
+static t_img	init_gun(t_cub3d *cub)
+{
+	t_img	gun;
+
+	gun.img = mlx_new_image(cub->mlx, cub->tex[cub->gun_frame]->w, cub->tex[cub->gun_frame]->h);
+	gun.addr = mlx_get_data_addr(gun.img, &gun.bpp, &gun.ll, &gun.endian);
+	return (gun);
+}
+
 void	init_screen_win(t_cub3d *cub)
 {
 	cub->screen = init_screen(cub);
 	cub->minimap = init_minimap(cub);
+	cub->gun = init_gun(cub);
 }

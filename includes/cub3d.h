@@ -45,6 +45,8 @@
 # define HEX_DARK_RED 0x00AB0000
 # define HEX_GREEN 0x0000FF00
 # define HEX_DARK_GREEN 0x0000AB00
+# define HEX_BLUE 0x000000FF
+# define HEX_DARK_BLUE 0x000000AB
 
 enum e_error
 {
@@ -66,18 +68,18 @@ enum e_error
 
 enum e_key_event
 {
-	ON_KEYDOWN 		= 2,		//? int (*f)(int keycode, void *param)
-	ON_KEYUP 		= 3,		//? int (*f)(int keycode, void *param)
+	ON_KEYDOWN 		= 2,	//? int (*f)(int keycode, void *param)
+	ON_KEYUP 		= 3,	//? int (*f)(int keycode, void *param)
 	ON_MOUSEDOWN 	= 4,	//? int (*f)(int button, int x, int y, void *param)
-	ON_MOUSEUP 		= 5,		//? int (*f)(int button, int x, int y, void *param)
+	ON_MOUSEUP 		= 5,	//? int (*f)(int button, int x, int y, void *param)
 	ON_MOUSEMOVE 	= 6,	//? int (*f)(int x, int y, void *param)
-	ON_EXPOSE 		= 12,		//? int (*f)(void *param)
-	ON_DESTROY 		= 17		//? int (*f)(void *param)
+	ON_EXPOSE 		= 12,	//? int (*f)(void *param)
+	ON_DESTROY 		= 17	//? int (*f)(void *param)
 };
 
 enum e_mouse_event
 {
-	M_LEFT 			= 2,
+	M_LEFT 			= 1,
 	M_RIGHT 		= 2,
 	M_MIDDLE 		= 3,
 	M_SCROLLUP 		= 4,
@@ -113,8 +115,32 @@ enum e_tex
 	TEX_WE,
 	TEX_SO,
 	TEX_EA,
+	TEX_CLS,
+	TEX_OPN0,
+	TEX_OPN1,
+	TEX_OPN2,
+	TEX_OPN3,
+	TEX_OPN4,
+	TEX_SIDE0,
+	TEX_SIDE1,
+	TEX_SIDE2,
+	TEX_SIDE3,
+	TEX_SIDE4,
+	TEX_GUN0,
+	TEX_GUN1,
+	TEX_GUN2,
+	TEX_GUN3,
+	TEX_GUN4,
+	TEX_GUN5,
 	TEX_END
 };
+
+typedef struct s_door
+{
+	int	state;
+	int	tex;
+}	t_door;
+
 typedef struct s_img
 {
 	void	*img;
@@ -191,10 +217,11 @@ typedef struct s_raycast
 	t_dpos	raydir;
 	t_dpos	deltadist;
 	t_dpos	camera;
-	t_ipos	map;
+	t_dpos	map;
 	t_ipos	step;
 	int		hit;
 	int		side;
+	t_door	door;
 	int		line;
 	t_line	line_info;
 }	t_raycast;
@@ -229,6 +256,10 @@ typedef struct s_cub3d
 	t_img		screen;
 	t_img		bground;
 	t_img		minimap;
+	t_img		gun;
+	int			shoot;
+	int			g_framecount;
+	int			framecount;
 	t_dpos		pos;
 	t_dpos		pc;
 	t_dpos		dir;
@@ -236,12 +267,15 @@ typedef struct s_cub3d
 	t_raycast	ray;
 	t_texture	o_tex;
 	t_img		*tex[TEX_END];
+	int			door_side;
+	int			appear;
 	t_assets	textures;
 	t_config	config;
 	t_engine	engine;
 	int			errnum;
 	int			reset_buffer;
 	int			color;
+	int			gun_frame;
 	t_ipos		coord_test;
 }	t_cub3d;
 
