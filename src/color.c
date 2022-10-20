@@ -25,6 +25,17 @@ int	get_color(t_img *img, int x, int y)
 	return (*(int *)color);
 }
 
+int	get_tex_color(t_cub3d *cub)
+{
+	cub->o_tex.y = (int) cub->o_tex.pos & (TEXTURE_H - 1);
+	cub->o_tex.pos += cub->o_tex.step;
+	if (!cub->ray.door.tex)
+		cub->o_tex.color = get_color(cub->tex[cub->ray.side], cub->o_tex.x, cub->o_tex.y);
+	else
+		cub->o_tex.color = get_color(cub->tex[cub->ray.door.tex], cub->o_tex.x, cub->o_tex.y);
+	return (cub->o_tex.color);
+}
+
 int	distance_shade(int color, double distance)
 {
 	return (shade_color(color, distance / 2.));

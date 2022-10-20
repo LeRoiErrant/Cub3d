@@ -303,6 +303,10 @@ int		key_release(int keycode, t_cub3d *cub);
 void	loop(t_cub3d *cub);
 
 // raycasting.c
+void	first_step(t_cub3d *cub);
+double	calculate_perp_dist(t_cub3d *cub);
+void	does_it_hit(t_cub3d *cub);
+void	run_dda(t_cub3d *cub);
 int		raycasting(t_cub3d *cub);
 
 // utils.c
@@ -314,16 +318,25 @@ int		count_space(char *str);
 int		get_map_size(char **config, t_cub3d *cub);
 void	free_cub(t_cub3d *cub);
 
-
+//minimap.c
+void	draw_dir(t_img *img, t_cub3d *cub);
+void	draw_pc(t_img *img, int color, t_cub3d *cub);
+void	draw_frame(t_img *img);
 void	minimap(t_cub3d *cub);
+
+//minimap_utils.c
+void	get_start(t_cub3d *cub, t_ipos *start);
+int		get_map_color(t_cub3d *cub, int x, int y);
+int		is_not_in_map(t_cub3d *cub, t_ipos start, t_ipos cell);
+
 void	init_engine(t_cub3d *cub);
 void	init_screen_win(t_cub3d *cub);
-void 	d_cell(t_img *img, int x, int y, int color);
-void 	ver_line(t_img *img, int x, int length, int color);
+
 int		path_to_img(t_cub3d *cub);
 
 //color.c
 int		get_color(t_img *img, int x, int y);
+int		get_tex_color(t_cub3d *cub);
 int		distance_shade(int color, double distance);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 
@@ -342,5 +355,11 @@ void	check_open_door(t_cub3d *cub, int x, int y, int side);
 
 //door_config.c
 int		config_doors(t_cub3d *cub);
+
+//shapes.c
+int		in_circle(float x, float y);
+void 	d_cell(t_img *img, int x, int y, int color);
+void 	ver_line(t_img *img, int x, int length, int color);
+void	draw_column(t_cub3d *cub, int x);
 
 #endif
