@@ -13,8 +13,8 @@
 # include <limits.h>
 # include <stdint.h>
 
-# define SCREEN_W 1920
-# define SCREEN_H 1080
+# define SCREEN_W 640
+# define SCREEN_H 480
 
 /*# define SCREEN_W 1920
 # define SCREEN_H 1080*/
@@ -115,9 +115,17 @@ enum e_tex
 	TEX_WE,
 	TEX_SO,
 	TEX_EA,
-	TEX_OPN,
 	TEX_CLS,
-	TEX_SIDE,
+	TEX_OPN0,
+	TEX_OPN1,
+	TEX_OPN2,
+	TEX_OPN3,
+	TEX_OPN4,
+	TEX_SIDE0,
+	TEX_SIDE1,
+	TEX_SIDE2,
+	TEX_SIDE3,
+	TEX_SIDE4,
 	TEX_GUN0,
 	TEX_GUN1,
 	TEX_GUN2,
@@ -250,6 +258,7 @@ typedef struct s_cub3d
 	t_img		minimap;
 	t_img		gun;
 	int			shoot;
+	int			g_framecount;
 	int			framecount;
 	t_dpos		pos;
 	t_dpos		pc;
@@ -258,6 +267,8 @@ typedef struct s_cub3d
 	t_raycast	ray;
 	t_texture	o_tex;
 	t_img		*tex[TEX_END];
+	int			door_side;
+	int			appear;
 	t_assets	textures;
 	t_config	config;
 	t_engine	engine;

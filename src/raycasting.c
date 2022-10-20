@@ -137,7 +137,7 @@ void	check_door_hit_x(t_cub3d* cub)
 		cub->ray.map.y += cub->ray.step.y;
 		cub->ray.sidedist.y += cub->ray.deltadist.y;
 		cub->ray.side = SIDE_Y;
-		cub->ray.door.tex = TEX_SIDE;
+		cub->ray.door.tex = cub->door_side;
 		cub->ray.line_info.perpwalldist = 0;
 	}
 	else
@@ -160,7 +160,7 @@ void	check_door_hit_y(t_cub3d* cub)
 		cub->ray.map.x += cub->ray.step.x;
 		cub->ray.sidedist.x += cub->ray.deltadist.x;
 		cub->ray.side = SIDE_X;
-		cub->ray.door.tex = TEX_SIDE;
+		cub->ray.door.tex = cub->door_side;
 		cub->ray.line_info.perpwalldist = 0;
 	}
 	else
@@ -184,7 +184,7 @@ void	check_door(t_cub3d *cub, int x, int y, t_ipos d)
 	if (x - d.x < 0 || SCREEN_H <= x - d.x || y - d.y < 0 || SCREEN_W <= y - d.y)
 		return;	
 	if (cub->map[x][y] == 'O' && cub->map[x - d.x][y - d.y] == '1')
-		cub->ray.door.tex = TEX_OPN;
+		cub->ray.door.tex = cub->door_side - 5;
 	else
 		cub->ray.door.tex = 0;
 }

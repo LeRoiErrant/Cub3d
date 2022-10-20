@@ -222,18 +222,38 @@ void	gun(t_cub3d *cub)
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->tex[cub->gun_frame]->img, SCREEN_W / 2 - (cub->tex[cub->gun_frame]->w / 2), SCREEN_H - cub->tex[cub->gun_frame]->h);
 }
 
+void	anim_door(t_cub3d *cub)
+{
+	cub->framecount++;
+	if (cub->framecount % 8 == 0)
+	{
+		if (cub->door_side < TEX_SIDE4 && !cub->appear)
+			cub->door_side++;
+		else if (cub->door_side == TEX_SIDE4 && !cub->appear)
+			cub->appear = 1;
+		else if (cub->door_side > TEX_SIDE0 && cub->appear)
+			cub->door_side--;
+		else if (cub->door_side == TEX_SIDE0 && cub->appear)
+		{
+			cub->framecount = 0;
+			cub->appear = 0;
+		}
+	}
+}
+
 void	animation(t_cub3d *cub)
 {
+	anim_door(cub);
 	if (cub->shoot)
 	{
-		cub->framecount++;
-		if (cub->framecount % 8 == 0)
+		cub->g_framecount++;
+		if (cub->g_framecount % 8 == 0)
 		{
 			if (cub->gun_frame == TEX_GUN5)
 			{
 				cub->gun_frame = TEX_GUN0;
 				cub->shoot = 0;
-				cub->framecount = 0;
+				cub->g_framecount = 0;
 			}
 			else if (cub->gun_frame < TEX_GUN5)
 				cub->gun_frame++;
@@ -296,6 +316,7 @@ void	loop(t_cub3d *cub)
 	mlx_hook(cub->win, ON_MOUSEMOVE, 0, mouse_move, cub);
 	mlx_hook(cub->win, ON_MOUSEDOWN, 0, mouse_down, cub);
 	path_to_img(cub);
+	cub->door_side = TEX_SIDE0;
 	mlx_loop_hook(cub->mlx, &update, cub);
 	mlx_loop(cub->mlx);
 }
