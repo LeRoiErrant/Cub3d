@@ -322,6 +322,12 @@ void	move_validation(t_cub3d *cub, t_dpos move);
 void	update_pos(t_cub3d *cub);
 void	check_movement(int keycode, t_cub3d *cub);
 
+// game.c
+void	game(t_cub3d *cub);
+
+// gun.c
+void	gun(t_cub3d *cub);
+
 // hooks.c
 int		exit_cub(t_cub3d *cub);
 int		key_down(int keycode, t_cub3d *cub);
@@ -332,6 +338,7 @@ int		mouse_down(int button, int x, int y, t_cub3d *cub);
 // init.c
 int		init_cub(t_cub3d *cub);
 void	init_engine(t_cub3d *cub);
+t_img	init_bground(t_cub3d *cub);
 int		init_tex(t_cub3d *cub);
 
 //minimap_utils.c
@@ -348,9 +355,6 @@ void	minimap(t_cub3d *cub);
 // parsing.c
 int		parsing(char **argv, t_cub3d *cub);
 int		init_tex(t_cub3d *cub);
-
-// mlx.c
-void	loop(t_cub3d *cub);
 
 // raycasting_utils.c
 double	calculate_perp_dist(t_cub3d *cub);

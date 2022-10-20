@@ -30,6 +30,7 @@ int	init_cub(t_cub3d *cub)
 	cub->errnum = SUCCESS;
 	cub->color = 0;
 	cub->gun_frame = TEX_GUN0;
+	cub->door_side = TEX_SIDE0;
 	cub->shoot = 0;
 	cub->framecount = 0;
 	cub->g_framecount = 0;
@@ -54,6 +55,18 @@ static void	load_tex(t_cub3d *cub, t_img *tex, char *path)
 {
 	tex->img = mlx_xpm_file_to_image(cub->mlx, path, &tex->w, &tex->h);
 	tex->addr = mlx_get_data_addr(tex->img, &tex->bpp, &tex->ll, &tex->endian);
+}
+
+t_img	init_bground(t_cub3d *cub)
+{
+	t_img	bground;
+
+	cub->config.floor.rgb = create_trgb(cub->config.floor);
+	cub->config.ceiling.rgb = create_trgb(cub->config.ceiling);
+	bground.img = mlx_new_image(cub->mlx, SCREEN_W, SCREEN_H);
+	bground.addr = mlx_get_data_addr(bground.img, &bground.bpp, &bground.ll, &bground.endian);
+	cub->bground = bground;
+	return (bground);
 }
 
 int	init_tex(t_cub3d *cub)
