@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-int	shade_color(int color, double divide)
+static int	shade_color(int color, double divide)
 {
 	if (divide <= 1.)
 		return (color);
@@ -14,11 +14,21 @@ int	distance_shade(int color, double distance)
 	return (shade_color(color, distance / 2.));
 }
 
-/*int	get_tex_color(t_img *tex, t_ipos *pos)
+static int	get_color(t_img *img, int x, int y)
 {
-	if (pos->x >= 0 && pos->x < tex->w && pos->y >= 0 && pos->y < tex->h)
-	{
-		return (*(int*)(tex->img + (4 * tex->w * pos->y) + (4 * pos->x)));
-	}
-	return (0x0);
-}*/
+	char	*color;
+
+	color = img->addr + (y * img->ll + x * (img->bpp / 8));
+	return (*(int *)color);
+}
+
+int	get_tex_color(t_cub3d *cub)
+{
+	cub->o_tex.y = (int) cub->o_tex.pos & (TEXTURE_H - 1);
+	cub->o_tex.pos += cub->o_tex.step;
+	if (!cub->ray.door.tex)
+		cub->o_tex.color = get_color(cub->tex[cub->ray.side], cub->o_tex.x, cub->o_tex.y);
+	else
+		cub->o_tex.color = get_color(cub->tex[cub->ray.door.tex], cub->o_tex.x, cub->o_tex.y);
+	return (cub->o_tex.color);
+}

@@ -24,16 +24,6 @@ void	init_buffer(t_img *buf, t_cub3d *cub)
 	buf->addr = mlx_get_data_addr(buf->img, &buf->bpp, &buf->ll, &buf->endian);
 }
 
-/*static int	init_img(t_img *img, t_cub3d *cub)
-{
-	if (!img)
-		return (cub_error(E_MALLOC, STDERR_FILENO));
-	img->img = mlx_xpm_file_to_image(cub->mlx, cub->config.path[TEX_NO], &img->w, &img->h);
-	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->ll, &img->endian);
-	return (SUCCESS);
-}*/
-
-//TODO Valeur de retour pour le malloc des erreurs ?
 void	init_cub(t_cub3d *cub)
 {
 	cub->dir.x = 0.0;
@@ -53,14 +43,14 @@ void	init_cub(t_cub3d *cub)
 	init_config(cub);
 }
 
-/*void	init_textures(t_cub3d *cub)
+void	init_engine(t_cub3d *cub)
 {
-	cub->textures.north = ft_calloc(1, sizeof(t_img));
-	cub->textures.south = ft_calloc(1, sizeof(t_img));
-	cub->textures.east = ft_calloc(1, sizeof(t_img));
-	cub->textures.west = ft_calloc(1, sizeof(t_img));
-	init_img(cub->textures.north, cub);
-	init_img(cub->textures.south, cub);
-	init_img(cub->textures.east, cub);
-	init_img(cub->textures.west, cub);
-}*/
+	cub->engine.move.up = 0;
+	cub->engine.move.left = 0;
+	cub->engine.move.down = 0;
+	cub->engine.move.right = 0;
+	cub->engine.rot.left = 0;
+	cub->engine.rot.right = 0;
+	cub->engine.delta.x = 0;
+	cub->engine.delta.y = 0;
+}

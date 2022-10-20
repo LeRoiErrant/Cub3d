@@ -295,9 +295,6 @@ static t_img	init_bground(t_cub3d *cub)
 	bground.img = mlx_new_image(cub->mlx, SCREEN_W, SCREEN_H);
 	bground.addr = mlx_get_data_addr(bground.img, &bground.bpp, &bground.ll, &bground.endian);
 	cub->bground = bground;
-	/*i.x = -1;
-	while (++i.x < SCREEN_W)
-		ver_line(cub->bground.img, i.x, SCREEN_H, cub->config.floor.rgb);*/
 	return (bground);
 }	
 

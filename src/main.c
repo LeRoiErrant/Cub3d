@@ -1,17 +1,5 @@
 #include "../includes/cub3d.h"
 
-void	init_engine(t_cub3d *cub)
-{
-	cub->engine.move.up = 0;
-	cub->engine.move.left = 0;
-	cub->engine.move.down = 0;
-	cub->engine.move.right = 0;
-	cub->engine.rot.left = 0;
-	cub->engine.rot.right = 0;
-	cub->engine.delta.x = 0;
-	cub->engine.delta.y = 0;
-}
-
 int	main(int argc, char **argv)
 {
 	t_cub3d	*cub;

@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-void	get_initial_direction(t_cub3d *cub, char pc)
+static void	get_initial_direction(t_cub3d *cub, char pc)
 {
 	if (pc == 'N')
 	{
