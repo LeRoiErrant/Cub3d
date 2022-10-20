@@ -190,11 +190,8 @@ int	mouse_move(int x, int y, t_cub3d *cub)
 	return (0);
 }
 
-//TODO animation loop
 int	mouse_down(int button, int x, int y, t_cub3d *cub)
 {
-	(void) x;
-	(void) y;
 	if (button == M_LEFT)
 		cub->shoot = 1;
 	return (SUCCESS);
@@ -216,49 +213,17 @@ void	draw_floor(t_cub3d *cub, t_img *img)
 	}
 }
 
-//TODO animation loop
 void	gun(t_cub3d *cub)
 {	
-	mlx_put_image_to_window(cub->mlx, cub->win, cub->tex[cub->gun_frame]->img, SCREEN_W / 2 - (cub->tex[cub->gun_frame]->w / 2), SCREEN_H - cub->tex[cub->gun_frame]->h);
-}
-
-void	anim_door(t_cub3d *cub)
-{
-	cub->framecount++;
-	if (cub->framecount % 8 == 0)
-	{
-		if (cub->door_side < TEX_SIDE4 && !cub->appear)
-			cub->door_side++;
-		else if (cub->door_side == TEX_SIDE4 && !cub->appear)
-			cub->appear = 1;
-		else if (cub->door_side > TEX_SIDE0 && cub->appear)
-			cub->door_side--;
-		else if (cub->door_side == TEX_SIDE0 && cub->appear)
-		{
-			cub->framecount = 0;
-			cub->appear = 0;
-		}
-	}
-}
-
-void	animation(t_cub3d *cub)
-{
-	anim_door(cub);
-	if (cub->shoot)
-	{
-		cub->g_framecount++;
-		if (cub->g_framecount % 8 == 0)
-		{
-			if (cub->gun_frame == TEX_GUN5)
-			{
-				cub->gun_frame = TEX_GUN0;
-				cub->shoot = 0;
-				cub->g_framecount = 0;
-			}
-			else if (cub->gun_frame < TEX_GUN5)
-				cub->gun_frame++;
-		}
-	}
+	t_img	*tex;
+	int		frame;
+	t_ipos	i;
+	
+	tex = cub->tex;
+	frame = cub->gun_frame;
+	i.x = SCREEN_H - cub->tex[cub->gun_frame]->h;
+	i.y = SCREEN_W / 2 - (cub->tex[cub->gun_frame]->w / 2);
+	mlx_put_image_to_window(cub->mlx, cub->win, tex[frame].img, i.y, i.x);
 }
 
 int	update(t_cub3d *cub)

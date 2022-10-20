@@ -362,4 +362,8 @@ void 	d_cell(t_img *img, int x, int y, int color);
 void 	ver_line(t_img *img, int x, int length, int color);
 void	draw_column(t_cub3d *cub, int x);
 
+//animations.c
+void	anim_door(t_cub3d *cub);
+void	animation(t_cub3d *cub);
+
 #endif
