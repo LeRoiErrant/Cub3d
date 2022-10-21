@@ -28,7 +28,7 @@ static int	fill_map(char **config, t_cub3d *cub)
 
 	if (get_map_size(config, cub))
 		return (cub_error(E_MAP, -1));
-	if (check_char(config, cub))
+	if (check_char(cub, config, 0, " 01DONSEW"))
 		return (cub_error(E_CHAR, -1));
 	cub->map = (char **) ft_calloc(cub->config.map_h + 1, sizeof(char *));
 	if (!cub->map)

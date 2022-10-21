@@ -12,24 +12,26 @@ void	update_cam(t_cub3d *cub)
 {
 	double	olddirx;
 	double	oldplanex;
+	double	rsp;
 
+	rsp = cub->config.rotspeed;
 	if (cub->engine.rot.right)
 	{
 		olddirx = cub->dir.x;
-		cub->dir.x = cub->dir.x * cos(-cub->config.rotspeed) - cub->dir.y * sin(-cub->config.rotspeed);
-		cub->dir.y = olddirx * sin(-cub->config.rotspeed) + cub->dir.y * cos(-cub->config.rotspeed);
+		cub->dir.x = cub->dir.x * cos(-rsp) - cub->dir.y * sin(-rsp);
+		cub->dir.y = olddirx * sin(-rsp) + cub->dir.y * cos(-rsp);
 		oldplanex = cub->plane.x;
-		cub->plane.x = cub->plane.x * cos(-cub->config.rotspeed) - cub->plane.y * sin(-cub->config.rotspeed);
-		cub->plane.y = oldplanex * sin(-cub->config.rotspeed) + cub->plane.y * cos(-cub->config.rotspeed);
+		cub->plane.x = cub->plane.x * cos(-rsp) - cub->plane.y * sin(-rsp);
+		cub->plane.y = oldplanex * sin(-rsp) + cub->plane.y * cos(-rsp);
 	}
 	if (cub->engine.rot.left)
 	{
 		olddirx = cub->dir.x;
-		cub->dir.x = cub->dir.x * cos(cub->config.rotspeed) - cub->dir.y * sin(cub->config.rotspeed);
-		cub->dir.y = olddirx * sin(cub->config.rotspeed) + cub->dir.y * cos(cub->config.rotspeed);
+		cub->dir.x = cub->dir.x * cos(rsp) - cub->dir.y * sin(rsp);
+		cub->dir.y = olddirx * sin(rsp) + cub->dir.y * cos(rsp);
 		oldplanex = cub->plane.x;
-		cub->plane.x = cub->plane.x * cos(cub->config.rotspeed) - cub->plane.y * sin(cub->config.rotspeed);
-		cub->plane.y = oldplanex * sin(cub->config.rotspeed) + cub->plane.y * cos(cub->config.rotspeed);
+		cub->plane.x = cub->plane.x * cos(rsp) - cub->plane.y * sin(rsp);
+		cub->plane.y = oldplanex * sin(rsp) + cub->plane.y * cos(rsp);
 	}
 }
 

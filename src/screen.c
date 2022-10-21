@@ -2,11 +2,11 @@
 
 static t_img	init_screen(t_cub3d *cub)
 {
-	t_img	screen;
+	t_img	scr;
 
-	screen.img = mlx_new_image(cub->mlx, SCREEN_W, SCREEN_H);
-	screen.addr = mlx_get_data_addr(screen.img, &screen.bpp, &screen.ll, &screen.endian);
-	return (screen);
+	scr.img = mlx_new_image(cub->mlx, SCR_W, SCR_H);
+	scr.addr = mlx_get_data_addr(scr.img, &scr.bpp, &scr.ll, &scr.endian);
+	return (scr);
 }
 
 static t_img	init_minimap(t_cub3d *cub)
@@ -21,13 +21,17 @@ static t_img	init_minimap(t_cub3d *cub)
 static t_img	init_gun(t_cub3d *cub)
 {
 	t_img	gun;
+	int		width;
+	int		height;
 
-	gun.img = mlx_new_image(cub->mlx, cub->tex[cub->gun_frame]->w, cub->tex[cub->gun_frame]->h);
+	width = cub->tex[cub->gun_frame]->w;
+	height = cub->tex[cub->gun_frame]->h;
+	gun.img = mlx_new_image(cub->mlx, width, height);
 	gun.addr = mlx_get_data_addr(gun.img, &gun.bpp, &gun.ll, &gun.endian);
 	return (gun);
 }
 
-void	init_screen_win(t_cub3d *cub)
+void	init_images(t_cub3d *cub)
 {
 	cub->screen = init_screen(cub);
 	cub->minimap = init_minimap(cub);

@@ -2,7 +2,7 @@
 
 static int	loop(t_cub3d *cub)
 {
-	init_screen_win(cub);
+	init_images(cub);
 	raycasting(cub);
 	minimap(cub);
 	update_cam(cub);
@@ -18,10 +18,10 @@ static int	loop(t_cub3d *cub)
 void	game(t_cub3d *cub)
 {
 	cub->mlx = mlx_init();
-	cub->win = mlx_new_window(cub->mlx, SCREEN_W, SCREEN_H, "cub3d");
+	cub->win = mlx_new_window(cub->mlx, SCR_W, SCR_H, "cub3d");
 	init_bground(cub);
 	init_tex(cub);
-	mlx_mouse_move(cub->win, (int)(SCREEN_W / 2), (int)(SCREEN_H / 2));
+	mlx_mouse_move(cub->win, (int)(SCR_W / 2), (int)(SCR_H / 2));
 	mlx_mouse_hide(cub->win);
 	mlx_hook(cub->win, ON_DESTROY, 0, exit_cub, cub);
 	mlx_hook(cub->win, ON_KEYDOWN, 0, key_down, cub);

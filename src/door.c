@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-void	check_door_hit_x(t_cub3d* cub)
+void	check_door_hit_x(t_cub3d *cub)
 {
 	double	offset;
 	double	wall;
@@ -60,9 +60,9 @@ void	check_door_hit(t_cub3d *cub)
 
 void	check_door(t_cub3d *cub, int x, int y, t_ipos d)
 {
-	if (x < 0 || SCREEN_H <= x || y < 0 || SCREEN_W <= y)
+	if (x < 0 || SCR_H <= x || y < 0 || SCR_W <= y)
 		return ;
-	if (x - d.x < 0 || SCREEN_H <= x - d.x || y - d.y < 0 || SCREEN_W <= y - d.y)
+	if (x - d.x < 0 || SCR_H <= x - d.x || y - d.y < 0 || SCR_W <= y - d.y)
 		return ;
 	if (cub->map[x][y] == 'O' && cub->map[x - d.x][y - d.y] == '1')
 		cub->ray.door.tex = cub->door_side - 5;

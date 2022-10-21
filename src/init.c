@@ -18,7 +18,19 @@ static void	init_config(t_cub3d *cub)
 	cub->config.map_h = 0;
 }
 
-int	init_cub(t_cub3d *cub)
+static void	init_engine(t_cub3d *cub)
+{
+	cub->engine.move.up = 0;
+	cub->engine.move.left = 0;
+	cub->engine.move.down = 0;
+	cub->engine.move.right = 0;
+	cub->engine.rot.left = 0;
+	cub->engine.rot.right = 0;
+	cub->engine.delta.x = 0;
+	cub->engine.delta.y = 0;
+}
+
+void	init_cub(t_cub3d *cub)
 {
 	cub->dir.x = 0.0;
 	cub->dir.y = 0.0;
@@ -36,19 +48,7 @@ int	init_cub(t_cub3d *cub)
 	cub->g_framecount = 0;
 	cub->appear = 0;
 	init_config(cub);
-	return (SUCCESS);
-}
-
-void	init_engine(t_cub3d *cub)
-{
-	cub->engine.move.up = 0;
-	cub->engine.move.left = 0;
-	cub->engine.move.down = 0;
-	cub->engine.move.right = 0;
-	cub->engine.rot.left = 0;
-	cub->engine.rot.right = 0;
-	cub->engine.delta.x = 0;
-	cub->engine.delta.y = 0;
+	init_engine(cub);
 }
 
 static void	load_tex(t_cub3d *cub, t_img *tex, char *path)
@@ -59,14 +59,14 @@ static void	load_tex(t_cub3d *cub, t_img *tex, char *path)
 
 t_img	init_bground(t_cub3d *cub)
 {
-	t_img	bground;
+	t_img	bgrd;
 
 	cub->config.floor.rgb = create_trgb(cub->config.floor);
 	cub->config.ceiling.rgb = create_trgb(cub->config.ceiling);
-	bground.img = mlx_new_image(cub->mlx, SCREEN_W, SCREEN_H);
-	bground.addr = mlx_get_data_addr(bground.img, &bground.bpp, &bground.ll, &bground.endian);
-	cub->bground = bground;
-	return (bground);
+	bgrd.img = mlx_new_image(cub->mlx, SCR_W, SCR_H);
+	bgrd.addr = mlx_get_data_addr(bgrd.img, &bgrd.bpp, &bgrd.ll, &bgrd.endian);
+	cub->bground = bgrd;
+	return (bgrd);
 }
 
 int	init_tex(t_cub3d *cub)

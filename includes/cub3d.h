@@ -13,11 +13,11 @@
 # include <limits.h>
 # include <stdint.h>
 
-# define SCREEN_W 640
-# define SCREEN_H 480
+# define SCR_W 640
+# define SCR_H 480
 
-/*# define SCREEN_W 1920
-# define SCREEN_H 1080*/
+/*# define SCR_W 1920
+# define SCR_H 1080*/
 
 # define TEXTURE_W 64
 # define TEXTURE_H 64
@@ -289,7 +289,7 @@ int		check_config(t_cub3d *cub);
 int		check_path(char *path);
 
 // check_map.c
-int		check_char(char **map, t_cub3d *cub);
+int		check_char(t_cub3d *cub, char **map, int player_count, char *set);
 int		check_borders(t_cub3d *cub);
 
 // color.c
@@ -330,14 +330,13 @@ void	gun(t_cub3d *cub);
 
 // hooks.c
 int		exit_cub(t_cub3d *cub);
-int		key_down(int keycode, t_cub3d *cub);
-int		key_release(int keycode, t_cub3d *cub);
+int		key_down(int key, t_cub3d *cub);
+int		key_release(int key, t_cub3d *cub);
 int		mouse_move(int x, int y, t_cub3d *cub);
 int		mouse_down(int button, int x, int y, t_cub3d *cub);
 
 // init.c
-int		init_cub(t_cub3d *cub);
-void	init_engine(t_cub3d *cub);
+void	init_cub(t_cub3d *cub);
 t_img	init_bground(t_cub3d *cub);
 int		init_tex(t_cub3d *cub);
 
@@ -384,7 +383,7 @@ int		get_b(int trgb);
 int		create_trgb(t_rgb rgb);
 
 // screen.c
-void	init_screen_win(t_cub3d *cub);
+void	init_images(t_cub3d *cub);
 
 //shapes.c
 int		in_circle(float x, float y);

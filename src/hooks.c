@@ -15,51 +15,51 @@ int	exit_cub(t_cub3d *cub)
 	exit(cub->errnum);
 }
 
-int	key_down(int keycode, t_cub3d *cub)
+int	key_down(int key, t_cub3d *cub)
 {
-	if (keycode == KEY_ESC)
+	if (key == KEY_ESC)
 		exit_cub(cub);
-	if (keycode == KEY_W || keycode == KEY_A || keycode == KEY_S || keycode == KEY_D)
-		check_movement(keycode, cub);
-	if (keycode == KEY_RIGHT || keycode == KEY_LEFT)
-		rotate_camera(keycode, cub);
+	if (key == KEY_W || key == KEY_A || key == KEY_S || key == KEY_D)
+		check_movement(key, cub);
+	if (key == KEY_RIGHT || key == KEY_LEFT)
+		rotate_camera(key, cub);
 	return (0);
 }
 
-int	key_release(int keycode, t_cub3d *cub)
+int	key_release(int key, t_cub3d *cub)
 {
-	if (keycode == KEY_W)
+	if (key == KEY_W)
 		cub->engine.move.up = 0;
-	if (keycode == KEY_S)
+	if (key == KEY_S)
 		cub->engine.move.down = 0;
-	if (keycode == KEY_A)
+	if (key == KEY_A)
 		cub->engine.move.left = 0;
-	if (keycode == KEY_D)
+	if (key == KEY_D)
 		cub->engine.move.right = 0;
-	if (keycode == KEY_RIGHT)
+	if (key == KEY_RIGHT)
 		cub->engine.rot.right = 0;
-	if (keycode == KEY_LEFT)
+	if (key == KEY_LEFT)
 		cub->engine.rot.left = 0;
-	if (keycode == KEY_E)
+	if (key == KEY_E)
 		open_door(cub);
 	return (0);
 }
 
 int	mouse_move(int x, int y, t_cub3d *cub)
 {
-	float	rotspeed;
+	float	rspeed;
 	float	olddirx;
 	float	oldplanex;
 
 	(void) y;
-	rotspeed = ((float)(x - SCREEN_W / 2)) / 500.0;
+	rspeed = ((float)(x - SCR_W / 2)) / 500.0;
 	olddirx = cub->dir.x;
 	oldplanex = cub->plane.x;
-	cub->dir.x = cub->dir.x * cos(-rotspeed) - cub->dir.y * sin(-rotspeed);
-	cub->dir.y = olddirx * sin(-rotspeed) + cub->dir.y * cos(-rotspeed);
-	cub->plane.x = cub->plane.x * cos(-rotspeed) - cub->plane.y * sin(-rotspeed);
-	cub->plane.y = oldplanex * sin(-rotspeed) + cub->plane.y * cos(-rotspeed);
-	mlx_mouse_move(cub->win, (int)(SCREEN_W / 2), (int)(SCREEN_H / 2));
+	cub->dir.x = cub->dir.x * cos(-rspeed) - cub->dir.y * sin(-rspeed);
+	cub->dir.y = olddirx * sin(-rspeed) + cub->dir.y * cos(-rspeed);
+	cub->plane.x = cub->plane.x * cos(-rspeed) - cub->plane.y * sin(-rspeed);
+	cub->plane.y = oldplanex * sin(-rspeed) + cub->plane.y * cos(-rspeed);
+	mlx_mouse_move(cub->win, (int)(SCR_W / 2), (int)(SCR_H / 2));
 	return (0);
 }
 

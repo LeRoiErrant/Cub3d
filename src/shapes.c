@@ -5,7 +5,7 @@ void	ver_line(t_img *img, int x, int length, int color)
 	int	i;
 	int	start;
 
-	start = (SCREEN_H / 2) - (length / 2) - 1;
+	start = (SCR_H / 2) - (length / 2) - 1;
 	i = start;
 	if (length <= 0)
 		return ;

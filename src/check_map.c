@@ -24,16 +24,12 @@ static void	get_initial_direction(t_cub3d *cub, char pc)
 	}
 }
 
-int	check_char(char **map, t_cub3d *cub)
+int	check_char(t_cub3d *cub, char **map, int player_count, char *set)
 {
 	int		i;
 	int		j;
-	int		player_count;
-	char	*set;
 
-	player_count = 0;
 	i = 5;
-	set = " 01DONSEW";
 	while (map[++i])
 	{
 		j = -1;
