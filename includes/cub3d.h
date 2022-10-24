@@ -68,39 +68,39 @@ enum e_error
 
 enum e_key_event
 {
-	ON_KEYDOWN 		= 2,	//? int (*f)(int keycode, void *param)
-	ON_KEYUP 		= 3,	//? int (*f)(int keycode, void *param)
-	ON_MOUSEDOWN 	= 4,	//? int (*f)(int button, int x, int y, void *param)
-	ON_MOUSEUP 		= 5,	//? int (*f)(int button, int x, int y, void *param)
-	ON_MOUSEMOVE 	= 6,	//? int (*f)(int x, int y, void *param)
-	ON_EXPOSE 		= 12,	//? int (*f)(void *param)
-	ON_DESTROY 		= 17	//? int (*f)(void *param)
+	ON_KEYDOWN		= 2,
+	ON_KEYUP		= 3,
+	ON_MOUSEDOWN	= 4,
+	ON_MOUSEUP		= 5,
+	ON_MOUSEMOVE	= 6,
+	ON_EXPOSE		= 12,
+	ON_DESTROY		= 17
 };
 
 enum e_mouse_event
 {
-	M_LEFT 			= 1,
-	M_RIGHT 		= 2,
-	M_MIDDLE 		= 3,
-	M_SCROLLUP 		= 4,
+	M_LEFT			= 1,
+	M_RIGHT			= 2,
+	M_MIDDLE		= 3,
+	M_SCROLLUP		= 4,
 	M_SCROLLDOWN	= 5
 };
 
 enum e_keycode
 {
-	KEY_A 		= 	0,
-	KEY_S 		= 	1,
-	KEY_D 		= 	2,
-	KEY_Q 		= 	12,
-	KEY_W 		= 	13,
-	KEY_E 		= 	14,
-	KEY_R 		= 	15,
-	KEY_SPACE 	= 	49,
-	KEY_ESC 	=	53,
-	KEY_LEFT 	=	123,
-	KEY_RIGHT 	=	124,
-	KEY_DOWN 	=	125,
-	KEY_UP 		=	126
+	KEY_A		=	0,
+	KEY_S		=	1,
+	KEY_D		=	2,
+	KEY_Q		=	12,
+	KEY_W		=	13,
+	KEY_E		=	14,
+	KEY_R		=	15,
+	KEY_SPACE	=	49,
+	KEY_ESC		=	53,
+	KEY_LEFT	=	123,
+	KEY_RIGHT	=	124,
+	KEY_DOWN	=	125,
+	KEY_UP		=	126
 };
 
 enum e_side
@@ -301,8 +301,8 @@ int		get_tex_color(t_cub3d *cub);
 void	open_door(t_cub3d *cub);
 
 // door.c
-void	check_door_hit_x(t_cub3d* cub);
-void	check_door_hit_y(t_cub3d* cub);
+void	check_door_hit_x(t_cub3d *cub);
+void	check_door_hit_y(t_cub3d *cub);
 void	check_door_hit(t_cub3d *cub);
 void	check_door(t_cub3d *cub, int x, int y, t_ipos d);
 void	check_open_door(t_cub3d *cub, int x, int y, int side);
@@ -343,7 +343,7 @@ int		init_tex(t_cub3d *cub);
 //minimap_utils.c
 void	get_start(t_cub3d *cub, t_ipos *start);
 int		get_map_color(t_cub3d *cub, int x, int y);
-int		is_not_in_map(t_cub3d *cub, t_ipos start, t_ipos cell);
+int		is_in_map(t_cub3d *cub, t_ipos start, t_ipos cell);
 
 //minimap.c
 void	draw_dir(t_img *img, t_cub3d *cub);
@@ -387,7 +387,7 @@ void	init_images(t_cub3d *cub);
 
 //shapes.c
 int		in_circle(float x, float y);
-void 	d_cell(t_img *img, int x, int y, int color);
-void 	ver_line(t_img *img, int x, int length, int color);
+void	d_cell(t_img *img, int x, int y, int color);
+void	ver_line(t_img *img, int x, int length, int color);
 
 #endif

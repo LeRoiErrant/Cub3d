@@ -6,6 +6,8 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (cub_error(E_ARGC, STDERR_FILENO));
+	if (check_extension(argv[1]))
+		return (cub_error(E_EXT, STDERR_FILENO));
 	cub = ft_calloc(1, sizeof(t_cub3d));
 	if (!cub)
 		return (cub_error(E_MALLOC, -1));

@@ -53,28 +53,32 @@ void	draw_frame(t_img *img)
 	}
 }
 
+static void	init_pos(t_cub3d *cub, t_ipos *mod, t_ipos *coord, t_ipos *cell)
+{
+	mod->x = (int) cub->pc.x % 10;
+	mod->y = (int) cub->pc.y % 10;
+	coord->x = 10;
+	cell->x = -1;
+}
+
 void	minimap(t_cub3d *cub)
 {
 	t_ipos	start;
-	t_ipos	cell;
-	t_ipos	coord;
-	int		color;
 	t_ipos	mod;
+	t_ipos	coord;
+	t_ipos	cell;
+	int		color;
 
 	get_start(cub, &start);
-	mod.x = (int) cub->pc.x % 10;
-	mod.y = (int) cub->pc.y % 10;
-	coord.x = 10;
-	cell.x = -1;
+	init_pos(cub, &mod, &coord, &cell);
 	while (++cell.x < 11)
 	{
 		coord.y = 10;
 		cell.y = -1;
 		while (++cell.y < 11)
 		{
-			if (is_not_in_map(cub, start, cell))
-				color = 0x00000000;
-			else
+			color = 0x00000000;
+			if (is_in_map(cub, start, cell))
 				color = get_map_color(cub, start.x + cell.x, start.y + cell.y);
 			d_cell(&cub->minimap, coord.y - mod.y, coord.x - mod.x, color);
 			coord.y += 10;

@@ -51,12 +51,6 @@ void	init_cub(t_cub3d *cub)
 	init_engine(cub);
 }
 
-static void	load_tex(t_cub3d *cub, t_img *tex, char *path)
-{
-	tex->img = mlx_xpm_file_to_image(cub->mlx, path, &tex->w, &tex->h);
-	tex->addr = mlx_get_data_addr(tex->img, &tex->bpp, &tex->ll, &tex->endian);
-}
-
 t_img	init_bground(t_cub3d *cub)
 {
 	t_img	bgrd;
@@ -79,7 +73,10 @@ int	init_tex(t_cub3d *cub)
 	while (++i < TEX_END)
 	{
 		cub->tex[i] = ft_calloc(1, sizeof(t_img));
-		load_tex(cub, cub->tex[i], cub->config.path[i]);
+		cub->tex[i]->img = mlx_xpm_file_to_image(cub->mlx, cub->config.path[i],
+				&cub->tex[i]->w, &cub->tex[i]->h);
+		cub->tex[i]->addr = mlx_get_data_addr(cub->tex[i]->img,
+				&cub->tex[i]->bpp, &cub->tex[i]->ll, &cub->tex[i]->endian);
 	}
 	return (check);
 }

@@ -3,8 +3,6 @@
 //TODO update cub->errnum
 int	cub_error(int errnum, int fd)
 {
-	if (errnum == E_FAILURE && fd > 0)
-		ft_putstr_fd("Error\n", fd);
 	if (errnum == E_ARGC && fd > 0)
 		ft_putstr_fd("Error\nWrong argument count\n", fd);
 	if (errnum == E_EXT && fd > 0)
@@ -38,7 +36,7 @@ int	cub_error_free(int errnum, int fd, t_cub3d *cub)
 	free_cub(cub);
 	return (errnum);
 }
-
+/*
 void	cub_print(t_cub3d *cub)
 {
 	int	i;
@@ -62,6 +60,7 @@ void	cub_print(t_cub3d *cub)
 	while (cub->map[++i])
 		printf("%s\n", cub->map[i]);
 }
+*/
 
 int	count_space(char *str)
 {

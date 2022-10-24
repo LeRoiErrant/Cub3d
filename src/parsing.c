@@ -21,10 +21,24 @@ static int	fill_config(char **config, t_cub3d *cub)
 	return (check_config(cub));
 }
 
-static int	fill_map(char **config, t_cub3d *cub)
+static void	fill_map_space(char **map)
 {
 	int	i;
 	int	j;
+
+	i = -1;
+	while (map[++i])
+	{
+		j = -1;
+		while (map[i][++j])
+			if (map[i][j] == ' ')
+				map[i][j] = '.';
+	}
+}
+
+static int	fill_map(char **config, t_cub3d *cub)
+{
+	int	i;
 
 	if (get_map_size(config, cub))
 		return (cub_error(E_MAP, -1));
@@ -42,14 +56,7 @@ static int	fill_map(char **config, t_cub3d *cub)
 		ft_memset(cub->map[i], '.', cub->config.map_w);
 		ft_memcpy(cub->map[i], config[i + 6], ft_strlen(config[i + 6]));
 	}
-	i = -1;
-	while (cub->map[++i])
-	{
-		j = -1;
-		while (cub->map[i][++j])
-			if (cub->map[i][j] == ' ')
-				cub->map[i][j] = '.';
-	}
+	fill_map_space(cub->map);
 	return (check_borders(cub));
 }
 
@@ -59,8 +66,6 @@ int	parsing(char **argv, t_cub3d *cub)
 	char	*str;
 	char	*line;
 
-	if (check_extension(argv[1]))
-		return (cub_error(E_EXT, STDERR_FILENO));
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		return (cub_error(E_OPEN, STDERR_FILENO));
@@ -80,6 +85,5 @@ int	parsing(char **argv, t_cub3d *cub)
 		return (cub_error(E_CONFIG, -1));
 	if (fill_map(cub->tmp, cub))
 		return (cub_error(E_MAP, -1));
-	cub_print(cub);
 	return (SUCCESS);
 }

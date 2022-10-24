@@ -20,7 +20,7 @@ The ft_matrixlen() function computes the length of the 2D matrix.
 RETURN VALUES
 The ft_matrixlen() function returns the number of characters that precede the
 terminating NUL character.
-*/ 
+*/
 size_t	ft_matrixlen(char **matrix)
 {
 	size_t	len;
