@@ -277,6 +277,7 @@ typedef struct s_cub3d
 	int			color;
 	int			gun_frame;
 	t_ipos		coord_test;
+	int			mouse_enable;
 }	t_cub3d;
 
 //animations.c

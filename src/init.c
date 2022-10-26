@@ -47,6 +47,7 @@ void	init_cub(t_cub3d *cub)
 	cub->framecount = 0;
 	cub->g_framecount = 0;
 	cub->appear = 0;
+	cub->mouse_enable = 1;
 	init_config(cub);
 	init_engine(cub);
 }
