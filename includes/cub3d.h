@@ -100,7 +100,8 @@ enum e_keycode
 	KEY_LEFT	=	123,
 	KEY_RIGHT	=	124,
 	KEY_DOWN	=	125,
-	KEY_UP		=	126
+	KEY_UP		=	126,
+	KEY_SHIFT	=	257
 };
 
 enum e_side

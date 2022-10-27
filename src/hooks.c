@@ -34,6 +34,8 @@ int	key_down(int key, t_cub3d *cub)
 			mlx_mouse_move(cub->win, (int)(SCR_W / 2), (int)(SCR_H / 2));
 		}
 	}
+	if (key == KEY_SHIFT)
+		cub->config.movespeed *= 2;
 	return (0);
 }
 
@@ -53,6 +55,8 @@ int	key_release(int key, t_cub3d *cub)
 		cub->engine.rot.left = 0;
 	if (key == KEY_E)
 		open_door(cub);
+	if (key == KEY_SHIFT)
+		cub->config.movespeed /= 2;
 	return (0);
 }
 
@@ -63,17 +67,16 @@ int	mouse_move(int x, int y, t_cub3d *cub)
 	float	oldplanex;
 
 	(void) y;
-	if (cub->mouse_enable)
-	{
-		rspeed = ((float)(x - SCR_W / 2)) / 500.0;
-		olddirx = cub->dir.x;
-		oldplanex = cub->plane.x;
-		cub->dir.x = cub->dir.x * cos(-rspeed) - cub->dir.y * sin(-rspeed);
-		cub->dir.y = olddirx * sin(-rspeed) + cub->dir.y * cos(-rspeed);
-		cub->plane.x = cub->plane.x * cos(-rspeed) - cub->plane.y * sin(-rspeed);
-		cub->plane.y = oldplanex * sin(-rspeed) + cub->plane.y * cos(-rspeed);
-		mlx_mouse_move(cub->win, (int)(SCR_W / 2), (int)(SCR_H / 2));
-	}
+	if (!cub->mouse_enable)
+		return (0);
+	rspeed = ((float)(x - SCR_W / 2)) / 500.0;
+	olddirx = cub->dir.x;
+	oldplanex = cub->plane.x;
+	cub->dir.x = cub->dir.x * cos(-rspeed) - cub->dir.y * sin(-rspeed);
+	cub->dir.y = olddirx * sin(-rspeed) + cub->dir.y * cos(-rspeed);
+	cub->plane.x = cub->plane.x * cos(-rspeed) - cub->plane.y * sin(-rspeed);
+	cub->plane.y = oldplanex * sin(-rspeed) + cub->plane.y * cos(-rspeed);
+	mlx_mouse_move(cub->win, (int)(SCR_W / 2), (int)(SCR_H / 2));
 	return (0);
 }
 
