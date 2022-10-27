@@ -32,21 +32,24 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 char	*ft_strtrim_free(char *s1, char const *set)
 {
-	int		i;
 	size_t	len;
 	char	*str;
+	int		count;
 
-	i = 0;
+	count = 0;
 	if (!s1 || !set)
 		return (NULL);
-	while (s1[i] && ft_strchr(set, s1[i]))
-		i++;
+	while (ft_strchr(set, *s1) && *s1)
+	{
+		s1++;
+		count++;
+	}
 	if (!*s1)
 		return (ft_strdup(""));
 	len = ft_strlen(s1);
 	while (ft_strchr(set, s1[len]))
 		len--;
-	str = ft_substr(s1 + i, 0, len + 1);
-	free(s1);
+	str = ft_substr(s1, 0, len + 1);
+	free(s1 - count);
 	return (str);
 }
