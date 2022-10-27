@@ -1,7 +1,7 @@
-NO ./assets/vheran/42/black.xpm
-SO ./assets/vheran/42/altcores.xpm
-WE ./assets/vheran/42/altpros.xpm
-EA ./assets/vheran/42/altthreads.xpm
+NO ./assets/vheran/42/nblack.xpm
+SO ./assets/vheran/42/nred.xpm
+WE ./assets/vheran/42/ngreen.xpm
+EA ./assets/vheran/42/nblue.xpm
 
 F 196,88,36
 C 135,206,235

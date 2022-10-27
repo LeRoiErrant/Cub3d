@@ -1,7 +1,7 @@
-NO ./assets/cardinal/north.xpm
-SO ./assets/cardinal/south.xpm
-WE ./assets/cardinal/west.xpm
-EA ./assets/cardinal/east.xpm
+NO ./assets/vheran/42/nblack.xpm
+SO ./assets/vheran/42/nred.xpm
+WE ./assets/vheran/42/ngreen.xpm
+EA ./assets/vheran/42/nblue.xpm
 
 F 220,100,0
 C 225,30,0
