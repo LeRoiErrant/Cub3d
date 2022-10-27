@@ -36,7 +36,6 @@ int	check_path(char *path)
 	int	fd;
 
 	fd = open(path, O_RDONLY);
-	printf("Opening: %s, fd = %i\n", path, fd);
 	if (fd < 0)
 		return (E_PATH);
 	close(fd);

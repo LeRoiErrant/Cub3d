@@ -14,7 +14,6 @@ int	main(int argc, char **argv)
 	init_cub(cub);
 	if (parsing(argv, cub) != SUCCESS)
 		return (cub_error_free(E_FAILURE, -1, cub));
-	printf("dir.x: %f dir.y: %f\n", cub->dir.x, cub->dir.y);
 	game(cub);
 	free_cub(cub);
 	return (cub->errnum);
