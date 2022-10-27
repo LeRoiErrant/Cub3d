@@ -13,8 +13,8 @@
 # include <limits.h>
 # include <stdint.h>
 
-# define SCR_W 640
-# define SCR_H 480
+# define SCR_W 1280
+# define SCR_H 720
 
 /*# define SCR_W 1920
 # define SCR_H 1080*/

@@ -30,6 +30,7 @@ static void	fill_colors(t_rgb *color, char	**config)
 	color->red = ft_atoi(config[0]);
 	color->green = ft_atoi(config[1]);
 	color->blue = ft_atoi(config[2]);
+	ft_free_matrix(&config);
 }
 
 int	fill_config_color(char *config, t_cub3d *cub)
@@ -44,7 +45,7 @@ int	fill_config_color(char *config, t_cub3d *cub)
 		if (!tmp)
 			return (cub_error(E_MALLOC, STDERR_FILENO));
 		while (++i < 3 && tmp[i])
-			tmp[i] = ft_strtrim(tmp[i], " ");
+			tmp[i] = ft_strtrim_free(tmp[i], " ");
 		if (ft_matrixlen(tmp) == 3 && ft_matrix_isnumber(tmp))
 			fill_colors(&(cub->config.floor), tmp);
 	}
@@ -54,7 +55,7 @@ int	fill_config_color(char *config, t_cub3d *cub)
 		if (!tmp)
 			return (cub_error(E_MALLOC, STDERR_FILENO));
 		while (++i < 3 && tmp[i])
-			tmp[i] = ft_strtrim(tmp[i], " ");
+			tmp[i] = ft_strtrim_free(tmp[i], " ");
 		if (ft_matrixlen(tmp) == 3 && ft_matrix_isnumber(tmp))
 			fill_colors(&(cub->config.ceiling), tmp);
 	}
