@@ -2,7 +2,7 @@
 #							PROJECT'S DIRECTORY								   #
 # **************************************************************************** #
 
-NAME = cub3d
+NAME = cub3D
 INCL_DIR	= ./includes
 SRC_DIR		= ./src
 PARS_DI		= parser
