@@ -10,7 +10,8 @@ static int	fill_config(char **config, t_cub3d *cub)
 		config[i] += count_space(config[i]);
 		if (fill_config_path(config[i], cub))
 			return (E_PATH);
-		fill_config_color(config[i], cub);
+		if (!ft_strncmp(config[i], "F", 1) || !ft_strncmp(config[i], "C", 1))
+			fill_config_color(config[i], cub);
 	}
 	if (config_doors(cub))
 		return (E_PATH);

@@ -33,30 +33,37 @@ static void	fill_colors(t_rgb *color, char	**config)
 	ft_free_matrix(&config);
 }
 
-int	fill_config_color(char *config, t_cub3d *cub)
+static int	check_comma(char *config)
 {
-	char		**tmp;
-	int			i;
+	int	i;
 
 	i = -1;
-	if (!ft_strncmp(config, "F", 1))
+	while (config[++i] && config[i + 1])
 	{
-		tmp = ft_split(config + 1, ',');
-		if (!tmp)
-			return (cub_error(E_MALLOC, STDERR_FILENO));
-		while (++i < 3 && tmp[i])
-			tmp[i] = ft_strtrim_free(tmp[i], " ");
-		if (ft_matrixlen(tmp) == 3 && ft_matrix_isnumber(tmp))
-			fill_colors(&(cub->config.floor), tmp);
+		if (config[i] == ',' && config[i + 1] == ',')
+			return (E_CONFIG);
 	}
-	else if (!ft_strncmp(config, "C", 1))
+	return (SUCCESS);
+}
+
+int	fill_config_color(char *config, t_cub3d *cub)
+{
+	char	**tmp;
+	int		i;
+
+	i = -1;
+	if (check_comma(config))
+		return (cub_error(E_CONFIG, -1));
+	tmp = ft_split(config + 1, ',');
+	if (!tmp)
+		return (cub_error(E_MALLOC, STDERR_FILENO));
+	while (++i < 3 && tmp[i])
+		tmp[i] = ft_strtrim_free(tmp[i], " ");
+	if (ft_matrixlen(tmp) == 3 && ft_matrix_isnumber(tmp))
 	{
-		tmp = ft_split(config + 1, ',');
-		if (!tmp)
-			return (cub_error(E_MALLOC, STDERR_FILENO));
-		while (++i < 3 && tmp[i])
-			tmp[i] = ft_strtrim_free(tmp[i], " ");
-		if (ft_matrixlen(tmp) == 3 && ft_matrix_isnumber(tmp))
+		if (!ft_strncmp(config, "F", 1))
+			fill_colors(&(cub->config.floor), tmp);
+		else
 			fill_colors(&(cub->config.ceiling), tmp);
 	}
 	return (SUCCESS);
