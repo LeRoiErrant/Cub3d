@@ -2,7 +2,7 @@
 #							PROJECT'S DIRECTORY								   #
 # **************************************************************************** #
 
-NAME = cub3D
+NAME		= cub3D
 INCL_DIR	= ./includes
 SRC_DIR		= ./src
 PARS_DI		= parser
@@ -25,7 +25,29 @@ MLX_FLAGS	= -L ${INCL_DIR}/$(MLX_DIR) -lmlx -framework OpenGL -framework Appkit
 # **************************************************************************** #
 
 DIRS = src
-SRC	=	$(foreach dir, $(DIRS), $(wildcard $(dir)/*.c))
+SRC	=	$(SRC_DIR)/main.c \
+		$(SRC_DIR)/animations.c \
+		$(SRC_DIR)/check_config.c \
+		$(SRC_DIR)/check_map.c \
+		$(SRC_DIR)/color.c \
+		$(SRC_DIR)/config.c \
+		$(SRC_DIR)/config_bonus.c \
+		$(SRC_DIR)/door.c \
+		$(SRC_DIR)/door_open.c \
+		$(SRC_DIR)/engine.c \
+		$(SRC_DIR)/game.c \
+		$(SRC_DIR)/gun.c \
+		$(SRC_DIR)/hooks.c \
+		$(SRC_DIR)/init.c \
+		$(SRC_DIR)/minimap.c \
+		$(SRC_DIR)/minimap_utils.c \
+		$(SRC_DIR)/parsing.c \
+		$(SRC_DIR)/raycasting.c \
+		$(SRC_DIR)/raycasting_utils.c \
+		$(SRC_DIR)/rgb.c \
+		$(SRC_DIR)/screen.c \
+		$(SRC_DIR)/shapes.c \
+		$(SRC_DIR)/utils.c \
 
 OBJS = $(SRC:.c=.o)
 
