@@ -5,8 +5,6 @@
 NAME		= cub3D
 INCL_DIR	= ./includes
 SRC_DIR		= ./src
-PARS_DI		= parser
-UTILS_DIR	= utils
 LIB_DIR		= libft
 MLX_DIR		= mlx
 TEST_FILE	= ./config/test.cub
