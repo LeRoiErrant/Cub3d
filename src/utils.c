@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: 0xNino <marvin@42lausanne.ch>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/02 10:45:25 by 0xNino            #+#    #+#             */
+/*   Updated: 2022/11/02 10:45:31 by 0xNino           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 //TODO update cub->errnum
@@ -36,31 +48,6 @@ int	cub_error_free(int errnum, int fd, t_cub3d *cub)
 	free_cub(cub);
 	return (errnum);
 }
-/*
-void	cub_print(t_cub3d *cub)
-{
-	int	i;
-
-	printf("\n");
-	printf("F red =\t\t%d\n", cub->config.floor.red);
-	printf("F green =\t%d\n", cub->config.floor.green);
-	printf("F blue =\t%d\n", cub->config.floor.blue);
-	printf("\n");
-	printf("C red =\t\t%d\n", cub->config.ceiling.red);
-	printf("C green =\t%d\n", cub->config.ceiling.green);
-	printf("C blue =\t%d\n", cub->config.ceiling.blue);
-	printf("\n");
-	printf("path north =\t{%s}\n", cub->config.path[TEX_NO]);
-	printf("path south =\t{%s}\n", cub->config.path[TEX_SO]);
-	printf("path west =\t{%s}\n", cub->config.path[TEX_WE]);
-	printf("path east =\t{%s}\n", cub->config.path[TEX_EA]);
-	printf("\n");
-	printf("pos.x =\t\t%f\npos.y =\t\t%f\n\n", cub->pos.x, cub->pos.y);
-	i = -1;
-	while (cub->map[++i])
-		printf("%s\n", cub->map[i]);
-}
-*/
 
 int	count_space(char *str)
 {
